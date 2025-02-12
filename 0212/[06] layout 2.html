@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        /* 전체 여백 0 으로 */
+        *{margin: 0; padding: 0;}
+        .container{
+            width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        header{
+            height: 200px;
+            background-color: darkgreen;
+        }
+        .logo{
+            width: 200px;
+            height: 150px;
+            background-color: yellowgreen;
+            float: left;
+            margin-top: 25px;
+            margin-left: 20px;
+            text-align: center;
+            line-height: 150px;
+        }
+        nav{
+            width: 800px;
+            height: 80px;
+            background-color: yellowgreen;
+            float: left;
+            margin-top: 92px;
+            margin-left: 70px;
+        }
+        nav ul{
+            list-style: none;
+            width: 600px;
+            height: 50px;
+            background-color: yellow;
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: 15px;
+        }
+        nav ul li{float: left;}
+
+        nav ul li a{
+            /* a글자색 회색 밑줄 없앰 */
+            color: #333;
+            text-decoration: none;
+            /* a가 인라인요소(넓이x높이x) -> 블럭요소로 바꿈*/
+            display: block;
+            width: 100px;
+            height: 30px;
+            line-height: 30px;
+            text-align: center;
+            background-color: pink;
+            margin-top: 10px;
+            margin-right: 20px;
+        }
+        section{
+            margin-top: 10px;
+            width: 1200px;
+            height: 500px;
+            background-color: darkgreen;
+        }
+        section .left_box{
+            height: 450px;
+            width: 750px;
+            background-color: yellowgreen;
+            float: left;
+            margin-right: 20px;
+            margin-left: 25px;
+        }
+        .left1{
+            width: 340px;
+            height: 400px;
+            background-color: tan;
+            float: left;
+            margin-left: 20px;
+            margin-top: 20px;
+        }
+        .right1{
+            width: 340px;
+            height: 400px;
+            background-color: tan;
+            float: right;
+            margin-right: 20px;
+            margin-top: 20px;
+        }
+
+        section .right_box{
+            height: 450px;
+            width: 350px;
+            background-color: yellowgreen;
+            float: right;
+            margin-right: 20px;
+            margin-left: 25px;
+        }
+        .top1{
+            width: 350px;
+            height: 200px;
+            background-color: blueviolet;
+        }
+        .bottom1{
+            margin-top: 50px;
+            width: 350px;
+            height: 200px;
+            background-color: blueviolet;
+        }
+        footer{
+            margin-top: 10px;
+            height: 100px;
+            background-color: darkgreen;
+            padding-top: 10px;
+        }
+        .footer_t{
+            width: 550px;
+            height: 40px;
+            /* 높이와 line-height 값을 똑같이 입력하면 세로 중앙 정렬이 된다 */
+            line-height: 40px;
+            text-align: center;
+            background-color: yellowgreen;
+            margin-left: 150px;
+        }
+        .footer_b{
+            width: 550px;
+            height: 40px;
+            line-height: 40px;
+            text-align: center;
+            background-color: yellowgreen;
+            margin-top: 10px;
+            margin-left: 150px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+    <header>
+        <h1 class="logo"><a href="#">Logo</a></h1>
+        <nav>
+            <ul>
+                <li><a href="#">menu1</a></li>
+                <li><a href="#">menu2</a></li>
+                <li><a href="#">menu3</a></li>
+                <li><a href="#">menu4</a></li>
+                <li><a href="#">menu5</a></li>
+            </ul>
+        </nav>
+    </header>
+    <section>
+        <article class="left_box">
+            <div class="left1"></div>
+            <div class="right1"></div>
+        </article>
+        <article class="right_box">
+            <div class="top1">위</div>
+            <div class="bottom1">아래</div>
+        </article>
+    </section>
+    <footer>
+        <div class="footer_t">
+            경기도 부천시 오정구 삼정동 032-674-5685 icoxpub@naver.com
+        </div>
+        <div class="footer_b">
+            COPYRIGHT ⓒ ALL right reserved.
+        </div>
+    </footer>
+</div>
+</body>
+</html>
