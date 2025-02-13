@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        header {
+            background-color: cadetblue;
+            height: 100px;
+        }
+
+        header h1.logo {
+            width: 200px;
+            height: 100px;
+            float: left;
+        }
+
+        header nav {
+            width: 600px;
+            height: 50px;
+            background-color: yellow;
+            float: right;
+            margin-top: 40px;
+            margin-right: 10px;
+        }
+
+        nav ul {
+            list-style: none;
+        }
+
+        nav>ul>li {
+            float: left;
+        }
+
+        nav ul li a {
+            display: block;
+            width: 150px;
+            height: 50px;
+            line-height: 50px;
+            text-align: center;
+            text-decoration: none;
+            color: #333;
+        }
+
+        nav ul li ul{
+            background-color: yellow;
+            /* 자리값이 없이 겹치며, 맨위로 올라옴 */
+            position: absolute;
+            display: none;
+        }
+            /* hover위치에 따라 마우스 올렸을때 디스플레이가 다름 */
+        nav ul li:hover ul{
+            /* display none으로 가렸다가 display block으로 보이게함 */
+            display: block;
+        }
+
+        .img_slider {
+            background-color: #ccc;
+            height: 300px;
+        }
+
+        section {
+            background-color: wheat;
+            height: 300px;
+        }
+
+        section article {
+            width: 400px;
+            height: 300px;
+            float: left;
+        }
+
+        /* section 아래(자식) article이면서 notice */
+        section article.notice {
+            background-color: pink;
+        }
+
+        section article.banner {
+            background-color: aqua;
+        }
+
+        section article.icons {
+            background-color: violet;
+        }
+
+        footer {
+            background-color: #333;
+            height: 100px;
+            color: #fff;
+        }
+
+        footer .foot_logo {
+            width: 200px;
+            height: 100px;
+            background-color: indianred;
+            float: left;
+        }
+
+        footer .foot_right {
+            width: 1000px;
+            height: 100px;
+            background-color: lightblue;
+            float: left;
+        }
+
+        .foot_right .foot_menu {
+            height: 50px;
+            background-color: lightgreen;
+
+        }
+
+        .foot_right .foot_copy {
+            height: 50px;
+            background-color: orange;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1 class="logo">
+                <img src="images/LOGO.png" alt="로고">
+            </h1>
+            <Nav>
+                <ul>
+                    <li><a href="#">Menu1</a>
+                        <ul>
+                            <li><a href="#">Submenu1</a></li>
+                            <li><a href="#">Submenu2</a></li>
+                            <li><a href="#">Submenu3</a></li>
+                            <li><a href="#">Submenu4</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#">Menu2</a></a>
+                        <ul>
+                            <li><a href="#">Submenu1</a></li>
+                            <li><a href="#">Submenu2</a></li>
+                            <li><a href="#">Submenu3</a></li>
+                            <li><a href="#">Submenu4</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#">Menu3</a></a>
+                        <ul>
+                            <li><a href="#">Submenu1</a></li>
+                            <li><a href="#">Submenu2</a></li>
+                            <li><a href="#">Submenu3</a></li>
+                            <li><a href="#">Submenu4</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#">Menu4</a></a>
+                        <ul>
+                            <li><a href="#">Submenu1</a></li>
+                            <li><a href="#">Submenu2</a></li>
+                            <li><a href="#">Submenu3</a></li>
+                            <li><a href="#">Submenu4</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </Nav>
+        </header>
+        <div class="img_slider">
+            <img src="images/slide1.jpg" alt="슬라이더">
+        </div>
+        <section>
+            <article class="notice">공지사항</article>
+            <article class="banner">배너</article>
+            <article class="icons">아이콘들</article>
+        </section>
+        <footer>
+            <div class="foot_logo"></div>
+            <div class="foot_right">
+                <div class="foot_menu">메뉴</div>
+                <div class="foot_copy">adderess</div>
+            </div>
+        </footer>
+    </div>
+</body>
+
+</html>

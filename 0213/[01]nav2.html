@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        header {
+            width: 1200px;
+            height: 100px;
+            background-color: skyblue;
+        }
+
+        header .logo {
+            width: 200px;
+            height: 100px;
+            float: left;
+        }
+
+        header nav{
+            width: 600px;
+            height: 50px;
+            float: right;
+            background-color: yellow;
+            margin-top: 40px;
+            margin-left: 10px;
+        }
+
+        nav ul{
+            list-style: none;
+        }
+
+        .img_slider {
+            width: 1200px;
+            height: 300px;
+            background-color: yellow;
+        }
+
+        section {
+            width: 1200px;
+            height: 300px;
+            background-color: green;
+        }
+
+        footer {
+            width: 1200px;
+            height: 100px;
+            background-color: yellow;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <img src="images/LOGO.png" alt="LOGO">
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#">Menu1</a>
+                        <ul>
+                            <li><a href="#">Submenu1</a></li>
+                            <li><a href="#">Submenu2</a></li>
+                            <li><a href="#">Submenu3</a></li>
+                            <li><a href="#">Submenu4</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#">Menu2</a>
+                        <ul>
+                            <li><a href="#">Submenu1</a></li>
+                            <li><a href="#">Submenu2</a></li>
+                            <li><a href="#">Submenu3</a></li>
+                            <li><a href="#">Submenu4</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#">Menu3</a>
+                        <ul>
+                            <li><a href="#">Submenu1</a></li>
+                            <li><a href="#">Submenu2</a></li>
+                            <li><a href="#">Submenu3</a></li>
+                            <li><a href="#">Submenu4</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#">Menu4</a>
+                        <ul>
+                            <li><a href="#">Submenu1</a></li>
+                            <li><a href="#">Submenu2</a></li>
+                            <li><a href="#">Submenu3</a></li>
+                            <li><a href="#">Submenu4</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
+        </header>
+        <div class="img_slider">
+            <img src="images/slide1.jpg" alt="main slide">
+        </div>
+        <section>
+            <article class="post">공지사항</article>
+            <article class="banner">배너</article>
+            <article class="icons">아이콘들</article>
+        </section>
+        <footer>
+            <div class="foot_left"></div>
+            <div class="foot_right">
+                <div class="foot_top"></div>
+                <div class="foot_bottom"></div>
+            </div>
+        </footer>
+    </div>
+</body>
+
+</html>

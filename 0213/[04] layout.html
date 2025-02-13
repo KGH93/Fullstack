@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 1000px;
+            margin: 0 auto;
+        }
+
+        header {
+            width: 200px;
+            height: 800px;
+            background-color: goldenrod;
+            float: left;
+        }
+
+        header .logo {
+            width: 100px;
+            height: 100px;
+            /* background-color: red; */
+            float: left;
+            text-align: center;
+            line-height: 100px;
+            margin-left: 50px;
+        }
+
+        header nav {
+            width: 160px;
+            height: 240px;
+            border: 1px solid #777;
+            float: left;
+            margin-left: 20px;
+        }
+
+        nav ul {
+            list-style: none;
+        }
+
+        nav ul li {
+            width: 160px;
+            height: 60px;
+            text-align: center;
+            line-height: 60px;
+        }
+
+        nav ul li a {
+            display: block;
+            text-decoration: none;
+            color: #333;
+        }
+
+        section {
+            width: 800px;
+            height: 700px;
+            float: right;
+            background-color: blue;
+        }
+
+        section .img_slider {
+            width: 800px;
+            height: 400px;
+            background-color: yellow;
+        }
+
+        section .content {
+            width: 800px;
+            height: 300px;
+            background-color: slateblue;
+        }
+
+        .content .notice {
+            width: 33.33%;
+            height: 300px;
+            float: left;
+            background-color: green;
+        }
+
+        .content .banner {
+            width: 33.33%;
+            height: 300px;
+            float: left;
+            background-color: greenyellow;
+        }
+
+        .content .icons {
+            width: 33.33%;
+            height: 300px;
+            float: left;
+            background-color: yellowgreen;
+        }
+
+        footer {
+            width: 800px;
+            height: 100px;
+            background-color: #333;
+            float: right;
+        }
+
+        footer .footer_left {
+            width: 120px;
+            height: 100px;
+            float: left;
+            background-color: #777;
+        }
+
+        footer .footer_right {
+            width: 680px;
+            height: 100px;
+            float: right;
+            background-color: #111;
+        }
+
+        .footer_right1 {
+            width: 680px;
+            height: 50px;
+            float: right;
+            background-color: #444;
+        }
+
+        .footer_right2 {
+            width: 680px;
+            height: 50px;
+            float: right;
+            background-color: #222;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1 class="logo">LOGO</h1>
+            <nav>
+                <ul>
+                    <li><a href="#">MENU-1</a></li>
+                    <li><a href="#">MENU-2</a></li>
+                    <li><a href="#">MENU-3</a></li>
+                    <li><a href="#">MENU-4</a></li>
+                </ul>
+            </nav>
+        </header>
+        <section>
+            <div class="img_slider"></div>
+            <div class="content">
+                <div class="notice">notice</div>
+                <div class="banner">banner</div>
+                <div class="icons">icons</div>
+            </div>
+        </section>
+        <footer>
+            <div class="footer_left"></div>
+            <div class="footer_right">
+                <div class="footer_right1"></div>
+                <div class="footer_right2"></div>
+            </div>
+        </footer>
+    </div>
+</body>
+
+</html>
