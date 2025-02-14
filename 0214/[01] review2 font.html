@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+
+         .font1{
+            font-weight: bold;
+            font-style: italic;
+            font-size: 36px;
+            line-height: 2.0;
+            font-family: "궁서"; 
+         }
+
+         .font2{
+            /*  순서 중요  */
+            font:bold italic 36px/2.0 "궁서";
+         }
+
+         .font3{
+            /* 들여쓰기, -(마이너스) 를 입력시 내어쓰기 */
+            text-indent: 20px;
+         }
+
+         .font4{
+            /* 자간 : 글자간의 간격 */
+            letter-spacing: 10px;
+         }
+
+         .font5{
+            font-size: 50px;
+            font-weight: bold;
+            /* 글자 그림자 : 좌우 위아래 블러 색상 */
+            text-shadow: 5px 5px 5px red;
+         }
+
+         .img1{
+            /* box-shadow는 박스나 이미지에도 사용 가능 
+            214페이지 참고*/
+            box-shadow: 10px 10px 10px #333;
+         }
+         .box{
+            width: 200px;
+            height: 200px;
+            box-shadow: 5px 5px 10px #333;
+         }
+
+    </style>
+
+</head>
+<body>
+    <p>폰트 연습 2번째</p>
+    <!-- p.font1 = p class="font1" -->
+    <p class="font1">폰트연습 2번째</p>
+    <p class="font2">폰트연습 2번째</p>
+    <p class="font3">폰트연습 2번째</p>
+    <p class="font4">폰트연습 2번째</p>
+    <p class="font5">폰트연습 2번째</p>
+    <img src="images/slide1.jpg" alt="" width="500" class="img1">
+    <div class="box"></div>
+</body>
+</html>
