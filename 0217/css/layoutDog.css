@@ -67,18 +67,12 @@ nav ul li a:hover {
 
 nav ul li ul{
     display: none;
-    font-weight: bold;
     background-color: #f46075;
-}
-
-nav ul li ul li{
-    border-radius: 20px;
 }
 
 nav ul li:hover ul{
     display: block;
     position: absolute;
-    column-rule: #fff;
     border-radius: 0 0 20px 20px;
 }
 
