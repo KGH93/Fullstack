@@ -1,0 +1,111 @@
+*{margin: 0; padding: 0;}
+
+.container{
+    width: 1200px;
+    margin: 0 auto;
+}
+
+header{
+    height: 100px;
+    background-color: aqua;
+}
+
+
+header h1{
+    float: left;
+}
+
+header nav{
+    float: right;
+    width: 600px;
+    height: 50px;
+    background-color: yellow;
+    margin-top: 40px;
+    margin-right: 10px;
+}
+
+header nav ul{
+    list-style: none;
+}
+
+nav>ul>li{
+    float: left;
+}
+
+nav ul li a{
+    display: block;
+    width: 150px;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    text-decoration: none;
+    color: #000;
+}
+
+nav ul li ul {
+    background-color: yellow;
+    display: none;
+}
+
+nav ul li:hover ul{
+    display: block;
+    /* 겹치거나 덮여도 무조건 맨위로 표시 */
+    position: absolute;
+}
+
+.img_slider{
+    height: 300px;
+    background-color: tan;
+}
+
+section{
+    height: 200px;  
+    background-color: cadetblue;
+}
+section article{
+    width: 400px;
+    height: 200px;
+    float: left;
+}
+
+section .notice{
+    background-color: #ccc;
+}
+
+section .banner{
+    background-color: #aaa;
+}
+
+section .icons{
+    background-color: #888;
+}
+footer{
+    height: 100px;
+    background-color: blueviolet;
+}
+
+footer .foot_logo{
+    width: 200px;
+    height: 100px;
+    float: left;
+  
+    background-color: hotpink;
+}
+footer .foot_right{
+    width: 1000px;
+    height: 100px;
+    float: left;
+    background-color: pink;
+}
+
+.foot_right .foot_menu{
+    width: 1000px;
+    height: 50px;
+    background-color: #555;
+}
+
+.foot_right .foot_copy{
+    width: 1000px;
+    height: 50px;
+    background-color: #777 ;
+}
