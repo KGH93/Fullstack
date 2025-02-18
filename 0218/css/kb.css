@@ -1,0 +1,102 @@
+*{margin: 0; padding: 0;}
+
+.section1{
+    width: 1000px;
+    height: 220px;
+    margin: 0 auto;
+    padding: 30px 0;
+    border: 1px solid #333;
+}
+
+.section1 ul{
+    list-style: none;
+    /* li가 float되면 부모 ul의 높이가 없어짐 */
+    /* overflow: hidden; */
+}
+
+.section1 ul li{
+    float: left;
+    width: 300px;
+    height: 200px;
+    padding: 20px 30px;
+    box-sizing: border-box;
+    border: 1px solid #999 ;
+    margin-right: 50px;
+}
+
+.section1 ul li:last-child{
+    margin-right: 0px;
+}
+
+.section1 ul li p span{
+    display: inline-block;  
+    /* 이미지 대표적인 inline block */
+    /* 줄바뀜없이 넓이 높이를 부여하라면 inline block */
+    padding: 7px;
+    background-color: cadetblue;
+    color: #fff;
+}
+
+.section1 ul li:hover{
+    box-shadow: 10px 10px 10px #999;    
+}
+
+ul li h3{
+    font-size: 16px;
+    margin-top: 10px;
+}
+
+ul li .txt3{
+    font-size: 13px;
+    margin-top: 5px;
+}
+
+
+.section2{
+    width: 1000px;
+    height: 150px;
+    margin: 0 auto;
+    padding: 30px 0;
+    border: 1px solid #333;
+}
+
+.section2 .logo{
+    width: 200px;
+    height: 100px;
+    float: left;
+    padding:30px 0;
+    box-sizing: border-box;
+    border: 0px solid #000000;
+}
+
+.logo a{
+    text-decoration: none;
+    color: #777;
+}
+
+
+.section2 .icons{
+    float: left;
+   width: 800px;
+   height: 100px;
+}
+
+.icons ul{
+    list-style: none;
+}
+
+.icons ul li{
+    float: left;
+    text-align: center;
+    width: 100px;
+    height: 110px;
+}
+
+ul li a{
+   float: left;
+   padding: 0 10px;
+   margin-left: 20px;
+   text-decoration: none;   
+   color: #000;
+}
+
