@@ -1,0 +1,26 @@
+position: static;
+기본상태 position static
+
+
+position: absolute;
+1. 기준위치가 브라우저(부모)
+2. 자리값이 없다(메뉴같은 곳에서 많이 사용)
+3. box4에 영향을 미침
+4. left, top, right, bottom 
+5. 부모가 relative면 기준위치가 부모변경
+6. 중앙정렬 ( margin 0 auto) 사용불가능
+
+
+position: fixed;
+1. 기준위치가 브라우저(부모)
+2. 자리값이 없다(메뉴같은 곳에서 많이 사용)
+3. box4에 영향을 미침
+4. left, top, right, bottom 
+5. 화면에 고정(스크롤시 고정)
+
+position: relative;
+1. 자리값이 있다
+2. 레프트와 탑으로 이동가능
+3. 아래 .box4에 영향을 미치지 않는다
+4. 향후 absolute의 부모가 되기도 한다
+5. 기준위치가 원래 있던 위치에서 계산 */

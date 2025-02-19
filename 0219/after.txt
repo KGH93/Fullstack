@@ -1,0 +1,17 @@
+/* before after 인라인요소 */
+
+xx ::before  요소앞으로
+
+xx ::after 요소뒤로 
+
+
+ /* .clear{clear: both;} = 옛날방식 */
+
+
+  .cf::after{
+            content: "";
+            display: block;
+            clear: both;
+        }
+
+        style에 클래스에 콘텐츠 디스플레이 클리어 명렁어 삽입후 클래스로 사용

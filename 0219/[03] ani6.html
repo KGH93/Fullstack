@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #balloon{
+            position: relative;
+            width: 116px;
+            height: 160px;
+            left: 150px;
+            background: url(ani/img/bg-main1.png);
+            animation: ani1 3s infinite alternate;
+        }
+
+        @keyframes ani1 {
+            0%{top: 0;}
+            100%{top: 500px}
+        }
+
+        #balloon2{
+            position: relative;
+            width: 116px;
+            height: 160px;
+            left: 600px;
+            background: url(ani/img/bg-main1.png);
+            animation: ani1 3s infinite alternate;
+        }
+
+        @keyframes ani1 {
+            0%{top: 0;}
+            100%{top: 500px}
+        }
+
+    </style>
+</head>
+<body>
+    <div id="balloon"></div>
+    <div id="balloon2"></div>
+</body>
+</html>
