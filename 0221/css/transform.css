@@ -1,0 +1,142 @@
+* {
+    padding: 0;
+    margin: 0;
+}
+
+.bigbox {
+    width: 1000px;
+    margin: 100px auto 0;
+    /* 마진 위100 좌우오토 아래0 */
+    border: 5px solid tan;
+    height: 220px;
+    /* overflow: hidden; */
+    padding: 20px 0;
+    text-align: center;
+}
+
+.bigbox2 h2 {
+    padding-bottom: 20px;
+    text-align: center;
+}
+
+.box {
+    width: 200px;
+    height: 150px;
+    border: 2px solid tan;
+    float: left;
+    margin-left: 35px;
+    position: relative;
+}
+
+.box img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    /* 사진 간격없애기 */
+}
+
+.box1 {
+    transform: rotate(0);
+    
+}
+
+.box1:hover img {
+    transform: rotate(360deg);
+    transition: all 0.5s;
+}
+
+.box2 {
+    transform: rotate(0);
+    transform-origin: left top;
+    /* 회전시 중심점의 위치 : 왼쪽 상단 */
+   
+}
+
+.box2:hover img {
+    transform: rotate(360deg);
+    transition: all 0.5s;
+}
+
+.box3 {
+    perspective: 200px;
+    /* 원근감을 느끼게 해준다. */
+}
+
+.box3:hover img {
+    transform: rotateY(360deg);
+    transition: all 0.5s;
+}
+
+.box4 {
+    perspective: 200px;
+    transform-origin: left top;
+}
+
+.box4:hover img {
+    transform: rotateY(360deg);
+    transition: all 0.5s;
+}
+
+.abox1 {
+    overflow: hidden;
+}
+
+.abox1 img {
+    transform: scale(1);
+    transition: all 0.5s;
+}
+
+.abox1:hover img {
+    transform: scale(1.5);
+}
+
+.abox2{
+    background: url(../images/women2.jpg) no-repeat 50% 50%;
+    background-size: 100%;
+    transition: all 0.5s;
+}
+
+.abox2:hover{
+    background-size: 130%;
+}
+
+.abox3::after{
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    background-color: rgba(0,0,0,0.7);
+    transform: scale(0);
+    transition: all 0.5s;
+}
+
+.abox3:hover::after{
+    transform: scale(1);
+}
+
+.abox4{
+    overflow: hidden;
+}
+
+.abox4::after{
+    content: '선글라스';
+    position: absolute;
+    left: 0;
+    bottom: -40px;
+    background-color: #333;
+    color: #fff;
+    width: 100%;
+    height: 40px;
+    line-height: 40px;
+    font-weight: bold;
+    text-align: center;
+    transition: all 0.5s;
+    /* transform: translateY(40px); */
+}
+
+.abox4:hover::after{
+    bottom: 0px;
+    /* transform: translateY(0); */
+}

@@ -1,6 +1,6 @@
 animation-name: myani;          /* animation 이름 */
 animation-duration: 3s;         /* animation 시간 */
-animation-iteration-count: 3;   /* animation 반복횟수 */  infinite 무한반복
+animation-iteration-count: 3;   /* animation 반복횟수 */  infinite 무한반복 
 animation-direction: alternate; /* 왕복 */    forwords 동작끝나고고정  backwords 동작끝나고없어짐
 
 animation: myani2 3s 3s forwards;
@@ -12,7 +12,7 @@ animation: myani2 3s 2 forwards;
  
  animation: myani2 3s forwards ease-out;
                               ease-in-out 
-                             linear;
+                             linear; 일정한속도
                              /* 애니메이션 재생속도조절 */
  
  @keyframes myani {
