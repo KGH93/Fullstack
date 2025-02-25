@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+
+
+
+        //백틱표현
+        for(var i=2; i<=3;i++){
+            document.write(i+"단 <br>");
+            for(var j=1; j<=9; j++){
+                //탬플릿 리터럴 / 백틱 문법
+                document.write(`${i} X ${j} = ${i*j}<br/>`);
+            }
+        }
+
+    </script>
+</body>
+</html>

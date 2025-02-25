@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3-22 (p352)</title>
+</head>
+<body>
+    <script>
+        var sum = 0;
+        var num = '3의 배수';
+        for(var i=1; i < 10; i++){
+            if( i % 3 === 0){
+                continue; 
+                // continue 를 만나면 밑에 명령을 수행하지 않고 for문으로 복귀
+            }
+            sum += i;
+        }
+        // 3의 배수 제외한 1부터 9까지 총함
+        document.write(num + '제외 총합 : ' + sum + '<br>');
+        document.write(`${num} 제외 총합 : ${sum}`);
+
+    </script>
+</body>
+</html>

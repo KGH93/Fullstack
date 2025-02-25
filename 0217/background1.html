@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>background1 (p165)</title>
+    <style>
+        *{padding: 0; margin: 0;}
+        .back{
+            width: 100%;
+            height: 100vh;
+        }
+        .back1{
+            background-color: aqua;
+            background-image: url(img/B1.png);
+        }
+        .back2{
+            background-color: blueviolet;
+            background-image: url(img/B2.jpg);
+        }
+        .back3{
+            background-color: tomato;
+            background-image: url(img/B3.jpg);
+            background-attachment: fixed;
+        }
+        .back4{
+            background-color: lightgoldenrodyellow;
+            background-image: url(img/B4.jpg);
+        }
+        .back5{
+            background-color: bisque;
+            background-image: url(img/B5.jpg);
+        }
+        /* background-repeat  p167참고 */
+        /* background-position p168참고 */
+        /* background-zie p175 참고 */
+        .back6{
+            background-color: cornflowerblue;
+            background-image: url(images/b1.png);
+            /* repeat-x repeat-y no=repeat 배경이미지 반복여부 */
+            background-repeat: no-repeat;
+            /* 배경이미지를 원하는 위치로 조정 */
+            background-position: 70% 30%;
+            /* 배경이미지 크기 조절 */
+            background-size: cover;
+        }
+        .back7{
+            /* 배경이미지 : 색상 이미지저장위치 이미지반복 이미지포지션 / 이미지사이즈 */
+            background: darkblue url(images/b2.png) no-repeat 70% 30% / 600px 300px;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="back back1">배경1</div>
+    <div class="back back2">배경2</div>
+    <div class="back back3">배경3</div>
+    <div class="back back4">배경4</div>
+    <div class="back back5">배경5</div>
+    <div class="back back6">배경6</div>
+    <div class="back back7">배경7</div>
+</body>
+</html>
