@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Date p(395)</title>
+</head>
+<body>
+
+    <h1>
+        <span Id = "year">0000</span>년
+        <span Id = "month">00</span>월
+        <span Id = "date">00</span>일
+        <span Id = "nday">0</span>
+        <span Id = "hour">00</span>시
+        <span Id = "minute">00</span>분
+        <span Id = "second">00</span>초
+    </h1>
+
+    <script>
+
+        autoTime();
+        setInterval(autoTime,1000);
+
+
+        function autoTime() {
+
+
+        var today = new Date();
+        var year = today.getFullYear();
+        var month = today.getMonth()+1;
+        var date = today.getDate();
+        var day = today.getDay();
+        
+        switch (day) {
+            case 0:
+                result = "일요일";
+                break;
+            case 1:
+                result = "월요일";
+                break;
+            case 2:
+                result = "화요일";
+                break;
+            case 3:
+                result = "수요일";
+                break;
+            case 4:
+                result = "목요일";
+                break;
+            case 5:
+                result = "금요일";
+                break;
+            case 6:
+                result = "토요일";
+                break;
+        
+            default:
+                break;
+        }
+
+        // if (day === 0){
+        //     comment = "일요일"
+        // }
+        // else if (day === 1){
+        //     comment = "월요일"
+        // }
+        // else if (day === 2){
+        //     comment = "화요일"
+        // }
+        // else if (day === 3){
+        //     comment = "수요일"
+        // }
+        // else if (day === 4){
+        //     comment = "목요일"
+        // }
+        // else if (day === 5){
+        //     comment = "금요일"
+        // }
+        // else if (day === 6){
+        //     comment = "토요일"
+        // }
+        // else{}
+
+        // alert(comment);
+        
+
+        var h = today.getHours();
+        var m = today.getMinutes();
+        var s = today.getSeconds();
+
+
+        document.getElementById('year').innerHTML = year;
+        document.getElementById('month').innerHTML = month;
+        document.getElementById('date').innerHTML = date;
+        document.getElementById('nday').innerHTML = result;
+        document.getElementById('hour').innerHTML = h;
+        document.getElementById('minute').innerHTML = m;
+        document.getElementById('second').innerHTML = s;
+
+    }
+
+    </script>
+</body>
+</html>
