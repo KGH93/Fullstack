@@ -1,0 +1,41 @@
+a:link, a:visited {
+    color:black;
+    text-decoration: none;
+ }
+ ul {
+    list-style: none;
+    width:500px;
+    margin:10px auto;
+    padding:0;
+    /* display: flex; */
+    /*  부모에게 flex하면 자식이 나열됌  */
+    /* height: 50px; 1번 */
+ }
+ li {
+    display:inline-block; 
+    /* 칸과 칸사이가 벌어짐  중앙정렬됌 */
+    /* float: left; 부모에 높이를 반드시 줘야함   1번*/
+    width:120px;
+    border:1px solid #ccc;
+    padding:10px 15px;   
+    font-size:16px;
+    text-align:center;
+ }
+
+ li.on{
+    background-color: yellowgreen;
+    font-weight: bold;
+ }
+
+ #result {
+    width:500px;
+    height:300px;
+    margin:30px auto;
+    border:2px solid #ccc;
+    border-radius:15px;
+ }
+ p {
+    width:80%;
+    padding:10px;
+    line-height: 2em;
+ }
