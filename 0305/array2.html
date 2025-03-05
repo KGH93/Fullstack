@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>array2</title>
+</head>
+
+<body>
+    <script>
+       var arr_1 = ["사당", "교대", "방배", "강남"];
+       var arr_2 = ["신사", "압구정", "옥수"];
+
+       var result = arr_1.join("-");
+       document.write(result,"<br/>");
+       // '-' 문자를 연결하여 하나의 문자열을 반환  //문자사이에 -
+
+       result = arr_1.concat(arr_2);
+       document.write(result,"<br/>");
+       // 2개의 배열을 하나로 합침 // arr1뒤에 arr2 연결됌
+
+       result = arr_1.slice(1,3);
+       document.write(result,"<br/>");
+       // 배열 1번부터 3번이전까지 잘라서 result 반환
+
+       arr_1.sort( );
+       document.write(arr_1,"<br/>");
+
+       arr_2.reverse( );
+       document.write(arr_2,"<br/>");
+       
+
+
+        
+    </script>
+</body>
+
+</html>
