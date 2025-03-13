@@ -12,6 +12,12 @@ public class Var7 {
         float f = 10.0f;    
         double d = 10.0;
 
+        System.out.println(b);
+        System.out.println(s);
+        System.out.println(i);
+        System.out.println(f);
+        System.out.println(d);
+        System.out.println(l);
         //변수명 
         //int 1num = 10;   //변수이름은 숫자로 시작 할 수 없다 (123num 불가 ,num123 가능)
         //int int = 20; int class = 20;    //자바의 예약어를 변수이름으로 사용 할 수 없다 (int,class,public불가)
