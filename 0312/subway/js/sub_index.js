@@ -2,10 +2,10 @@ $(function(){
     var slidver = $('.slider1').bxSlider({
         auto: true,
         pager: true,
-        controls: true,
+        controls: false,
     });
 
-    $('.s2s1').bxSlider( {
+    $('.s2slide').bxSlider( {
         mode: 'horizontal',
         speed: 500,        
         pause: 2000,
@@ -14,46 +14,7 @@ $(function(){
         minSlides: 4,      
         maxSlides: 4,      
         slideMargin: 30,    
-        pager:true,           
-        autoHover: true,   
-        controls: true,    
-    });
-    $('.s2s3').bxSlider( {
-        mode: 'horizontal',
-        speed: 500,        
-        pause: 2000,
-         moveSlides: 4,     
-        slideWidth: 350,   
-        minSlides: 4,      
-        maxSlides: 4,      
-        slideMargin: 30,    
-        pager:true,           
-        autoHover: true,   
-        controls: true,    
-    });
-    $('.s2s2').bxSlider( {
-        mode: 'horizontal',
-        speed: 500,        
-        pause: 2000,
-         moveSlides: 1,     
-        slideWidth: 350,   
-        minSlides: 1,      
-        maxSlides: 1,      
-        slideMargin: 30,    
-        pager:true,           
-        autoHover: true,   
-        controls: true,    
-    });
-    $('.s2s4').bxSlider( {
-        mode: 'horizontal',
-        speed: 500,        
-        pause: 2000,
-         moveSlides: 1,     
-        slideWidth: 350,   
-        minSlides: 1,      
-        maxSlides: 1,      
-        slideMargin: 30,    
-        pager:true,           
+        pager:false,           
         autoHover: true,   
         controls: true,    
     });
@@ -62,8 +23,9 @@ $(function(){
         mode: 'horizontal',
         speed: 500,        
         pause: 2000,
-         moveSlides: 1,     
-        slideWidth: 300,   
+        moveSlides: 1,     
+        slideWidth: 270,  
+        slideHeight: 300, 
         minSlides: 1,      
         maxSlides: 1,      
         slideMargin: 30, 
@@ -73,9 +35,31 @@ $(function(){
         controls: false,    
     });
 
-    $('nav > ul > li').click(function(){
+    $('#s2 >.s2box>.s2menu.s2page>li').click(function(){
+        $(this).hasClass('none')
 		$('li').removeClass('on');
 		$(this).addClass('on');
 	});
+    
+
+    
+
+    $('#popup_wrap').draggable();
+        
+        if($.cookie('popup')==='none'){
+            $('#popup_wrap').hide();
+        } else {
+            $('#popup_wrap').fadeIn('fast');
+        }
+        
+        var Chk = $("#expireschk");
+        $('.closeBtn').on('click',closePop);
+
+        function closePop(){
+            if(Chk.is(":checked")){ 
+                $.cookie('popup','none',{expires:7});
+            }
+            $('#popup_wrap').fadeOut('fast');
+        }
 });
 

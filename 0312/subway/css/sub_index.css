@@ -4,7 +4,6 @@ a{text-decoration: none; color:#000 }
 
 body{
     width: 100%;
-    max-width: 1920px;
     min-width: 1910px;
     height: 4000px;
     margin: 0 auto;
@@ -46,7 +45,7 @@ header .logo_btn{
 header #main_menu{
     position: absolute;
     top:130px;
-    left: 100px;
+    left:0px;
     background-color: #fff;
     width: 100%;
     height: 40px;
@@ -123,6 +122,19 @@ header #main_menu{
 }
 
 #s1{
+    width: 100%;
+    min-width: 1910px;
+    height: 440px;
+    position: relative;
+}
+
+#s1 .s1wrap{
+    width: 1920px;
+    height: 440px;
+    margin: 0 auto;
+}
+
+#s1 .s1box{
     width: 1920px;
     height: 440px;
     position: relative;
@@ -130,8 +142,8 @@ header #main_menu{
 
 #s1 .s1btn{
     position: absolute;
-    top: 410px;
-    right: 360px;
+    bottom: -50px;
+    right: 350px;
     width: 600px;
     height: 80px;
     text-align: center;
@@ -141,6 +153,14 @@ header #main_menu{
     display: flex;
 }
  
+.s1box .bx-wrapper .bx-pager,
+.s1box .bx-wrapper .bx-controls-auto {
+  position: absolute;
+  bottom: 50px;
+  left: 550px;
+  width: 100%;  
+}
+
 .btnleft{
     width: 300px;
     height: 80px;
@@ -162,96 +182,100 @@ header #main_menu{
 }
 
 #s2{
-    width: 1280px;
+    width: 100%;
+    min-width: 1920px;
     height: 620px;
-   margin: 0 auto;
+    position: relative;
 }
 
-#s2 h1{
+#s2 .s2box{
+    width: 1280px;
+    height: 620px;
+    margin: 0 auto;
+}
+
+#s2 .s2menu{
+    width: 1280px;
+    height: 100px;
+    position: absolute;
+    top: 100px;
+}
+
+#s2 .s2menu h1{
+    position: absolute;
+    top: 20px;
     font-size: 40px;
     font-weight: bold;
     background: url(../images/bul_tit.png)no-repeat;
     background-size: contain;
 }
 
-#s2 .s2tit{
+#s2 .s2menu #s2page{
     position: absolute;
+    top: 45px;
+    right: 0;
+    width:440px; 
+}
+#s2page ul{
+    position: relative;
+}
+#s2page ul li{
+    float: left;
+    height: 30px;
+    line-height: 30px;
+    margin-left: 10px;
+}
+#s2page ul li a{
+    color: #666;
+    font-weight: bold;
+}
+
+#s2page .on{
+    color: #008C15;
+}
+    
+
+
+
+#s2 nav{
+    width: 1280px;
+    height: 320px;
+    position: absolute;
+    top: 200px;
 }
 
 #s2 .s2slide{
-    width: 1280px;
+    position: relative;
+    padding: 20px 20px;
+    width: 1920px;
     height: 320px;
 }
 
-nav > ul > li{
-	position:relative;
-}
-
-nav > ul > li.on{
-	color:#008C15;
-}
-
-nav > ul > li > a{
-	display:block;
-	width:100%;
-    color: #333;
-    font-weight: bold;
-    font-size: 16px;
-	height:40px;
-	line-height:40px;
-	text-align:center;
-}
-
-nav > ul > li h3{
-    text-align: center;
-}
-
-nav > ul > li p{
-    color: #666;
-    font-size: 13px;
-    text-align: center;
-}
-
-nav > ul > li > .s2_slide{
-	width:1280px;
-	height:0px;
-	position:absolute;
-	top:50px;
-	overflow:hidden;
-}
-
-nav > ul > li.on > .s2_slide{
-	height:320px;
-}
-
-.s2c1{left:0;}
-.s2c2{left:-100%;}
-.s2c3{left:-200%;}
-.s2c4{left:-300%;}
-
-.s2_slide > .left{
-	width:100%;
-	float:left;
-}
 
 #s3{
     width: 100%;
+    min-width: 1910px;
     height: 790px;
     background: url(../images/bg_content.gif) repeat; 
-     position: relative;
 }
 
-#s3 .s3_box{
+#s3 .s3wrap{
     width: 1280px;
     height: 790px;
     margin: 0 auto;
 }
 
+#s3 .s3box{
+    width: 1280px;
+    height: 790px;
+    position: relative;
+}
+
 #s3 .text_box1{
     width: 400px;
     height: 300px;
-    left: 370px;
-    top: 80px  ;
+    left: 0px;
+    top: 80px;
     padding: 0 0 0 55px;
     position: absolute;
     background: url(../images/bg_utilization.png) no-repeat;
@@ -284,7 +308,7 @@ nav > ul > li.on > .s2_slide{
 #s3 .text_box2{
     width: 825px;
     height: 300px;
-    right: 260px;
+    right: 0px;
     top: 80px;
     padding: 0 0 0 55px;
     position: absolute;
@@ -322,7 +346,7 @@ nav > ul > li.on > .s2_slide{
 #s3 .text_box3{
     width: 870px;
     height: 300px;
-    left: 370px;
+    left: 0px;
     bottom: 80px;
     background-color: #fff;
     position: absolute;
@@ -330,10 +354,14 @@ nav > ul > li.on > .s2_slide{
 
 #s3 .s3_slide{
     position: absolute;
-    right: 340px;
+    width: 270px;
+    height: 300px;
+    border-radius: 0 30px 0 30px;
+    overflow: hidden;
+    right: 110px;
     top: 412px;
-    
 }
+
 
 #s3 .text_box3 h2{
     font-size: 30px;
@@ -362,6 +390,14 @@ nav > ul > li.on > .s2_slide{
     text-align: center;
     margin-right: 500px;
     margin-top: 20px;
+}
+
+#bx3 .bx-wrapper .bx-pager,
+#bx3 .bx-wrapper .bx-controls-auto {
+  position: absolute;
+  top: -10px;
+  left: 60px;
+  width: 100%;  
 }
 
 #s4{
@@ -426,39 +462,104 @@ nav > ul > li.on > .s2_slide{
     color: #666;
 }
 
+
+#popup_wrap{
+    width: 480px;
+    position: absolute;
+    left: 400px;
+    top: 210px;
+    border: 10px solid #ffce32;
+    font-size: 12px;
+    visibility: hidden;
+}
+
+#popup_wrap img{float: left;}
+
+    .btnwrap{
+        background-color: #ffce32;
+        color: #000;
+        text-align: left;
+        padding: 0px 10px;
+        font-weight: bold;
+    }
+
+    .btnwrap .closeBtn{
+        display: block;
+        background-color: #ffce32;
+        float: right;
+        cursor: pointer;
+    }
+
+
 footer{
     width: 100%;
     height: 150px;
+    position: relative;
     background-color: #292929;
 }
 
 .ft_box{
+    height: 45px;
+    border-bottom: 3px solid #666;
+}   
+
+.ft_table{
     width: 1280px;
-    height: 150px;
+    height: 45px;
     margin: 0 auto;
 }
 
-.ft_table{
-    margin-left: 10px;
+.ft_table .fttable{
+    width: 1280px;
     height: 45px;
-    border-bottom: 3px solid #666;
+    display: flex;
 }
 .ft_table a{
-    width: 100%;
+    display: block;
     font-size: 14px;
     color: #666;
-    padding-left: 20px;
+    padding: 10px 20px 0 20px;
 }
+
 .ft_table .onn{
     color: #bbb;
 }
 
+.adbox{
+    width: 1200px;
+    height: 100px;
+    margin: 0 auto;
+    position: relative;
+}
 .ft_address{
-    margin-left: 10px;
     padding: 20px 20px;
 }
-
 .ft_address p{
     font-size: 13px;
     color: #666;
+}
+
+.ins{
+    position: absolute;
+    right: 75px;
+    bottom: 35px;
+    width: 50px;
+    height: 50px;
+    background: url(../images/icon_sns_instar.png)no-repeat 0% 0%;
+}
+.face{
+    position: absolute;
+    right: 0;
+    bottom: 35px;
+    width: 50px;
+    height: 50px;
+    background: url(../images/icon_sns_facebook.png)no-repeat ;
+}
+
+.ins:hover{
+    background-position: -50px 0;
+}
+
+.face:hover{
+    background-position: -50px 0;
 }

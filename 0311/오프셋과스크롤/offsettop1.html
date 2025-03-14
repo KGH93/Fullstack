@@ -194,14 +194,14 @@
 
 
 
-    <div id="popup">
+    <!-- <div id="popup">
         <img src="images/popup.jpg" usemap="#pop" alt="">
         <map name="pop" id="pop">
             <area shape="rect" coords="250,329,298,347" href="#" alt="창닫기">
             <area shape="rect" coords="1,326,243,343" href="#" alt="하루동안 이 창 열지않기">
         </map>
     </div>
-
+ -->
 
 
     <div id="notice_wrap">
@@ -313,19 +313,19 @@
 
         $("#popup").draggable();
 
-        if($.cookie('pop')!='no'){   //쿠키 pop변수에 no가 없으면 팝업창을 보여줘라 
-            $('#popup').show();
-        }
+        // if($.cookie('pop')!='no'){   //쿠키 pop변수에 no가 없으면 팝업창을 보여줘라 
+        //     $('#popup').show();
+        // }
 
-        $('#popup area:eq(0)').click(function(){
-            $('#popup').fadeOut('fast');
-            //창닫기 버튼 클릭하면 팝업창 서서히 사라짐
-        });
+        // $('#popup area:eq(0)').click(function(){
+        //     $('#popup').fadeOut('fast');
+        //     //창닫기 버튼 클릭하면 팝업창 서서히 사라짐
+        // });
 
-        $('#popup area:eq(1)').click(function(){
-            $.cookie('pop','no',{expires:1});   //쿠키 pop이라는 변수에 no를 하루동안 저장후
-            $('#popup').fadeOut('fast');      //팝업창 서서히 사라짐 
-        });
+        // $('#popup area:eq(1)').click(function(){
+        //     $.cookie('pop','no',{expires:1});   //쿠키 pop이라는 변수에 no를 하루동안 저장후
+        //     $('#popup').fadeOut('fast');      //팝업창 서서히 사라짐 
+        // });
 
 
 
