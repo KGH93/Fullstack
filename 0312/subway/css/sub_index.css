@@ -210,29 +210,29 @@ header #main_menu{
     background-size: contain;
 }
 
-#s2 .s2menu #s2page{
-    position: absolute;
-    top: 45px;
-    right: 0;
-    width:440px; 
-}
-#s2page ul{
-    position: relative;
-}
-#s2page ul li{
-    float: left;
-    height: 30px;
-    line-height: 30px;
-    margin-left: 10px;
-}
-#s2page ul li a{
-    color: #666;
-    font-weight: bold;
-}
+    #s2 .s2menu #s2page{
+        position: absolute;
+        top: 45px;
+        right: 0;
+        width:440px; 
+    }
+    #s2page ul{
+        position: relative;
+    }
+    #s2page ul li{
+        float: left;
+        height: 30px;
+        line-height: 30px;
+        margin-left: 10px;
+    }
+    #s2page ul li a{
+        color: #666;
+        font-weight: bold;
+    }
 
-#s2page .on{
-    color: #008C15;
-}
+    #s2page ul li a.on{
+        color: #008C15;
+    }
     
 
 
@@ -513,6 +513,7 @@ footer{
     width: 1280px;
     height: 45px;
     display: flex;
+    margin-left: 40px;
 }
 .ft_table a{
     display: block;

@@ -35,12 +35,12 @@ $(function(){
         controls: false,    
     });
 
-    $('#s2 >.s2box>.s2menu.s2page>li').click(function(){
-        $(this).hasClass('none')
-		$('li').removeClass('on');
-		$(this).addClass('on');
-	});
-    
+    $('#s2page ul li').click(function(){
+        if(!$(this).hasClass('none')){
+		$('#s2page ul li a').removeClass('on');
+		$(this).find('a').addClass('on');
+        }
+	}); 
 
     
 
