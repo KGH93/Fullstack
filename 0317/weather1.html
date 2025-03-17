@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>weather1</title>
+    <script src="https://code.jquery.com/jquery-3.1.1.js"></script>
+    <script>
+        $.getJSON("https://api.openweathermap.org/data/2.5/forecast?id=1835848&appid=2ea43ede0dc61830586d1d25592340c4&units=metric", function(data){
+            // alert(data.cod);
+            // alert(data.city.name);
+            // alert(data.list[0].main.temp)
+
+
+            var $cTemp = data.list[0].main.temp;
+            var $cmaxTemp = data.list[0].main.temp_max;
+            var $cminTemp = data.list[0].main.temp_min;
+            var $wIcon = data.list[0].weather[0].icon;
+            var $cDate = data.list[0].dt_txt;  //날짜-시간
+
+            $(".ctemp").append($cTemp);
+            $(".clowtemp").append($cminTemp);
+            $(".chightemp").append($cmaxTemp);
+            $("h2").prepend($cDate);
+            // alert($wicon);
+            $('.cicon').append('<img src="https://openweathermap.org/img/wn/'+$wIcon+'@4x.png">');
+
+        });
+    </script>
+</head>
+<body>
+    <h1>weather api</h1>
+    <h2> - 날씨예보</h2>
+    <div class="ctemp">현재 온도: </div>
+    <div class="clowtemp">최저 온도: </div>
+    <div class="chightemp">최고 온도: </div>
+    <div class="cicon">아이콘: </div>
+
+    <!-- <img src="https://openweathermap.org/img/wn/03d@2x.png" alt=""> -->
+    
+
+
+    <!-- https://openweathermap.org/weather-conditions  아이콘 주소-->
+</body>
+</html>

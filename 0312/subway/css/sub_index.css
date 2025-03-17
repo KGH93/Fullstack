@@ -470,7 +470,6 @@ header #main_menu{
     top: 210px;
     border: 10px solid #ffce32;
     font-size: 12px;
-    visibility: hidden;
 }
 
 #popup_wrap img{float: left;}
@@ -479,15 +478,15 @@ header #main_menu{
         background-color: #ffce32;
         color: #000;
         text-align: left;
-        padding: 0px 10px;
+        padding: 5px 10px;
         font-weight: bold;
     }
 
-    .btnwrap .closeBtn{
-        display: block;
+    .btnwrap button{
         background-color: #ffce32;
         float: right;
         cursor: pointer;
+        border: 1px solid #ffce32;
     }
 
 
