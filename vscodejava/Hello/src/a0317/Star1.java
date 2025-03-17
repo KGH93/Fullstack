@@ -14,6 +14,7 @@ public class Star1 {
             }
             System.out.println();
         }
+        scan.close();
     }
 }
 

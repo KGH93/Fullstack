@@ -47,7 +47,7 @@ public class whileEx02 {
                     System.out.println("선택> 4");
                     System.out.print("첫번째 숫자> " + a);
                     System.out.print("두번째 숫자> " + b);
-                    if( b == 0){
+                    if( a==0 || b == 0){
                         System.out.println(" 0으로 나눌 수 없습니다.");
                     }else{
                         System.out.print("결과: " + a + "/" + b + "= " + ((double)a / b));
