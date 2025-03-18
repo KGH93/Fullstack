@@ -20,5 +20,6 @@ public class Ex01 {
         }
         else
         {System.out.println("가장큰 수는 "+ num3 + " 입니다.");}
+        scan.close();
     }
 }
