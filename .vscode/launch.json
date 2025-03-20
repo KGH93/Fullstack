@@ -1,0 +1,910 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Current File",
+            "request": "launch",
+            "mainClass": "${file}"
+        },
+        {
+            "type": "java",
+            "name": "App",
+            "request": "launch",
+            "mainClass": "App",
+            "projectName": "KGH_77515d53"
+        },
+        {
+            "type": "java",
+            "name": "Array2",
+            "request": "launch",
+            "mainClass": "Array2",
+            "projectName": "KGH_77515d53"
+        },
+        {
+            "type": "java",
+            "name": "ArrayToParameter",
+            "request": "launch",
+            "mainClass": "ArrayToParameter",
+            "projectName": "KGH_77515d53"
+        },
+        {
+            "type": "java",
+            "name": "CityVisit",
+            "request": "launch",
+            "mainClass": "CityVisit",
+            "projectName": "KGH_77515d53"
+        },
+        {
+            "type": "java",
+            "name": "Ex01",
+            "request": "launch",
+            "mainClass": "Ex01",
+            "projectName": "KGH_77515d53"
+        },
+        {
+            "type": "java",
+            "name": "Ex02",
+            "request": "launch",
+            "mainClass": "Ex02",
+            "projectName": "KGH_77515d53"
+        },
+        {
+            "type": "java",
+            "name": "Ex03",
+            "request": "launch",
+            "mainClass": "Ex03",
+            "projectName": "KGH_77515d53"
+        },
+        {
+            "type": "java",
+            "name": "GuguDan1",
+            "request": "launch",
+            "mainClass": "GuguDan1",
+            "projectName": "KGH_77515d53"
+        },
+        {
+            "type": "java",
+            "name": "Lotto1",
+            "request": "launch",
+            "mainClass": "Lotto1",
+            "projectName": "KGH_77515d53"
+        },
+        {
+            "type": "java",
+            "name": "MaxMin1",
+            "request": "launch",
+            "mainClass": "MaxMin1",
+            "projectName": "KGH_77515d53"
+        },
+        {
+            "type": "java",
+            "name": "PrimeScorer",
+            "request": "launch",
+            "mainClass": "PrimeScorer",
+            "projectName": "KGH_77515d53"
+        },
+        {
+            "type": "java",
+            "name": "PrimeScorer1",
+            "request": "launch",
+            "mainClass": "PrimeScorer1",
+            "projectName": "KGH_77515d53"
+        },
+        {
+            "type": "java",
+            "name": "Shuffle",
+            "request": "launch",
+            "mainClass": "Shuffle",
+            "projectName": "KGH_77515d53"
+        },
+        {
+            "type": "java",
+            "name": "SimpleMerge",
+            "request": "launch",
+            "mainClass": "SimpleMerge",
+            "projectName": "KGH_77515d53"
+        },
+        {
+            "type": "java",
+            "name": "Sum1",
+            "request": "launch",
+            "mainClass": "Sum1",
+            "projectName": "KGH_77515d53"
+        },
+        {
+            "type": "java",
+            "name": "Hellojava",
+            "request": "launch",
+            "mainClass": "a0312.Hellojava",
+            "projectName": "KGH_77515d53"
+        },
+        {
+            "type": "java",
+            "name": "Hellojava2",
+            "request": "launch",
+            "mainClass": "a0312.Hellojava2",
+            "projectName": "KGH_77515d53"
+        },
+        {
+            "type": "java",
+            "name": "Var1",
+            "request": "launch",
+            "mainClass": "a0312.Var1",
+            "projectName": "KGH_77515d53"
+        },
+        {
+            "type": "java",
+            "name": "Var2",
+            "request": "launch",
+            "mainClass": "a0312.Var2",
+            "projectName": "KGH_77515d53"
+        },
+        {
+            "type": "java",
+            "name": "Var3",
+            "request": "launch",
+            "mainClass": "a0312.Var3",
+            "projectName": "KGH_77515d53"
+        },
+        {
+            "type": "java",
+            "name": "Var4",
+            "request": "launch",
+            "mainClass": "a0312.Var4",
+            "projectName": "KGH_77515d53"
+        },
+        {
+            "type": "java",
+            "name": "Var5",
+            "request": "launch",
+            "mainClass": "a0312.Var5",
+            "projectName": "KGH_77515d53"
+        },
+        {
+            "type": "java",
+            "name": "Var6",
+            "request": "launch",
+            "mainClass": "a0312.Var6",
+            "projectName": "KGH_77515d53"
+        },
+        {
+            "type": "java",
+            "name": "Var7",
+            "request": "launch",
+            "mainClass": "a0312.Var7",
+            "projectName": "KGH_77515d53"
+        },
+        {
+            "type": "java",
+            "name": "Var8",
+            "request": "launch",
+            "mainClass": "a0312.Var8",
+            "projectName": "KGH_77515d53"
+        },
+        {
+            "type": "java",
+            "name": "Var8_1",
+            "request": "launch",
+            "mainClass": "a0312.Var8_1",
+            "projectName": "KGH_77515d53"
+        },
+        {
+            "type": "java",
+            "name": "VarEx2",
+            "request": "launch",
+            "mainClass": "a0312.VarEx2",
+            "projectName": "KGH_77515d53"
+        },
+        {
+            "type": "java",
+            "name": "VarEx2_1",
+            "request": "launch",
+            "mainClass": "a0312.VarEx2_1",
+            "projectName": "KGH_77515d53"
+        },
+        {
+            "type": "java",
+            "name": "VarEx3",
+            "request": "launch",
+            "mainClass": "a0312.VarEx3",
+            "projectName": "KGH_77515d53"
+        },
+        {
+            "type": "java",
+            "name": "VarEx4",
+            "request": "launch",
+            "mainClass": "a0312.VarEx4",
+            "projectName": "KGH_77515d53"
+        },
+        {
+            "type": "java",
+            "name": "VarEx5",
+            "request": "launch",
+            "mainClass": "a0312.VarEx5",
+            "projectName": "KGH_77515d53"
+        },
+        {
+            "type": "java",
+            "name": "VarEx6",
+            "request": "launch",
+            "mainClass": "a0312.VarEx6",
+            "projectName": "KGH_77515d53"
+        },
+        {
+            "type": "java",
+            "name": "Ari1",
+            "request": "launch",
+            "mainClass": "a0313.Ari1",
+            "projectName": "KGH_77515d53"
+        },
+        {
+            "type": "java",
+            "name": "Ari2",
+            "request": "launch",
+            "mainClass": "a0313.Ari2",
+            "projectName": "KGH_77515d53"
+        },
+        {
+            "type": "java",
+            "name": "Ari3",
+            "request": "launch",
+            "mainClass": "a0313.Ari3",
+            "projectName": "KGH_77515d53"
+        },
+        {
+            "type": "java",
+            "name": "Assign1",
+            "request": "launch",
+            "mainClass": "a0313.Assign1",
+            "projectName": "KGH_77515d53"
+        },
+        {
+            "type": "java",
+            "name": "Comp1",
+            "request": "launch",
+            "mainClass": "a0313.Comp1",
+            "projectName": "KGH_77515d53"
+        },
+        {
+            "type": "java",
+            "name": "Comp2",
+            "request": "launch",
+            "mainClass": "a0313.Comp2",
+            "projectName": "KGH_77515d53"
+        },
+        {
+            "type": "java",
+            "name": "Ex01(1)",
+            "request": "launch",
+            "mainClass": "a0313.Ex01",
+            "projectName": "KGH_77515d53"
+        },
+        {
+            "type": "java",
+            "name": "Ex02(1)",
+            "request": "launch",
+            "mainClass": "a0313.Ex02",
+            "projectName": "KGH_77515d53"
+        },
+        {
+            "type": "java",
+            "name": "Logical1",
+            "request": "launch",
+            "mainClass": "a0313.Logical1",
+            "projectName": "KGH_77515d53"
+        },
+        {
+            "type": "java",
+            "name": "Logical2",
+            "request": "launch",
+            "mainClass": "a0313.Logical2",
+            "projectName": "KGH_77515d53"
+        },
+        {
+            "type": "java",
+            "name": "Operator1",
+            "request": "launch",
+            "mainClass": "a0313.Operator1",
+            "projectName": "KGH_77515d53"
+        },
+        {
+            "type": "java",
+            "name": "Operator2",
+            "request": "launch",
+            "mainClass": "a0313.Operator2",
+            "projectName": "KGH_77515d53"
+        },
+        {
+            "type": "java",
+            "name": "Operator3",
+            "request": "launch",
+            "mainClass": "a0313.Operator3",
+            "projectName": "KGH_77515d53"
+        },
+        {
+            "type": "java",
+            "name": "Operator4",
+            "request": "launch",
+            "mainClass": "a0313.Operator4",
+            "projectName": "KGH_77515d53"
+        },
+        {
+            "type": "java",
+            "name": "Overadd1",
+            "request": "launch",
+            "mainClass": "a0313.Overadd1",
+            "projectName": "KGH_77515d53"
+        },
+        {
+            "type": "java",
+            "name": "Overadd2",
+            "request": "launch",
+            "mainClass": "a0313.Overadd2",
+            "projectName": "KGH_77515d53"
+        },
+        {
+            "type": "java",
+            "name": "Escape",
+            "request": "launch",
+            "mainClass": "a0314.Escape",
+            "projectName": "KGH_77515d53"
+        },
+        {
+            "type": "java",
+            "name": "Escape1",
+            "request": "launch",
+            "mainClass": "a0314.Escape1",
+            "projectName": "KGH_77515d53"
+        },
+        {
+            "type": "java",
+            "name": "Ex01(2)",
+            "request": "launch",
+            "mainClass": "a0314.Ex01",
+            "projectName": "KGH_77515d53"
+        },
+        {
+            "type": "java",
+            "name": "If1",
+            "request": "launch",
+            "mainClass": "a0314.If1",
+            "projectName": "KGH_77515d53"
+        },
+        {
+            "type": "java",
+            "name": "If1_1",
+            "request": "launch",
+            "mainClass": "a0314.If1_1",
+            "projectName": "KGH_77515d53"
+        },
+        {
+            "type": "java",
+            "name": "If1_2",
+            "request": "launch",
+            "mainClass": "a0314.If1_2",
+            "projectName": "KGH_77515d53"
+        },
+        {
+            "type": "java",
+            "name": "If2",
+            "request": "launch",
+            "mainClass": "a0314.If2",
+            "projectName": "KGH_77515d53"
+        },
+        {
+            "type": "java",
+            "name": "If3",
+            "request": "launch",
+            "mainClass": "a0314.If3",
+            "projectName": "KGH_77515d53"
+        },
+        {
+            "type": "java",
+            "name": "If4",
+            "request": "launch",
+            "mainClass": "a0314.If4",
+            "projectName": "KGH_77515d53"
+        },
+        {
+            "type": "java",
+            "name": "If5",
+            "request": "launch",
+            "mainClass": "a0314.If5",
+            "projectName": "KGH_77515d53"
+        },
+        {
+            "type": "java",
+            "name": "If6",
+            "request": "launch",
+            "mainClass": "a0314.If6",
+            "projectName": "KGH_77515d53"
+        },
+        {
+            "type": "java",
+            "name": "Samhang",
+            "request": "launch",
+            "mainClass": "a0314.Samhang",
+            "projectName": "KGH_77515d53"
+        },
+        {
+            "type": "java",
+            "name": "Samhang1",
+            "request": "launch",
+            "mainClass": "a0314.Samhang1",
+            "projectName": "KGH_77515d53"
+        },
+        {
+            "type": "java",
+            "name": "Scanner1",
+            "request": "launch",
+            "mainClass": "a0314.Scanner1",
+            "projectName": "KGH_77515d53"
+        },
+        {
+            "type": "java",
+            "name": "Scanner2",
+            "request": "launch",
+            "mainClass": "a0314.Scanner2",
+            "projectName": "KGH_77515d53"
+        },
+        {
+            "type": "java",
+            "name": "Scanner3",
+            "request": "launch",
+            "mainClass": "a0314.Scanner3",
+            "projectName": "KGH_77515d53"
+        },
+        {
+            "type": "java",
+            "name": "Scanner4",
+            "request": "launch",
+            "mainClass": "a0314.Scanner4",
+            "projectName": "KGH_77515d53"
+        },
+        {
+            "type": "java",
+            "name": "Switch1",
+            "request": "launch",
+            "mainClass": "a0314.Switch1",
+            "projectName": "KGH_77515d53"
+        },
+        {
+            "type": "java",
+            "name": "Switch2",
+            "request": "launch",
+            "mainClass": "a0314.Switch2",
+            "projectName": "KGH_77515d53"
+        },
+        {
+            "type": "java",
+            "name": "Switch3",
+            "request": "launch",
+            "mainClass": "a0314.Switch3",
+            "projectName": "KGH_77515d53"
+        },
+        {
+            "type": "java",
+            "name": "Switch4",
+            "request": "launch",
+            "mainClass": "a0314.Switch4",
+            "projectName": "KGH_77515d53"
+        },
+        {
+            "type": "java",
+            "name": "Switch5",
+            "request": "launch",
+            "mainClass": "a0314.Switch5",
+            "projectName": "KGH_77515d53"
+        },
+        {
+            "type": "java",
+            "name": "Break1",
+            "request": "launch",
+            "mainClass": "a0317.Break1",
+            "projectName": "KGH_77515d53"
+        },
+        {
+            "type": "java",
+            "name": "Break1_1",
+            "request": "launch",
+            "mainClass": "a0317.Break1_1",
+            "projectName": "KGH_77515d53"
+        },
+        {
+            "type": "java",
+            "name": "Break2",
+            "request": "launch",
+            "mainClass": "a0317.Break2",
+            "projectName": "KGH_77515d53"
+        },
+        {
+            "type": "java",
+            "name": "Break3",
+            "request": "launch",
+            "mainClass": "a0317.Break3",
+            "projectName": "KGH_77515d53"
+        },
+        {
+            "type": "java",
+            "name": "Continue1",
+            "request": "launch",
+            "mainClass": "a0317.Continue1",
+            "projectName": "KGH_77515d53"
+        },
+        {
+            "type": "java",
+            "name": "Dice1",
+            "request": "launch",
+            "mainClass": "a0317.Dice1",
+            "projectName": "KGH_77515d53"
+        },
+        {
+            "type": "java",
+            "name": "Do_while1_1",
+            "request": "launch",
+            "mainClass": "a0317.Do_while1_1",
+            "projectName": "KGH_77515d53"
+        },
+        {
+            "type": "java",
+            "name": "Nested1",
+            "request": "launch",
+            "mainClass": "a0317.Nested1",
+            "projectName": "KGH_77515d53"
+        },
+        {
+            "type": "java",
+            "name": "Star1",
+            "request": "launch",
+            "mainClass": "a0317.Star1",
+            "projectName": "KGH_77515d53"
+        },
+        {
+            "type": "java",
+            "name": "for1",
+            "request": "launch",
+            "mainClass": "a0317.for1",
+            "projectName": "KGH_77515d53"
+        },
+        {
+            "type": "java",
+            "name": "for2",
+            "request": "launch",
+            "mainClass": "a0317.for2",
+            "projectName": "KGH_77515d53"
+        },
+        {
+            "type": "java",
+            "name": "forEx01",
+            "request": "launch",
+            "mainClass": "a0317.forEx01",
+            "projectName": "KGH_77515d53"
+        },
+        {
+            "type": "java",
+            "name": "forEx02",
+            "request": "launch",
+            "mainClass": "a0317.forEx02",
+            "projectName": "KGH_77515d53"
+        },
+        {
+            "type": "java",
+            "name": "forEx03",
+            "request": "launch",
+            "mainClass": "a0317.forEx03",
+            "projectName": "KGH_77515d53"
+        },
+        {
+            "type": "java",
+            "name": "forEx04",
+            "request": "launch",
+            "mainClass": "a0317.forEx04",
+            "projectName": "KGH_77515d53"
+        },
+        {
+            "type": "java",
+            "name": "forEx05",
+            "request": "launch",
+            "mainClass": "a0317.forEx05",
+            "projectName": "KGH_77515d53"
+        },
+        {
+            "type": "java",
+            "name": "while1_1",
+            "request": "launch",
+            "mainClass": "a0317.while1_1",
+            "projectName": "KGH_77515d53"
+        },
+        {
+            "type": "java",
+            "name": "while1_2",
+            "request": "launch",
+            "mainClass": "a0317.while1_2",
+            "projectName": "KGH_77515d53"
+        },
+        {
+            "type": "java",
+            "name": "while2_1",
+            "request": "launch",
+            "mainClass": "a0317.while2_1",
+            "projectName": "KGH_77515d53"
+        },
+        {
+            "type": "java",
+            "name": "while2_2",
+            "request": "launch",
+            "mainClass": "a0317.while2_2",
+            "projectName": "KGH_77515d53"
+        },
+        {
+            "type": "java",
+            "name": "while2_3",
+            "request": "launch",
+            "mainClass": "a0317.while2_3",
+            "projectName": "KGH_77515d53"
+        },
+        {
+            "type": "java",
+            "name": "whileEx01",
+            "request": "launch",
+            "mainClass": "a0317.whileEx01",
+            "projectName": "KGH_77515d53"
+        },
+        {
+            "type": "java",
+            "name": "whileEx02",
+            "request": "launch",
+            "mainClass": "a0317.whileEx02",
+            "projectName": "KGH_77515d53"
+        },
+        {
+            "type": "java",
+            "name": "Arr1",
+            "request": "launch",
+            "mainClass": "a0318.Arr1",
+            "projectName": "KGH_77515d53"
+        },
+        {
+            "type": "java",
+            "name": "Arr3_1",
+            "request": "launch",
+            "mainClass": "a0318.Arr3_1",
+            "projectName": "KGH_77515d53"
+        },
+        {
+            "type": "java",
+            "name": "ArrEx1",
+            "request": "launch",
+            "mainClass": "a0318.ArrEx1",
+            "projectName": "KGH_77515d53"
+        },
+        {
+            "type": "java",
+            "name": "ArrEx2",
+            "request": "launch",
+            "mainClass": "a0318.ArrEx2",
+            "projectName": "KGH_77515d53"
+        },
+        {
+            "type": "java",
+            "name": "ArrEx3",
+            "request": "launch",
+            "mainClass": "a0318.ArrEx3",
+            "projectName": "KGH_77515d53"
+        },
+        {
+            "type": "java",
+            "name": "Array1",
+            "request": "launch",
+            "mainClass": "a0318.Array1",
+            "projectName": "KGH_77515d53"
+        },
+        {
+            "type": "java",
+            "name": "Cylinder",
+            "request": "launch",
+            "mainClass": "a0318.Cylinder",
+            "projectName": "KGH_77515d53"
+        },
+        {
+            "type": "java",
+            "name": "Cylinder2",
+            "request": "launch",
+            "mainClass": "a0318.Cylinder2",
+            "projectName": "KGH_77515d53"
+        },
+        {
+            "type": "java",
+            "name": "EvenOdd",
+            "request": "launch",
+            "mainClass": "a0318.EvenOdd",
+            "projectName": "KGH_77515d53"
+        },
+        {
+            "type": "java",
+            "name": "Ex01(3)",
+            "request": "launch",
+            "mainClass": "a0318.Ex01",
+            "projectName": "KGH_77515d53"
+        },
+        {
+            "type": "java",
+            "name": "Fact1",
+            "request": "launch",
+            "mainClass": "a0318.Fact1",
+            "projectName": "KGH_77515d53"
+        },
+        {
+            "type": "java",
+            "name": "Fork",
+            "request": "launch",
+            "mainClass": "a0318.Fork",
+            "projectName": "KGH_77515d53"
+        },
+        {
+            "type": "java",
+            "name": "Gasoline",
+            "request": "launch",
+            "mainClass": "a0318.Gasoline",
+            "projectName": "KGH_77515d53"
+        },
+        {
+            "type": "java",
+            "name": "Method1",
+            "request": "launch",
+            "mainClass": "a0318.Method1",
+            "projectName": "KGH_77515d53"
+        },
+        {
+            "type": "java",
+            "name": "Method2",
+            "request": "launch",
+            "mainClass": "a0318.Method2",
+            "projectName": "KGH_77515d53"
+        },
+        {
+            "type": "java",
+            "name": "Method3",
+            "request": "launch",
+            "mainClass": "a0318.Method3",
+            "projectName": "KGH_77515d53"
+        },
+        {
+            "type": "java",
+            "name": "Method4",
+            "request": "launch",
+            "mainClass": "a0318.Method4",
+            "projectName": "KGH_77515d53"
+        },
+        {
+            "type": "java",
+            "name": "Method5",
+            "request": "launch",
+            "mainClass": "a0318.Method5",
+            "projectName": "KGH_77515d53"
+        },
+        {
+            "type": "java",
+            "name": "OverLoading",
+            "request": "launch",
+            "mainClass": "a0318.OverLoading",
+            "projectName": "KGH_77515d53"
+        },
+        {
+            "type": "java",
+            "name": "Q1",
+            "request": "launch",
+            "mainClass": "a0318.Q1",
+            "projectName": "KGH_77515d53"
+        },
+        {
+            "type": "java",
+            "name": "Ramyun",
+            "request": "launch",
+            "mainClass": "a0318.Ramyun",
+            "projectName": "KGH_77515d53"
+        },
+        {
+            "type": "java",
+            "name": "RandumNumber",
+            "request": "launch",
+            "mainClass": "a0318.RandumNumber",
+            "projectName": "KGH_77515d53"
+        },
+        {
+            "type": "java",
+            "name": "Square",
+            "request": "launch",
+            "mainClass": "a0318.Square",
+            "projectName": "KGH_77515d53"
+        },
+        {
+            "type": "java",
+            "name": "Square1",
+            "request": "launch",
+            "mainClass": "a0318.Square1",
+            "projectName": "KGH_77515d53"
+        },
+        {
+            "type": "java",
+            "name": "Class1",
+            "request": "launch",
+            "mainClass": "a0320.Class1",
+            "projectName": "KGH_77515d53"
+        },
+        {
+            "type": "java",
+            "name": "Class2",
+            "request": "launch",
+            "mainClass": "a0320.Class2",
+            "projectName": "KGH_77515d53"
+        },
+        {
+            "type": "java",
+            "name": "Class3",
+            "request": "launch",
+            "mainClass": "a0320.Class3",
+            "projectName": "KGH_77515d53"
+        },
+        {
+            "type": "java",
+            "name": "Class4",
+            "request": "launch",
+            "mainClass": "a0320.Class4",
+            "projectName": "KGH_77515d53"
+        },
+        {
+            "type": "java",
+            "name": "Class5",
+            "request": "launch",
+            "mainClass": "a0320.Class5",
+            "projectName": "KGH_77515d53"
+        },
+        {
+            "type": "java",
+            "name": "Class5_1",
+            "request": "launch",
+            "mainClass": "a0320.Class5_1",
+            "projectName": "KGH_77515d53"
+        },
+        {
+            "type": "java",
+            "name": "Ex01(4)",
+            "request": "launch",
+            "mainClass": "a0320.Ex01",
+            "projectName": "KGH_77515d53"
+        },
+        {
+            "type": "java",
+            "name": "Square(1)",
+            "request": "launch",
+            "mainClass": "a0320.Square",
+            "projectName": "KGH_77515d53"
+        },
+        {
+            "type": "java",
+            "name": "Word1_error",
+            "request": "launch",
+            "mainClass": "a0320.Word1_error",
+            "projectName": "KGH_77515d53"
+        },
+        {
+            "type": "java",
+            "name": "sum1",
+            "request": "launch",
+            "mainClass": "a0320.sum1",
+            "projectName": "KGH_77515d53"
+        },
+        {
+            "type": "java",
+            "name": "sum2",
+            "request": "launch",
+            "mainClass": "a0320.sum2",
+            "projectName": "KGH_77515d53"
+        }
+    ]
+}

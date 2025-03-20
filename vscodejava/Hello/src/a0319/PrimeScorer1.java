@@ -1,4 +1,4 @@
-package a0319;
+
 
 public class PrimeScorer1 {
     public static void main(String[] args) {
