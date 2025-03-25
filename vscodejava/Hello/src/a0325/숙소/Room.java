@@ -1,4 +1,4 @@
-package a0324.숙소;
+package a0325.숙소;
 
 public class Room {
     private String name;

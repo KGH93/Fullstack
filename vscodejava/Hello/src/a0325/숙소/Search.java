@@ -1,4 +1,4 @@
-package a0324.숙소;
+package a0325.숙소;
 
 import java.util.Scanner;
 
@@ -57,21 +57,47 @@ public class Search {
                     break;
             
                 case 5:
-                    
+                    System.out.println("숙소 삭제하기");
+                    System.out.println("삭제하려는 숙소 이름을 입력해주세요 ");
+                    String dname = scan.nextLine();
+                    if( dname.equals("")){
+                        System.out.println("삭제하려는 도서 이름을 다시입력해주세요 \n 이름 >>");
+                        dname = scan.nextLine();
+                    }
+                    manager.delRoom(dname);
+                    System.out.println("삭제가 완료됬습니다.");
                     break;
             
                 case 6:
-                    
+                    System.out.println("숙소 정보수정하기");
+                    System.out.println("수정하려는 숙소 이름을 입력해주세요 ");
+                    String uname = scan.nextLine();
+                    if(uname.equals("")){
+                        System.out.println("수정하려는 도서 이름을 다시입력해주세요 \n 이름 >>");
+                        uname = scan.nextLine();
+                    }
+                    manager.updateRoom(uname);
+                    System.out.println("수정이 완료됬습니다.");
                     break;
             
                 case 7:
-                    
+                    System.out.println("숙소정보 조회하기");
+                    System.out.println("조회하려는 숙소이름을 입력해주세요");
+                    String sname = scan.nextLine();
+                    if( sname.equals("")){
+                        System.out.println("조회하려는 도서 이름을 다시입력해주세요 \n 이름 >>");
+                        sname = scan.nextLine();
+                    }
+                    manager.searchRoom(sname);
+                    System.out.println("조회가 완료됬습니다.");
                     break;
             
                 case 8:
-                    
+                    System.out.println("종료");
+                    flag = false;
+                    scan.close();
+                    System.exit(0);
                     break;
-            
                 default:
                     break;
             }

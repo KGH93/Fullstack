@@ -63,28 +63,49 @@ public class Search {
 
 
                 case 5:
-                    System.out.println("도서 삭제하기");
-                    manager.allLibrary();  //대출 가능한 도서 조회 메서드
+                    System.out.println("삭제 시작");
+                    System.out.println("삭제하려는 도서 이름을 적어주세요");
+                    String dname = scan.nextLine();
+                    if( dname.equals("")){
+                        System.out.println("삭제하려는 도서 이름을 다시입력 \n 이름?>>");
+                        dname = scan.nextLine();
+                    }
+                    manager.delLibrary(dname);
+                    System.out.println("삭제 완료");
                     break;
 
 
                 case 6:
-                    System.out.println("도서정보 수정하기");
-                    manager.allLibrary();  //대출 가능한 도서 조회 메서드
+                    System.out.println("수정시작");
+                    System.out.println("수정하려는 도서 이름을 적어주세요");
+                    String uname = scan.nextLine();
+                    if( uname.equals("")){
+                        System.out.println("수정하려는 도서 이름을 다시입력 \n 이름?>>");
+                        uname = scan.nextLine();
+                    }
+                    manager.updateLibrary(uname);
+                    System.out.println("수정 완료");
                     break;
 
 
                 case 7:
-                    System.out.println("도서내용 보기");
-                    manager.allLibrary();  //대출 가능한 도서 조회 메서드
+                    System.out.println("조회 시작 \n 도서 이름 입력");
+                    String sname = scan.nextLine();
+                    if( sname.equals("")){
+                        System.out.println("조회하려는 도서 이름을 다시입력 \n 이름?>>");
+                        sname = scan.nextLine();
+                    }
+                    manager.showLibrary(sname);
+                    System.out.println("조회 완료");
                     break;
 
 
                 case 8:
                     System.out.println("종료");
+                    flag = false;
+                    scan.close();  //scanner 종료
+                    System.exit(0);
                     break;
-
-
                 default:
                     break;
             }
