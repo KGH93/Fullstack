@@ -74,6 +74,7 @@ public class RoomManager {
                     result = true;
                     break;
                 }else{
+                    System.out.println("해당 숙소는 이미 예약되었습니다.");
                     result = false;
                     break;
                 }
@@ -131,7 +132,7 @@ public class RoomManager {
                         break;
                     default:
                         System.out.println("1~3번 중에 번호를 입력하세요");
-                        break;
+                        return;
                 }
             }
         }else{

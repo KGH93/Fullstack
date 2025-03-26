@@ -1,3 +1,4 @@
+package a0319;
 
 public class ArrayToParameter {
     public static void main(String[] args) {
