@@ -1,6 +1,6 @@
 package a0325.car;
 
-public class main1 {
+public class maincar {
     public static void main(String[] args) {
         
         Car car = new Car("베누스");
