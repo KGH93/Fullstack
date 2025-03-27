@@ -1,8 +1,8 @@
 package a0327.exception1;
 
-public class customException extends Exception {
+public class CustomException extends Exception {
     
-    public customException(String message){
+    public CustomException(String message){
         super(message);
     }
 

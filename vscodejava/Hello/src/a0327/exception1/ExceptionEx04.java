@@ -4,7 +4,7 @@ public class ExceptionEx04 {
     public static void main(String[] args) {
         try {
             checkNumber(-5);
-            } catch (customException e) {  //사용자 정의 예외
+            } catch (CustomException e) {  //사용자 정의 예외
                 System.out.println("예외발생: " + e.getMessage());
             }
         }
@@ -12,9 +12,9 @@ public class ExceptionEx04 {
         // checkNumber(-5) 호출하여 음수전달 - > 예외발생
         // catch(customException e)에서 예외를 잡고 예외메시지를 출력합니다.
             
-        private static void checkNumber(int num) throws customException {
+        private static void checkNumber(int num) throws CustomException {
             if(num < 0){
-                throw new customException("음수는 허용 안됩니다.");
+                throw new CustomException("음수는 허용 안됩니다.");
             }
             System.out.println("입력값: " + num);
         }
