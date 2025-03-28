@@ -11,4 +11,4 @@ public class CustomException extends Exception {
 
 //  customException 은  Exception (자바의 최상위 예외)상속받아
 //  사용자 정의 예외
-// 생성자를 통해 예외 메세지를 전할 할 수 있습니다.
+// p278
