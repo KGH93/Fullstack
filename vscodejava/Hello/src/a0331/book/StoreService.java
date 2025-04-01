@@ -127,15 +127,17 @@ public class StoreService {
             System.out.println("만원 이상 구매시 10% 할인 혜택이 있습니다.");
             discount = 0.1 * totalMoney;
             totalMoney -= discount;
-            System.out.printf("고객님의 주문 금액은 %.0f원이며 10,000원이상 구매시 10%%할인 혜택이 있습니다. 할인받으신 가격은 %.0f입니다.", totalMoney+discount,discount);
+            System.out.printf("고객님의 주문 금액은 %.0f원이며 10,000원이상 구매시 10%%할인 혜택이 있습니다. 할인받으신 가격은 %.0f원입니다.", totalMoney+discount,discount);
         }
         message.append(" |                                                    |\n ")
 
 
         .append("+----------------------------------------------------+ \n")
+        .append(" ============    할인 금액은 " + f.format(discount) + "입니다  ========== \n")
         .append(" ============ 총 결제 금액은 " + f.format(totalMoney) + "입니다 ========== \n");
         System.out.println(message);
         payment(totalMoney);
+
     }
 
 
