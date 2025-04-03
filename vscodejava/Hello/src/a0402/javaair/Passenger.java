@@ -7,7 +7,7 @@ public class Passenger {  //예매 정보를 저장 - 나이검증 여기서
     private String name;
     private int birthDate;  //생년월일 831016
     private String pw;   //예약 비밀 번호
-    private String seat;  // 좌석
+    private String seat;  // 스액이 선택한 좌석 번호
 
 
     public Passenger(String name, int birthDate) {

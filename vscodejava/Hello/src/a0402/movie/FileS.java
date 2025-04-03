@@ -1,4 +1,4 @@
-package a0402.javaair;
+package a0402.movie;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -15,12 +15,12 @@ import java.util.Map;
 // 디렉토리(폴더가 없는 경우 폴더 생성) - 숙제
 
 
-public class FileC {
-    private FlightManager fm = new FlightManager();
+public class FileS {
+    private CinemaManager fm = new CinemaManager();
 
 
 
-    public void ticketSaveFile(Map<String,Flight> reservationMap, String name) {
+    public void ticketSaveFile(Map<String,Cinema> reservationMap, String name) {
         try {
             File file = new File("d:\\ticket\\ticket.txt");
             BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file,true));
@@ -49,8 +49,8 @@ public class FileC {
             System.out.println("=======================================================");
             while ((line = bufferedReader.readLine()) != null) {
                 System.out.println(line);
-                String [] flight = line.split("/");
-                FlightManager.getFlights().add(new Flight(flight[0], flight[1], Integer.parseInt(flight[2]), Boolean.parseBoolean(flight[3])));
+                String [] cinema = line.split("/");
+                CinemaManager.getCinemas().add(new Cinema(cinema[0], cinema[1], Integer.parseInt(cinema[2]), Boolean.parseBoolean(cinema[3])));
                 //  [0] 목적지, [1] 출발시간, [2] 가격 int값 , [3] 국제선국내선 Boolean값
             }
         } catch (FileNotFoundException e) {
