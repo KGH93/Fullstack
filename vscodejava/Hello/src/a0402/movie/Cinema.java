@@ -76,7 +76,7 @@ public class Cinema {
             System.out.println("|________________________________________________|");
             System.out.println("|*                                              *|");
             System.out.println("|________________________________________________|");
-            System.out.printf("|   [%2s][%2s]     [%2s][%2s][%2s][%2s]     [%2s][%2s]   |\n",seats.get(i),seats.get(i+1),seats.get(i+2),seats.get(i+3),seats.get(i+4),seats.get(i+5),seats.get(i+7),seats.get(i+7));
+            System.out.printf("|   [%2s][%2s]     [%2s][%2s][%2s][%2s]     [%2s][%2s]   |\n",seats.get(i),seats.get(i+1),seats.get(i+2),seats.get(i+3),seats.get(i+4),seats.get(i+5),seats.get(i+6),seats.get(i+7));
         }
     }
     
