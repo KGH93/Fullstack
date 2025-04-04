@@ -3,21 +3,21 @@ package a0402.movie;
 import java.time.LocalDate;
 import java.time.Period;
 
-public class Customer {
-    private String phone;
-    private int birthDate;
-    private String pw;
-    private String seat;
+public class Customer {  //이용객
+    private String phone;   // 전화번호 // 이름대신 전화번호4글자로 기록
+    private int birthDate;  // 생년월일 6글자
+    private String pw;      // 패스워드
+    private String seat;    // 예매좌석
 
     
-    public Customer(String phone, int birthDate, String pw) {
+    public Customer(String phone, int birthDate, String pw) {    // 비밀번호 추가 데이터
         this.phone = phone;
         this.birthDate = birthDate;
         this.pw = pw;
     }
 
 
-    public Customer(String phone, int birthDate) {
+    public Customer(String phone, int birthDate) {   // 예매전 받는 데이터
         this.phone = phone;
         this.birthDate = birthDate;
     }
@@ -50,7 +50,7 @@ public class Customer {
 
 
 
-    public boolean adult18(Customer p){
+    public boolean adult18(Customer p){    // 성인미만 규제 메서드
         int y = p.birthDate / 10000;
         int m = (p.birthDate % 10000) / 100;
         int d = p.birthDate % 100;

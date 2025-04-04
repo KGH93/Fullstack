@@ -3,12 +3,10 @@ package a0402.javaair;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.Map;
 
 
@@ -22,7 +20,24 @@ public class FileC {
 
     public void ticketSaveFile(Map<String,Flight> reservationMap, String name) {
         try {
+            File directory = new File("d:\\ticket");
+
+                if(!directory.exists()){
+                    if(directory.mkdirs()){
+                        System.out.println("디렉토리를 새로 생성했습니다.");
+                    }else{
+                        return;
+                    }
+            }
+
             File file = new File("d:\\ticket\\ticket.txt");
+                if(!file.exists()){
+                        file.createNewFile();
+                        System.out.println("파일을 새로 생성했습니다.");
+                }else{
+                    return;
+                }
+
             BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file,true));
             // BufferedWriter 를 사용하여 file에 데이터를 쓸 준비
             // FileWriter는 기본적으로 기본파일을 덮어씁니다.
