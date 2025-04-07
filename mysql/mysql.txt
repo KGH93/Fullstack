@@ -1,0 +1,83 @@
+설치부터///////////////////////////////////////////////////////////////////////////////
+
+pttps://dev.mysql.com/downloads/file/?id=536788
+
+custon  -   mysql server, workbench
+
+msql 기본port 3306  
+
+use legacy autentication method
+
+password
+
+////////////////////////////////////////////////////
+// mysql 대소문자구별 안함
+
+CMD상태에서 MYSQL 접속
+
+MYSQL -U -ROOT -P   - >   PASSWORD    -> SHOW DATABASES;  데이터 목록보기
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+
+CREATE DATABASE TEST;  -> 데이터 베이스 'TEST'생성
+
+DROP DATABASE TEST;  -> 데이터 베이스 'TEST'삭제
+
+USE TEST -> 데이터 베이스 'TEST' 선택
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+create table member()   -> 테이블 생성
+drop table memer; -> 테이블 삭제
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+// 테이블의 카테고리 8개 생성  //not null 빈칸이면 안되는거 // null null값으로 대체가능
+
+create table member(  //member =테이블이름
+mem_id char(8) not null primary key,  //primary key 필수 //테이블 정의의 처음에 위치할 필요x테이블의 마지막 부분에 정의가능
+mem_name varchar(8) not null,    
+mem_number tinyint not null,
+addr char(2) not null,
+phone1 char(3) null,
+phone2 char(8) null,
+height tinyint unsigned null,
+dubut_date date null
+);
+
+// 멤버 추가 예시문
+insert into member values('TWC', '트와이스',9,'서울', '02','11111111', 167,'2015-10-19');
+INSERT INTO member VALUES('BLK', '블랙핑크', 4, '경남', '055', '22222222', 163, '2016-8-8');
+INSERT INTO member VALUES('WMN', '여자친구', 6, '경기', '031', '33333333', 166, '2015-1-15');
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+desc member;  -> 테이블 구조 출력
+alter table member add xxx type;   -> 맨뒤에 필드추가  ex )name char(20)
+alter table member drop xxx;  ->  필드삭제 - xxx라는 필드삭제
+alter table member add xxx after www;   ->  www라는 필드 뒤에 순서로 추가
+alter table member change aaa bbb type;  -> aaa ->bbb 로 필드명수정,뒤의타입은 유지
+alter table member modify aaa type; -> 필드의 데이터타입 수정 ex)aaa int; aaa의 타입 int값으로 변환
+
+
+select * from xxx;   -> 테이블 내용 (xxx)검색
+rename table aaa to bbb -> 테이블이름 변경 aaa->bbb
+select id, name from xxx;  -> 테이블xxx의 멤버 id랑 name만 검색
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+create table buy(
+num int auto_increment not null primary key,
+mem_id char(8) not null,
+prod_name char(6) not null,
+group_name char(4) null,
+price int unsigned not null,
+amount smallint unsigned not null,
+foreign key(mem_id) references member(mem_id)
+);
+
+buy 추가 예시
+insert into buy values(null, 'BLK', '지갑', null, 30,2);
+insert into buy values(null, 'BLK','맥북프로','디지털',1000,1);
+INSERT INTO buy VALUES( NULL, 'APN', '아이폰', '디지털', 200, 1);  //오류 apn이없음.
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////
