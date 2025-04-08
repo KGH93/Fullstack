@@ -1,0 +1,172 @@
+
+데이터베이스 설계 개요
+자전거 대여 시스템의 데이터베이스는 다음과 같은 주요 클래스와 속성으로 구성될 수 있습니다:
+
+사용자 클래스 (User)
+자전거 클래스 (Bicycle)
+대여 기록 클래스 (Rental)
+결제 클래스 (Payment)
+자전거 상태 클래스 (BicycleStatus)
+관리자 클래스 (Admin)
+
+////////////////////////////////////////////////////////////
+1. 사용자 클래스 (User)
+목적: 시스템에 등록된 사용자 정보를 저장합니다.
+주요 속성:
+userId: 사용자 고유 ID
+name: 사용자 이름
+phone: 전화번호
+
+public class User {
+    private int userId;
+    private String name;
+    private String phone;
+
+    // 생성자, getter, setter 메서드
+}
+////////////////////////////////////////////////////////////
+
+2. 자전거 클래스 (Bicycle)
+목적: 대여 가능한 자전거의 정보를 저장합니다.
+주요 속성:
+bicycleId: 자전거 고유 ID
+type: 자전거 종류
+status: 자전거 상태
+location: 자전거 위치
+
+public class Bicycle {
+    private int bicycleId;
+    private String type;
+    private String status; // 예: "available", "rented", "under_repair"
+    private String location;
+
+    // 생성자, getter, setter 메서드
+}
+
+////////////////////////////////////////////////////////////////////////////////
+3. 대여 기록 클래스 (Rental)
+목적: 자전거 대여 및 반납 기록을 저장합니다.
+주요 속성:
+rentalId: 대여 기록 고유 ID
+userId: 대여한 사용자 ID
+bicycleId: 대여한 자전거 ID
+rentalDate: 대여 시간
+returnDate: 반납 시간
+duration: 대여한 동안의 시간
+
+
+public class Rental {
+    private int rentalId;
+    private int userId;
+    private int bicycleId;
+    private Date rentalDate;
+    private Date returnDate;
+    private int duration;
+
+    // 생성자, getter, setter 메서드
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+4. 결제 클래스 (Payment)
+목적: 대여에 대한 결제 정보를 저장합니다.
+주요 속성:
+paymentId: 결제 고유 ID
+rentalId: 대여 기록 ID
+amount: 결제 금액
+
+public class Payment {
+    private int paymentId;
+    private int rentalId;
+    private double amount;
+
+    // 생성자, getter, setter 메서드
+}
+
+///////////////////////////////////////////////////////////////////////
+5. 자전거 상태 클래스 (BicycleStatus)
+목적: 자전거의 상태 변화를 기록합니다.
+주요 속성:
+statusId: 상태 고유 ID
+bicycleId: 자전거 ID
+status: 자전거 상태
+java
+
+
+public class BicycleStatus 
+    private int statusId;
+    private int bicycleId;
+    private String status;
+//////////////////////////////////////////////////////////////////////////////////
+
+
+통합 관리자 클래스 (Admin)
+
+
+목적
+통합 관리자 클래스는 자전거 대여 시스템의 관리 기능을 제공하는 역할을 합니다. 이 클래스는 자전거의 추가, 삭제, 대여 기록 조회, 자전거 상태 업데이트와 같은 관리 작업을 수행할 수 있도록 설계되었습니다. 이를 통해 시스템의 운영과 유지관리를 효율적으로 수행할 수 있습니다.
+
+주요 메서드
+
+
+addBicycle(Bicycle bicycle)
+
+목적: 새로운 자전거를 시스템에 추가합니다.
+설명: 이 메서드는 자전거 객체를 매개변수로 받아 시스템의 자전거 목록에 추가하는 로직을 구현합니다. 자전거가 성공적으로 추가되면 관련 메시지를 출력합니다.
+
+
+removeBicycle(int bicycleId)
+
+목적: 특정 자전거를 시스템에서 삭제합니다.
+설명: 자전거의 고유 ID를 매개변수로 받아 해당 자전거를 목록에서 제거하는 로직을 구현합니다. 자전거가 성공적으로 삭제되면 관련 메시지를 출력합니다.
+
+
+viewRentals()
+
+목적: 현재 대여 중인 자전거와 대여 기록을 조회합니다.
+설명: 이 메서드는 대여 기록을 조회하는 로직을 구현합니다. 대여 중인 자전거의 목록이나 대여 기록을 출력하여 관리자가 현재 대여 상태를 확인할 수 있도록 합니다.
+
+
+
+updateBicycleStatus(int bicycleId, String status)
+
+목적: 특정 자전거의 상태를 업데이트합니다.
+설명: 자전거의 고유 ID와 새로운 상태를 매개변수로 받아 해당 자전거의 상태를 변경하는 로직을 구현합니다. 상태가 성공적으로 업데이트되면 관련 메시지를 출력합니다.
+예시 코드
+아래는 통합 관리자 클래스의 예시 코드입니다.
+
+
+
+
+java
+
+
+public class Admin {
+    private String adminId;
+    private String name;
+
+    public Admin(String adminId, String name) {
+        this.adminId = adminId;
+        this.name = name;
+    }
+
+    public void addBicycle(Bicycle bicycle) {
+        // 자전거 추가 로직 구현
+        System.out.println("자전거가 추가되었습니다: " + bicycle.getBicycleId());
+    }
+
+    public void removeBicycle(int bicycleId) {
+        // 자전거 삭제 로직 구현
+        System.out.println("자전거가 삭제되었습니다: " + bicycleId);
+    }
+
+    public void viewRentals() {
+        // 대여 기록 조회 로직 구현
+        System.out.println("대여 기록을 조회합니다.");
+    }
+
+    public void updateBicycleStatus(int bicycleId, String status) {
+        // 자전거 상태 업데이트 로직 구현
+        System.out.println("자전거 상태가 업데이트되었습니다: " + bicycleId + " - " + status);
+    }
+}
+

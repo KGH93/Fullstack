@@ -30,7 +30,7 @@ public class Reservation {
         return seatName;
     }
 
-     private static final File file = new File("D:\\junsuk\\reservation.txt");
+     private static final File file = new File("D:\\KGH\\\\vscodejava\\\\Hello\\\\src\\\\a0403\\\\movieEx\\\\reservation.txt");
     public Reservation(long id, long movieId, String movieTitle, String seatName) {
         this.id = id;
         this.movieId = movieId;

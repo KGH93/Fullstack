@@ -35,7 +35,7 @@ drop table memer; -> 테이블 삭제
 // 테이블의 카테고리 8개 생성  //not null 빈칸이면 안되는거 // null null값으로 대체가능
 
 create table member(  //member =테이블이름
-mem_id char(8) not null primary key,  //primary key 필수 //테이블 정의의 처음에 위치할 필요x테이블의 마지막 부분에 정의가능
+mem_id char(8) not null primary key,  //primary key(유일키) 필수 //테이블 정의의 처음에 위치할 필요x테이블의 마지막 부분에 정의가능
 mem_name varchar(8) not null,    
 mem_number tinyint not null,
 addr char(2) not null,
@@ -56,10 +56,10 @@ alter table member add xxx type;   -> 맨뒤에 필드추가  ex )name char(20)
 alter table member drop xxx;  ->  필드삭제 - xxx라는 필드삭제
 alter table member add xxx after www;   ->  www라는 필드 뒤에 순서로 추가
 alter table member change aaa bbb type;  -> aaa ->bbb 로 필드명수정,뒤의타입은 유지
-alter table member modify aaa type; -> 필드의 데이터타입 수정 ex)aaa int; aaa의 타입 int값으로 변환
+alter table member modify aaa type null; -> 필드의 데이터타입 수정 ex)aaa int; aaa의 타입 int값으로 변환
 
 
-select * from xxx;   -> 테이블 내용 (xxx)검색
+select * from xxx;   -> 테이블(xxx) 내용 검색
 rename table aaa to bbb -> 테이블이름 변경 aaa->bbb
 select id, name from xxx;  -> 테이블xxx의 멤버 id랑 name만 검색
 
@@ -81,3 +81,87 @@ insert into buy values(null, 'BLK','맥북프로','디지털',1000,1);
 INSERT INTO buy VALUES( NULL, 'APN', '아이폰', '디지털', 200, 1);  //오류 apn이없음.
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+mysql> create table friend(
+    -> num int not null auto_increment,
+    -> name char(20) not null,
+    -> tal char(20) not null,
+    -> address char(80),
+    -> primary key(num)
+    -> );
+
+추가 예시
+insert into friend (name,tel,address) values ('송예진', '031-123-4567', '경기도 용인시 주시구 정평로 30');  //네임텔어드레스 지정해서 3개값만입력
+insert into friend values(null,'김수정', '034-333-4444', '양지군 지평면 묵방길 123번지');  //지정값이없어 not null전부입력
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+1. 여성 회원의 아이디, 이름 ,주소 , 성별 검색  //조건1 여성
+select id,name,address, gender from member where gender = 'W';   // 조건걸떄 where
+2. 50세 이상인 남성 회원의 이름 , 전화번호 , 성별 ,나이 검색  //조건2 남성, 50세이상
+select name,tel,gender,age from member where gender = 'M' and age >=50; //조건두개걸때 사이에 and
+3. 20대 회원의 이름,성별,주소,나이 검색
+select name,gender,address,age from member where age >19 and age<30;
+4. 30대또는 50대 남성 회원의 이름, 전화번호,나이,성별 검색
+ select name,tel,age,gender from member where gender = 'M' and ((age >29 and age <40) or (age >49 and age <60));
+5. 이름이 '안철영'인 회원의 일련번호,이름,전화번호,주소,우편번호,나이,성별 검색
+mysql> select num, name, tel, address, post_num, age, gender from member where name = '안철영';
+6. 성이 박씨인 회원의 이름, 전화번호 검색
+select name, tel from member where name like '박%';
+7. 서울에 거주하는 회원의 일련번호, 이름, 주소, 성별 검색 //서울로 시작 서울%
+select num,name,address,gender from member where address like '서울%';
+8, 은평구에 거주하는 회원의 모든 정보 검색  // %은평구% 은평구라는 단어를 포함한전부
+ select * from member where address like '%은평구%';
+9. 성이 김씨이고 광주에 거주하는 회원의 모든 정보 검색
+select * from member where address like '광주%' and name like '김%';
+
+//////////////////////////////////
+select 출력시 조건 걸떄 where 사용
+조건을 두개 걸땐 조건사이에 and 사용
+조건에 또는이 붙을때  or 사용 , 조건에 괄호필수 
+단어로 조건걸때  %사용 
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+레코드 정렬
+select 필드명1, 필드명2 from 테이블명 order by 정렬중심인 필드명;
+
+10. 서울에 사는 회원을 나이순으로 오름차순 정렬한 뒤 이름,나이,주소,전화번호,성별 출력
+select name, age, address, tel, gender from member where address like '서울%' order by age;
+11. 부산에 사는 회원을 나이순으로 내림차순 정렬한 뒤 이름,나이,주소 ,전화번호 출력
+select name, age, address ,tel from member where address like '부산%' order by age desc;
+
+ascending- 오름차순 -생력가능
+desc - descending - 내림차순
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-레코드 수정
+update 테이블명 set 필드명=필드값 where 조건식;
+
+12. 이름이 '고재진' 레코드의 전화번호를 123-4567로 변경
+update member set tel='123-4567' where name = '고재진';
+select name, tel from member where name = "고재진";
+13. 이름이 '정한나'인 회원의 나이를 확인하고 값을 37로 변경
+select name,age from member where name = "정한나";
+update member set age=37 where name = "정한나";
+select name,age from member where name = "정한나";
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+레코드 삭제
+delete from 테이블명 where 조건식
+
+14. 이름이 '김수련'인 레코드를 삭제 한 뒤 확인
+select name from member where name = '김수련';
+delete from member where name = '김수련';
+select name from member where name like '김%';
+15. 40대 회원의 레코드를 삭제 한뒤 35~53세 회원의 이름,나이,성별을 나이순을 출력하여 확인
+delete from member where ( age >39 and age <50);
+select name,age,gender from member where age>34 and age<54 order by age;
+
+delete from member;
+member 테이블의 전체 레코드를 삭제
+
+조건식을 생략하고 delete form 명령어를 실행하면 member 테이블의 전체 레코드를 삭제 할 수있으니 주의바람
