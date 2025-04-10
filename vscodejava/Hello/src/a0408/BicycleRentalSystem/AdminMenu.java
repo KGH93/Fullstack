@@ -16,21 +16,42 @@ class AdminMenu extends AbstractMenu{
     @Override //어드민 오버라이드
     public Menu next() {
         switch (scan.nextLine()) {
-            case "1"://등록
-                
-                break;
-            case "2"://목록
-                
-                break;
-            case "3"://삭제
-                
-                break;
-            case "q"://종료
-                
-                break;
+            case "1"://자전거 목록
+                ListupBicycle();
+                return this;
+            case "2"://자전거 등록
+                addBicycle();
+                return this;
+            case "3"://자전거 삭제
+                dropBicycle();
+            case "q"://관리자 메뉴 종료
+                return prevMenu;  //이전 메뉴 이동
             default:
                 System.out.println("잘못입력하셨습니다. 다시입력해주세요.");
-                break;
+                return this;
         }
     }
+
+
+    
+    //자전거 목록 메서드
+    private void ListupBicycle() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'ListupBicycle'");
+    }
+
+    //자전거 등록 메서드
+    private void addBicycle() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'addBicycle'");
+    }
+
+
+     
+    //자전거 삭제 메서드
+    private void dropBicycle() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'dropBicycle'");
+    }
+
 }
