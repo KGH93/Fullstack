@@ -1,7 +1,7 @@
 package a0408.BicycleRentalSystem;
 
 import java.util.Scanner;
-
+//부모 클래스
 abstract class AbstractMenu implements Menu{
     protected static final Scanner scan = new Scanner(System.in);
     
