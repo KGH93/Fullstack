@@ -24,17 +24,15 @@ public class Rental {
     }
 
 
-
-
-    public String getnumId() {
+    public String getPhone() {
         return phone;
     }
 
 
 
 
-    public void setnumId(String userId) {
-        this.phone = userId;
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
 

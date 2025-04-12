@@ -119,11 +119,13 @@ class MainMenu extends AbstractMenu{
             }
             System.out.println("대여 가능한 자전거 목록: ");
             int availableCount = 0;
-
-            for ( int i = 0; i < bicycles.size(); i++ ){
-                if(bicycles.get(i).getStatus() == BicycleStatus.AVAILABLE){
-                    System.out.printf("%d: %s\n", i + 1, bicycles.get(i));
+            List<Bicycle> availableBicycles = new ArrayList<>();
+            
+            for (Bicycle b : bicycles){
+                if(b.getStatus() == BicycleStatus.AVAILABLE){
                     availableCount++;
+                    availableBicycles.add(b); // 대여 가능한 자전거를 목록에 추가
+                    System.out.printf("%d: %s\n", availableCount, b); // 목록 번호와 자전거 정보 출력
                 }
             }
 
@@ -132,15 +134,16 @@ class MainMenu extends AbstractMenu{
                 return;
             }
 
-            System.out.println("대여 할 자전거 번호를 입력하세요 : ");
+            System.out.println("대여 할 자전거 번호를 입력하세요(앞에 숫자) : ");
             int index = Integer.parseInt(scan.nextLine()) - 1;
 
-            if(index < 0 || index >= bicycles.size()){
-                System.out.println("잘못된 번호입니다. 다시 입력해주세요.");
+            if(index < 0 || index >= availableBicycles.size()){
+                System.out.println("잘못된 번호입니다. 목록에 표시된 번호를 다시 입력해주세요.");
                 return;
             }
             
-            Bicycle selectBicycle = bicycles.get(index);
+            Bicycle selectBicycle = availableBicycles.get(index);
+            System.out.println("대여 시간을 입력하세요(시간):");
             int rentalTimes = Integer.parseInt(scan.nextLine());
             Rental rental = new Rental(phone, selectBicycle.getId(), rentalTimes);
             rentals.add(rental);
@@ -165,18 +168,43 @@ class MainMenu extends AbstractMenu{
             return;
         }
 
-        System.out.println("반납할 자전거 번호를 입력하세요:");
-        String bicycleId = scan.nextLine();
-        boolean returned = false;
+        List<Rental> userRentals = new ArrayList<>();
+        for (Rental rental : rentals) {
+            if (rental.getPhone().equals(phone)) {
+                userRentals.add(rental);
+            }
+        }
+    
+        if (userRentals.isEmpty()) {
+            System.out.println("해당 전화번호로 대여한 자전거가 없습니다.");
+            return;
+        }
+
+        System.out.println("반납할 자전거를 선택하세요:");
+        for (int i = 0; i < userRentals.size(); i++) {
+            Rental rental = userRentals.get(i);
+            System.out.printf("%d: 자전거 번호 %s\n", i + 1, rental.getBicycleId());
+        }
+        System.out.println("반납할 자전거 번호를 입력하세요:(앞에 숫자)");
+        int index = Integer.parseInt(scan.nextLine()) - 1;
+
+        if (index < 0 || index >= userRentals.size()) {
+            System.out.println("잘못된 번호입니다. 목록에 표시된 번호를 다시 입력해주세요.");
+            return;
+        }
+
+        Rental selectedRental = userRentals.get(index);
+        String bicycleId = selectedRental.getBicycleId();
 
         for (Bicycle b : bicycles) {
             if (b.getId().equals(bicycleId)) {
-                returned = true;
                 if (b.getStatus() == BicycleStatus.RENTED) {
                     b.setStatus(BicycleStatus.AVAILABLE);
                     try {
                         b.updateData();
                         System.out.println("자전거가 정상적으로 반납되었습니다.");
+                        // 반납 후 rentals 목록에서 해당 rental 제거
+                        rentals.remove(selectedRental);
                     } catch (IOException e) {
                         System.err.println("자전거 데이터 업데이트 중 오류 발생");
                         System.out.println("자전거 반납에 실패했습니다.");
@@ -187,11 +215,9 @@ class MainMenu extends AbstractMenu{
                 return;
             }
         }
-
-        if (!returned) {
-            System.out.println("입력하신 번호의 자전거를 찾을 수 없습니다.");
-        }   
+        System.out.println("입력하신 번호의 자전거를 찾을 수 없습니다.");
     }
+    
     
 
         //자전거 신고 메서드
@@ -203,6 +229,7 @@ class MainMenu extends AbstractMenu{
             return;
         }
 
+        
         System.out.println("고장 신고할 자전거 번호를 입력하세요:");
         String bicycleId = scan.nextLine();
 
