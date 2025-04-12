@@ -1,7 +1,7 @@
 package a0408.BicycleRentalSystem;
 
 public class Rental {
-    private String userId;  //대여유저ID
+    private String phone;  //대여유저ID// 전화번호4자리로
     private String bicycleId;  //대여자전거ID
     private int rentalTimes;  //대여시간
     private int payment; //결제 금액
@@ -9,8 +9,8 @@ public class Rental {
 
 
 
-    public Rental(String userId, String bicycleId, int rentalTimes, int payment) {
-        this.userId = userId;
+    public Rental(String phone, String bicycleId, int rentalTimes) {
+        this.phone = phone;
         this.bicycleId = bicycleId;
         this.rentalTimes = rentalTimes;
         this.payment = rentPayment(rentalTimes);
@@ -26,15 +26,15 @@ public class Rental {
 
 
 
-    public String getUserId() {
-        return userId;
+    public String getnumId() {
+        return phone;
     }
 
 
 
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setnumId(String userId) {
+        this.phone = userId;
     }
 
 
@@ -84,7 +84,7 @@ public class Rental {
 
     @Override
     public String toString() {
-        return "대여ID: " + userId + ", 대여자전거ID: " + bicycleId + ", 대여시간: " + rentalTimes + ", 요금: "
+        return "대여전화번호: " + phone + ", 대여자전거ID: " + bicycleId + ", 대여시간: " + rentalTimes + ", 요금: "
                 + payment + "]";
     }
 }

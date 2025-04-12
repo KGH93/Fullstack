@@ -15,7 +15,7 @@ class Bicycle {
 
     
 
-    private static final File file = new File("d:\\\\KGH\\\\vscodejava\\\\Hello\\\\src\\\\a0408\\\\BicycleRentalSystem\\\\bicycles.txt");
+    private static final File file = new File("hello\\src\\a0408\\BicycleRentalSystem\\bicycles.txt");
     private static List<Bicycle> bicycles = new ArrayList<>();
     
     public Bicycle(String id, BicycleStatus status) {
@@ -61,20 +61,28 @@ class Bicycle {
            
         };
         br.close();
-        System.out.println("로드된 자전거 목록: " +bicycles+"\n");
         return bicycles;
     }
 
     //수정된 데이터 업데이트하는 메서드    
-    public static void updateData() throws IOException{
-        BufferedWriter  bw = new BufferedWriter(new FileWriter(file));
-        for (Bicycle b : bicycles){
-            bw.write(b.getId()+","+b.getStatus());
-            bw.newLine();
+    public void updateData() throws IOException {
+        BufferedWriter bw = null;
+        try {
+            bw = new BufferedWriter(new FileWriter(file));
+            for (Bicycle b : Bicycle.bicycles) {
+                bw.write(b.getId() + "," + b.getStatus());
+                bw.newLine();
+            }
+        } finally {
+            try {
+                if (bw != null) {
+                    bw.close();
+                }
+            } catch (IOException e) {
+                System.err.println("BufferedWriter 닫기 중 오류 발생");
+            }
         }
-        bw.close();
-    }   
-
+    }
   
     //자전거 대여 메서드
     public void rent() {
@@ -93,25 +101,23 @@ class Bicycle {
 
 
     //자전거 파일에 추가 등록하는 메서드
-    public static boolean add(Bicycle newbicycle) {
+    public static boolean add(Bicycle newbicycle) throws IOException {
         for (Bicycle b : bicycles) {
             if (b.getId().equals(newbicycle.getId())) {
                 System.out.println("이미 등록된 자전거 ID입니다.");
                 return false;
             }
         }
-        bicycles.add(newbicycle);
-        try {
-            updateData();
-        } catch (IOException e) {
-            System.out.println("업데이트중 오류 발생했습니다.");
-        }
+        BufferedWriter bw = new BufferedWriter(new FileWriter(file, true)); // append 모드로 파일 열기
+        bw.write(newbicycle.getId() + "," + newbicycle.getStatus());
+        bw.newLine();
+        bw.close();
         return true;
     }
 
 
     //자전거 파일에서 삭제하는 메서드
-    public static boolean delete(String deletebicycle) {
+    public boolean delete(String deletebicycle) {
         for (Bicycle b : bicycles) {
             if (b.getId().equals(deletebicycle)) {
                 bicycles.remove(b);

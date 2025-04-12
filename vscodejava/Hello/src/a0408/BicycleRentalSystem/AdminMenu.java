@@ -1,9 +1,13 @@
 package a0408.BicycleRentalSystem;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 class AdminMenu extends AbstractMenu{
     private static final AdminMenu instance = new AdminMenu(null);
+    private static List<Bicycle> bicycles = new ArrayList<>();
+
     private static final String ADMENU_TEXT =
         "1. 자전거 목록\n"+
         "2. 자전거 등록\n"+
@@ -13,6 +17,11 @@ class AdminMenu extends AbstractMenu{
 
     private AdminMenu(Menu prevMenu){
         super(ADMENU_TEXT, prevMenu);
+        try {
+            bicycles = Bicycle.findAll(); // bicycles 리스트 초기화
+        } catch (IOException e) {
+            System.out.println("자전거 목록을 불러오는 중 오류 발생");
+        }
     }
 
     public static AdminMenu getInstance(){
@@ -23,13 +32,14 @@ class AdminMenu extends AbstractMenu{
     public Menu next() {
         switch (scan.nextLine()) {
             case "1"://자전거 목록
-                ListupBicycle();
+                ListBicycle();
                 return this;
             case "2"://자전거 등록
                 addBicycle();
                 return this;
             case "3"://자전거 삭제
                 deleteBicycle();
+                return this;
             case "q"://관리자 메뉴 종료
                 return prevMenu;  //이전 메뉴 이동
             default:
@@ -41,7 +51,7 @@ class AdminMenu extends AbstractMenu{
 
     
     //자전거 목록 메서드
-    private void ListupBicycle() {
+    private void ListBicycle() {
         try {
             List<Bicycle> bicycles = Bicycle.findAll();
             System.out.println("자전거 목록");
@@ -49,8 +59,8 @@ class AdminMenu extends AbstractMenu{
                 System.out.println("등록된 자전거가 아닙니다.");
                 return;
             }
-            for (int i=0; i<bicycles.size(); i++){
-                System.out.println(bicycles.get(i)+ " 자전거 입니다.");
+            for (Bicycle bicycle : bicycles) {
+                System.out.println(bicycle); // 각 자전거 정보를 한 줄씩 출력
             }
         } catch (Exception e) {
             System.out.println("조회 실패했습니다.");
@@ -60,17 +70,21 @@ class AdminMenu extends AbstractMenu{
     //자전거 등록 메서드
     private void addBicycle() {
         try {
-            System.out.print("등록할 자전거 ID를 입력하세요 (B+숫자5자리):");
+            System.out.println("등록할 자전거 ID를 입력하세요 (숫자5자리):");
             String id = scan.nextLine();
-            if(id.length()!=6){
+            if (id.length() != 5) {
                 System.out.println("잘못된 ID형식입니다. 다시 입력해주세요.");
                 return;
             }
-            Bicycle newbicycle = new Bicycle(id, BicycleStatus.AVAILABLE); //새 자전거 만들기
-            Bicycle.add(newbicycle);
-            System.out.println("신규 자전거 등록 완료");
-        } catch (Exception e) {
-            System.out.println("신규 자전거 등록 실패");
+            Bicycle newbicycle = new Bicycle(id, BicycleStatus.AVAILABLE);
+            if (Bicycle.add(newbicycle)) {
+                System.out.println("신규 자전거 등록 완료");
+                bicycles.add(newbicycle); // bicycles 리스트에 추가
+            } else {
+                System.out.println("자전거 등록 실패"); // 실패 메시지 추가
+            }
+        } catch (IOException e) {
+            System.out.println("신규 자전거 등록 실패: " + e.getMessage());
         }
     }
 
@@ -80,24 +94,31 @@ class AdminMenu extends AbstractMenu{
     private void deleteBicycle() {
         try {
             List<Bicycle> bicycles = Bicycle.findAll();
-            System.out.print("삭제할 자전거 ID를 입력하세요: (B+숫자5자리)");
-            if(bicycles.isEmpty()){
-                System.out.println("입력된 자전거ID는 존재하지 않습니다.");
+            if (bicycles.isEmpty()) {
+                System.out.println("등록된 자전거가 없습니다.");
                 return;
             }
-            for(int i = 0; i < bicycles.size(); i++){
-                System.out.println(bicycles.get(i)+"자전거 입니다.");
-            }
-            int index = Integer.parseInt(scan.nextLine()) - 1;
-            if(index < 0 || index >= bicycles.size()){
-                System.out.println("잘못 입력하셨습니다.");
+
+            System.out.println("삭제할 자전거 ID를 입력하세요 (숫자5자리)");
+            String idToDelete = scan.nextLine();
+
+            if (idToDelete.length() != 5) {
+                System.out.println("잘못된 입력입니다. 5자리 숫자를 입력해주세요.");
                 return;
             }
-            Bicycle.delete(bicycles.get(index).getId()); //자전거 삭제
-            System.out.println("자전거 삭제 완료");
-        } catch (Exception e) {
+
+            for (Bicycle b : bicycles) {
+                if (b.getId().equals(idToDelete)) {
+                    bicycles.remove(b); // bicycles 리스트에서 삭제
+                    b.updateData(); // 변경된 데이터 파일에 저장
+                    System.out.println("자전거가 삭제되었습니다.");
+                    return;
+                }
+            }
             System.out.println("삭제 실패");
+        } catch (IOException e) {
+            System.err.println("오류 발생");
         }
-    }
+    }   
 
 }
