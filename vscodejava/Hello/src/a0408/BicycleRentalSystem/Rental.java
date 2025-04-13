@@ -1,5 +1,14 @@
 package a0408.BicycleRentalSystem;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 public class Rental {
     private String phone;  //대여유저ID// 전화번호4자리로
     private String bicycleId;  //대여자전거ID
@@ -8,8 +17,17 @@ public class Rental {
 
 
 
+    private static final File file = new File("hello\\src\\a0408\\BicycleRentalSystem\\rentals.txt");
 
-    public Rental(String phone, String bicycleId, int rentalTimes) {
+
+    public Rental(String phone, String bicycleId, int rentalTimes, int payment) {
+        this.phone = phone;
+        this.bicycleId = bicycleId;
+        this.rentalTimes = rentalTimes;
+        this.payment = payment;
+    }
+
+    public Rental(String phone, String bicycleId, int rentalTimes) {  //계산용
         this.phone = phone;
         this.bicycleId = bicycleId;
         this.rentalTimes = rentalTimes;
@@ -85,4 +103,45 @@ public class Rental {
         return "대여전화번호: " + phone + ", 대여자전거ID: " + bicycleId + ", 대여시간: " + rentalTimes + ", 요금: "
                 + payment + "]";
     }
+
+
+
+    public static List<Rental> findAll() throws IOException {
+        List<Rental> list = new ArrayList<>();
+        BufferedReader br = new BufferedReader(new FileReader(file));
+        String line;
+        while ((line = br.readLine()) != null) {
+            if (line.trim().isEmpty()) continue;
+            String[] temp = line.split(",");
+            if (temp.length != 4) continue;
+            try {
+                Rental r = new Rental(temp[0].trim(),
+                temp[1].trim(),
+                Integer.parseInt(temp[2].trim()),
+                Integer.parseInt(temp[3].trim()));
+                list.add(r);
+            } catch (NumberFormatException e) {
+                System.out.println("잘못된 렌탈 정보");
+            }
+        }
+        br.close();
+        return list;
+    }
+
+
+    public static void saveAll(List<Rental> rentals) throws IOException {
+        BufferedWriter bw = new BufferedWriter(new FileWriter(file));
+        for (Rental r : rentals) {
+            bw.write(r.toDataString());
+            bw.newLine();
+        }
+        bw.close();
+    }
+
+
+
+    public String toDataString() {
+        return phone + "," + bicycleId + "," + rentalTimes + "," + payment;
+    }
+
 }

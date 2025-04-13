@@ -27,6 +27,7 @@ class MainMenu extends AbstractMenu{
          super(Main_Text, preMenu);
     try {
         bicycles = Bicycle.findAll(); // 자전거 목록 초기화
+        rentals = Rental.findAll(); // 대여 목록 초기화
     } catch (IOException e) {
         System.out.println("자전거 데이터를 불러오는 중 오류 발생: " + e.getMessage());
     }
@@ -96,11 +97,13 @@ class MainMenu extends AbstractMenu{
             }
         }
 
+        System.out.println("--------------------------------------------------------------");
         System.out.println("총 자전거 수 : " + total + "대");
         System.out.println("대여 가능 자전거 수 : " + availableCount + "대");
         System.out.println("대여 중 자전거 수 : " + rentalCount + "대");
         System.out.println("고장 : " + brokenCount + "대");
-        System.out.println();
+        System.out.println("--------------------------------------------------------------");
+
 
     }
 
@@ -148,12 +151,20 @@ class MainMenu extends AbstractMenu{
             Rental rental = new Rental(phone, selectBicycle.getId(), rentalTimes);
             rentals.add(rental);
             selectBicycle.rent();
-            selectBicycle.updateData();
+            try {
+                Rental.saveAll(rentals);
+            } catch (IOException e) {
+                System.out.println("렌탈 정보 저장 실패");
+            }
+            System.out.println("총 결제 금액: " + rental.getPayment() + "원");
+            selectBicycle.updateData(); 
             System.out.println("대여 완료 했습니다.");
+            System.out.println("--------------------------------------------------------------");
         } catch (NumberFormatException e) {
             System.out.println("잘못된 입력입니다. 숫자를 입력해주세요.");
         }catch (Exception e) {
             System.out.println("대여 실패 했습니다 ");
+            System.out.println("--------------------------------------------------------------");
         } 
     }
 
@@ -162,7 +173,7 @@ class MainMenu extends AbstractMenu{
         //자전거 반납 메서드
     private void returnBicycle() {
         System.out.print("전화번호 뒷자리: ");
-        String phone = scan.nextLine();
+        String phone = scan.nextLine().trim();
         if (phone == null || phone.length() != 4) {
             System.out.println("잘못된 전화번호 형식입니다.");
             return;
@@ -170,7 +181,7 @@ class MainMenu extends AbstractMenu{
 
         List<Rental> userRentals = new ArrayList<>();
         for (Rental rental : rentals) {
-            if (rental.getPhone().equals(phone)) {
+            if (rental.getPhone().trim().equals(phone)) {
                 userRentals.add(rental);
             }
         }
@@ -205,6 +216,7 @@ class MainMenu extends AbstractMenu{
                         System.out.println("자전거가 정상적으로 반납되었습니다.");
                         // 반납 후 rentals 목록에서 해당 rental 제거
                         rentals.remove(selectedRental);
+                        Rental.saveAll(rentals);
                     } catch (IOException e) {
                         System.err.println("자전거 데이터 업데이트 중 오류 발생");
                         System.out.println("자전거 반납에 실패했습니다.");
