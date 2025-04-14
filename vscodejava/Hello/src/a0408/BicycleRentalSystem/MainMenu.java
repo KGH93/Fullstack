@@ -172,6 +172,19 @@ class MainMenu extends AbstractMenu{
 
         //자전거 반납 메서드
     private void returnBicycle() {
+
+
+    // rentals 리스트 초기화
+    if (rentals == null || rentals.isEmpty()) {
+        try {
+            rentals = Rental.findAll();
+        } catch (IOException e) {
+            System.err.println("렌탈 데이터 로드 중 오류 발생: " + e.getMessage());
+            return;
+        }
+
+
+
         System.out.print("전화번호 뒷자리: ");
         String phone = scan.nextLine().trim();
         if (phone == null || phone.length() != 4) {
@@ -227,6 +240,7 @@ class MainMenu extends AbstractMenu{
                 return;
             }
         }
+    }
         System.out.println("입력하신 번호의 자전거를 찾을 수 없습니다.");
     }
     

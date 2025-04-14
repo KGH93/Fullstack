@@ -17,7 +17,7 @@ public class Rental {
 
 
 
-    private static final File file = new File("hello\\src\\a0408\\BicycleRentalSystem\\rentals.txt");
+    private static final File file = new File("d:\\\\KGH\\\\vscodejava\\\\hello\\\\src\\\\a0408\\\\BicycleRentalSystem\\rentals.txt");
 
 
     public Rental(String phone, String bicycleId, int rentalTimes, int payment) {

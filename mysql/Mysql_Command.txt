@@ -1,0 +1,40 @@
+// 데이터베이스 안에 테이블들이 있다. 매우중요...
+
+접속				cd mysql\bin 경로로 이동 후
+				mysql -uroot -p
+
+데이터베이스 생성			create database ~;
+데이터베이스 지우기		drop database ~;
+데이터베이스 선택			use ~
+데이터베이스 보기			show databases;
+
+테이블 보기			show tables;
+테이블 구조 보기			desc ~;
+테이블 내용 전체 보기		select * from ~;
+테이블 내용 골라서 보기		select id,author,profile from ~;
+테이블 내용 골라서 보기2		select id,author,profile from ~ where ~='~';
+테이블 내용 지우기			delete from ~ where id=~;
+테이블에 데이터 삽입(CREATE)	insert into topic (title, description,created,author,profile)
+					  values('MySQL','MySQL is ...',NOW(),'ZeroAct','23y male');
+테이블 만들기(예시)		create table topic(
+   				id INT(11) not NULL auto_increment,
+ 				title VARCHAR(100) not NULL,
+   				description TEXT NULL,
+   				created DATETIME not NULL,
+  				author VARCHAR(30) NULL,
+   				profile VARCHAR(100) NULL,
+  				PRIMARY KEY(id)); // 프라이머리키 수정불가 중복불가
+테이블 데이터 수정			update ~ set 바꿀컬럼='바꿀내용',바꿀컬럼='바꿀내용' where id=~;
+						      몇개가 오든 상관X	       꼭 id아니여도댐
+									근데 where 빼먹으면 ㄹㅇ 대참사가 일어남
+테이블 데이터 삭제			delete from ~ where id=~; // 지우기도 where 빼먹으면 인생 망함
+
+
+
+
+
+
+
+
+데이터타입 참고
+https://www.techonthenet.com/mysql/datatypes.php

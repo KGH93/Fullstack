@@ -15,7 +15,7 @@ class Bicycle {
 
     
 
-    private static final File file = new File("hello\\src\\a0408\\BicycleRentalSystem\\bicycles.txt");
+    private static final File file = new File("d:\\KGH\\vscodejava\\hello\\src\\a0408\\BicycleRentalSystem\\bicycles.txt");
     private static List<Bicycle> bicycles = new ArrayList<>();
     
     public Bicycle(String id, BicycleStatus status) {

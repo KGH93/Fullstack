@@ -836,3 +836,355 @@ grouping 사용
 SELECT 도시
        ,group_concat(고객회사명) AS 고객회사명목록 
        FROM 한빛무역.고객 group by 도시 ;
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+조인
+
+조인(join)은 두개 이상의 테이블을 연결하여 데이터를 검색하는 방법으로 서로 다른 테이블에서
+저장된 관련된 데이터를 함께 가져와 하나의 결과로 표시. 검색하고 싶은 
+서로다른 테이블에 있을 때 사용 할 수 있으며, 여러개의 테이블을 하나의 테이블인것처럼 쓸 수 있다.
+
+EX // 테이블에 조인기능사용해보기
+
+//테이블 4개 삽입하고 조인기능 사용해보기
+
+
+CREATE TABLE celeb (
+    ID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    NAME VARCHAR(32) NOT NULL,
+    BIRTHDAY DATE DEFAULT NULL,
+    AGE INT DEFAULT NULL,
+    SEX CHAR(1) DEFAULT NULL,
+    JOB_TITLE VARCHAR(32) DEFAULT NULL,
+    AGENCY VARCHAR(32) DEFAULT NULL
+);
+
+-- 데이터 삽입
+INSERT INTO celeb (NAME, BIRTHDAY, AGE, SEX, JOB_TITLE, AGENCY) VALUES
+('아이유', '1993-05-16', 29, 'F', '가수, 텔런트', 'EDAM엔터테이먼트'),
+('이미주', '1994-09-23', 28, 'F', '가수', '울림엔터테이먼트'),
+('송강',   '1994-04-23', 28, 'M', '텔런트', '나무엑터스'),
+('강동원', '1981-01-18', 41, 'M', '영화배우, 텔런트', 'YG엔터테이먼트'),
+('유재석', '1972-08-14', 50, 'M', 'MC, 개그맨', '안테나'),
+('차승원', '1970-06-07', 48, 'M', '영화배우, 모델', 'YG엔터테이먼트'),
+('이수현', '1999-05-04', 23, 'F', '가수', 'YG엔터테이먼트');
+
+# member 테이블 구성
+DROP TABLE IF EXISTS member;  -- 기존에 있으면 삭제
+CREATE TABLE member -- 회원 테이블
+( mem_id        CHAR(8) NOT NULL PRIMARY KEY,   # primary key로 설정
+  mem_name      VARCHAR(10) NOT NULL, 
+  mem_number    TINYINT NOT NULL, 
+  addr          CHAR(2) NOT NULL,
+  phone1        CHAR(3) NULL,
+  phone2        CHAR(8) NULL,
+  height        TINYINT UNSIGNED NULL, 
+  debut_date    DATE NULL
+);
+
+# buy 테이블 구성
+DROP TABLE IF EXISTS buy;  -- 기존에 있으면 삭제
+CREATE TABLE buy 
+(  num         INT AUTO_INCREMENT NOT NULL PRIMARY KEY, -- AUTO_INCREMENT를 통해 자동부여하고, 순번(PK)
+   mem_id      CHAR(8) NOT NULL,  -- 아이디(FK)
+   prod_name     CHAR(6) NOT NULL,  --  제품이름
+   group_name     CHAR(4) NULL , -- 분류
+   price         INT UNSIGNED NOT NULL, -- 가격
+   amount        SMALLINT UNSIGNED  NOT NULL, -- 수량
+   FOREIGN KEY(mem_id) REFERENCES member(mem_id)   # 위의 member테이블에서 mem_id와 엮어서 Foreign key 생성
+);
+
+
+# 구성한 각 테이블에 정보 주입
+-- member tabel
+INSERT INTO member VALUES('TWC', '트와이스', 9, '서울', '02', '11111111', 167, '2015-10-19');
+INSERT INTO member VALUES('BLK', '블랙핑크', 4, '경남', '055', '22222222', 163, '2016-8-8');
+INSERT INTO member VALUES('WMN', '여자친구', 6, '경기', '031', '33333333', 166, '2015-1-15');
+-- buy table
+INSERT INTO buy VALUES( NULL, 'BLK', '지갑', NULL, 30, 2);
+INSERT INTO buy VALUES( NULL, 'BLK', '맥북프로', '디지털', 1000, 1);
+INSERT INTO buy VALUES( NULL, 'APN', '아이폰', '디지털', 200, 1);
+
+
+-- 테이블 생성
+CREATE TABLE snl_show (
+    ID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    SEASON INT NOT NULL,
+    EPISODE INT NOT NULL,
+    BROADCAST_DATE DATE DEFAULT NULL,
+    HOST VARCHAR(32) NOT NULL
+);
+
+-- 데이터 삽입
+INSERT INTO snl_show (SEASON, EPISODE, BROADCAST_DATE, HOST) VALUES
+(8, 7, '2020-09-05', '강동원'),
+(8, 8, '2020-09-12', '유재석'),
+(8, 9, '2020-09-19', '차승원'),
+(8, 10, '2020-09-26', '이수현'),
+(9, 1, '2021-09-04', '이병헌'),
+(9, 2, '2021-09-11', '하지원'),
+(9, 3, '2021-09-18', '제시'),
+(9, 4, '2021-09-25', '조정석'),
+(9, 5, '2021-10-02', '조여정'),
+(9, 6, '2021-10-09', '옥주현');
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+1. [Inner Join] - 두 테이블에서 공통된 요소들을 통해 결합하는 조인 방식
+
+ex) 셀럽을 기준으로 snl출현한 호스트 출력하기 //셀럽 id , 이름 , snl쇼 id, 호스트 출력하기// inner join 하여 각 테이블에서 필요한부분을 조회
+
+SELECT celeb.id, celeb.name, snl_show.id, snl_show.host
+from celeb
+inner join snl_show
+on celeb.name = snl_show.host
+
+// snl에 출현한 셀럽들만 출력
+
+
+
+2. [Self Join]  - inner join과 유사하고 table 간의 공통된 데이터를 조회하며 가장 자주 쓰는 join방법이다.
+
+ex) 셀럽을 기준으로 snl출현한 호스트 출력하기 //셀럽 id , 이름 , snl쇼 id, 호스트 출력하기// self join 하여 각 테이블에서 필요한부분을 조회
+
+SELECT celeb.id, celeb.name, snl_show.id, snl_show.host
+from celeb, snl_show
+where celeb.name = snl_show.host
+
+// snl에 출현한 셀럽들만 출력  // inner join 생략하고 ,로 표시, on대신 where로 대체
+
+
+
+3.[Left Join] - 두 테이블에서 공통된 요소들을 통해 결합하고 Left기준 테이블 정보를 전부 출력하는 조인 방식
+
+ex) 셀럽을 기준으로 snl출현한 호스트 출력하기 //셀럽 id , 이름 , snl쇼 id, 호스트 출력하기// left join 하여 각 테이블에서 필요한부분을 조회
+
+SELECT celeb.id, celeb.name, snl_show.id, snl_show.host
+from celeb
+left join snl_show
+on celeb.name = snl_show.host
+
+// 셀럽을 기준으로한 left join, snl에 출연안한 셀럽들도 출력, host로 출력안한 셀럽들의 show id,host는 null로 표시
+
+
+
+4.[Right Join] - 두 테이블에서 공통된 요소들을 통해 결합하고 right기준 테이블 정보를 전부 출력하는 조인 방식
+
+ex) 셀럽을 기준으로 snl출현한 호스트 출력하기 //셀럽 id , 이름 , snl쇼 id, 호스트 출력하기// right join 하여 각 테이블에서 필요한부분을 조회
+
+SELECT celeb.id, celeb.name, snl_show.id, snl_show.host
+from celeb
+right join snl_show
+on celeb.name = snl_show.host
+
+// snl show을 기준으로한 right join, snl에 출연한  셀럽들 전부 출력, 셀럽에 없는 호스트들은 셀럽 id, name는 null로 표시
+
+
+
+5.[Full Other Join] - 두 테이블에서 공통된 요소들을 포함, 양쪽 테이블의 다른영억들을 전부 포함하는 조인방식
+- sql에서 full other join을 지원하지 않는다. 대신 Union을 사용해서 left  join , right join을 동시에 사용
+-[Union] - 유니온 은 두 셀렉트 값을 결합할때 사용하며 데이터타입의 대비가 다르면 사용할 수 없다.
+
+ex) 셀럽을 기준으로 snl출현한 호스트 출력하기 //셀럽 id , 이름 , snl쇼 id, 호스트 출력하기// full other join 하여 각 테이블에서 필요한부분을 조회
+
+ select celeb.id, celeb.name, snl_show.id, snl_show.host
+     from celeb
+     left join snl_show
+     on celeb.name = snl_show.host
+    union
+     select celeb.id, celeb.name, snl_show.id, snl_show.host
+     from celeb
+     right join snl_show
+    on celeb.name = snl_show.host;
+
+//두테이블의 데이터 전부 출력,  빈 데이터는 null로 표시
+
+
+/////////////////////////////////////////////////////EX ///////////////////////////////////////////////////////////////////////////
+
+1. CELEB TABLE의 셀럽중 SNL 출현했고 소속사가 안테나인 셀럽의 이름과 직업조회
+
+-LEFT JOIN(ANSI) 방식
+select celeb.name, celeb.job_title
+from celeb
+left join snl_show
+on celeb.name = snl_show.host
+where celeb.agency = '안테나';
+
+-SELF JOIN(NON -ANSI) 방식  // 이쪽을 더 자주 사용
+select celeb.name, celeb.job_title
+from celeb, snl_show
+where celeb.name = snl_show.host and celeb.agency = '안테나';
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+UNION
+
+여러 개의 sql문을 합쳐서 하나의 sql 문으로 만들어주는 방법(주의 -컬럼의 개수가 같아야함)
+
+-ex1
+
+test1, test2 table 생성
+
+
+mysql> create table test1
+    -> (
+    ->  no int
+    -> );
+
+mysql> create table test2
+    -> (
+    ->  no int
+    -> );
+
+
+test1, test2 table에 데이터 입력
+
+# test 1
+mysql> insert into test1 values (1);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into test1 values (2);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into test1 values (3);
+Query OK, 1 row affected (0.00 sec)
+
+# test2
+mysql> insert into test2 values (5);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into test2 values (6);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into test2 values (3);
+Query OK, 1 row affected (0.01 sec)
+
+
+종복된 값을 제외하고 조회
+
+ex_ test1, 2 table로 확인
+
+SELECT * FROM sample.test1
+union
+SELECT * FROM sample.test2;
+
+중복된 3은 하나만 출력, 총5개 출력됌.
+
+
+-ex2  sample data
+
+성별이 여자인 데이터를 검색하는 쿼리와 소속사가 YG엔터테이먼트인 데이터를 검색하는 쿼리를 UNION으로 실행 조회
+
+SELECT * FROM celeb where sex = 'F'
+union
+SELECT * FROM celeb where AGENCY = 'YG엔터테이먼트';
+
+// 중복빼서 5명 출력
+
+SELECT * FROM celeb where sex = 'F' or AGENCY = 'YG엔터테이먼트';
+//데이터 베이스 실제 테이블을 스캔할 떄 중복된 행을 하나만 반환할 가능성이 높음;
+SELECT distinct * FROM celeb where sex = 'F' or AGENCY = 'YG엔터테이먼트'; 
+//이게 더 정확한 방식
+
+//중복을 포함해서 출력하고 싶으면 (union all)
+
+
+
+-ex3  한빛무역 data
+
+'이소미' 사원의 사원번호, 직위, 부서번호 부서명을 보이시오
+
+사원테이블에서 부서테이블을 inner join(ansi join) 하고 , self join(non ansi join)하시오.
+
+inner join
+SELECT 사원번호,직위, 사원.부서번호, 부서명 from 한빛무역.사원 inner join 부서 on 사원.부서번호 = 부서.부서번호 WHERE 이름 = '이소미';
+SELECT 사원번호,직위, 부서.부서번호, 부서명 from 한빛무역.사원 inner join 부서 on 사원.부서번호 = 부서.부서번호 WHERE 이름 = '이소미';
+//부서번호는 둘다 있으므로 정확한 지정이 필요
+
+self join
+SELECT 사원번호,직위, 사원.부서번호, 부서명 from 한빛무역.사원 ,부서 where 사원.부서번호 = 부서.부서번호 and 이름 = '이소미';
+
+
+
+-ex4  한빛무역 data
+고객과 주문을 조인하시오
+고객회사들이 주문한 주문건수를 주문건수가 많은 순서대로 보이시오. 이때 고객회사의 정보로는 고객번호,담당자명,고객회사명을 보이시오
+
+inner join
+SELECT 고객.고객번호,담당자명,고객회사명, count(*) as 고객건수 from 한빛무역.고객 inner join 주문 on 고객.고객번호 = 주문.고객번호 group by 고객.고객번호,담당자명,고객회사명 order by count(*) desc; 
+
+self join
+SELECT 고객.고객번호,담당자명,고객회사명, count(*) as 고객건수 from 한빛무역.고객, 주문 where 고객.고객번호 = 주문.고객번호 group by 고객.고객번호,담당자명,고객회사명 order by count(*) desc; 
+
+
+
+-ex5  한빛무역 data
+고객 테이블과 마일리지 등급 조인하시오
+고객 테이블 담당자 '이은광' 인 경우 고객번호,고객회사명,담당자명,마일리지와 마일리지 등급을 보이시오
+
+innre join
+SELECT 고객번호,고객회사명,담당자명,마일리지,등급명 FROM 한빛무역.고객 INNER JOIN 마일리지등급 ON 마일리지 >= 하한마일리지 and 마일리지 <= 상한마일리지 where 담당자명 = '이은광';   //부등호 방향주의 =<는 출력안됌
+SELECT 고객번호,고객회사명,담당자명,마일리지,등급명 FROM 한빛무역.고객 INNER JOIN 마일리지등급 ON 마일리지 between 하한마일리지 and 상한마일리지 where 담당자명 = '이은광';
+
+self join
+SELECT 고객번호,고객회사명,담당자명,마일리지,등급명 FROM 한빛무역.고객,마일리지등급 where 마일리지 between 하한마일리지 and 상한마일리지 and 담당자명 = '이은광';
+
+
+
+-ex6
+
+CREATE TABLE 학생 (
+    학번 INT PRIMARY KEY,
+    이름 VARCHAR(20),
+    전공 VARCHAR(30)
+);
+
+CREATE TABLE 수강신청 (
+    신청번호 INT PRIMARY KEY AUTO_INCREMENT,
+    학번 INT,
+    과목명 VARCHAR(50),
+    성적 CHAR(2),
+    FOREIGN KEY (학번) REFERENCES 학생(학번)
+);
+
+INSERT INTO 학생 VALUES (1001, '김철수', '컴퓨터공학');
+INSERT INTO 학생 VALUES (1002, '이영희', '전자공학');
+INSERT INTO 학생 VALUES (1003, '박민수', '경영학');
+INSERT INTO 학생 VALUES (1004, '최지은', '컴퓨터공학');
+
+INSERT INTO 수강신청 (학번, 과목명, 성적) VALUES (1001, '데이터베이스', 'A+');
+INSERT INTO 수강신청 (학번, 과목명, 성적) VALUES (1001, '네트워크', 'B0');
+INSERT INTO 수강신청 (학번, 과목명, 성적) VALUES (1002, '데이터베이스', 'A0');
+INSERT INTO 수강신청 (학번, 과목명, 성적) VALUES (1004, '프로그래밍', 'B+');
+INSERT INTO 수강신청 (학번, 과목명, 성적) VALUES (1003, '경제학원론', 'A+');
+
+
+
+Inner Join 연습 문제 5개
+1. 학생 이름과 그 학생이 신청한 과목명을 모두 출력하세요.
+SELECT 이름,과목명 FROM sample.학생 inner join 수강신청 on 학생.학번 = 수강신청.학번;
+SELECT 이름,과목명 FROM sample.학생, 수강신청 where 학생.학번 = 수강신청.학번;
+2. 전공이 **'컴퓨터공학'**인 학생들의 이름과 수강한 과목명을 출력하세요.
+SELECT 이름,과목명 FROM sample.학생 inner join 수강신청 on 학생.학번 = 수강신청.학번 where 전공 = '컴퓨터공학';
+SELECT 이름,과목명 FROM sample.학생, 수강신청 where 학생.학번 = 수강신청.학번 and 전공 = '컴퓨터공학';
+3. 성적이 **'A+'**인 학생 이름과 과목명을 출력하세요.
+SELECT 이름,과목명 FROM sample.학생 inner join 수강신청 on 학생.학번 = 수강신청.학번 where 수강신청.성적 = 'A+';
+SELECT 이름,과목명 FROM sample.학생 ,수강신청 where 학생.학번 = 수강신청.학번 and 수강신청.성적 = 'A+';
+4. 학생 이름, 전공, 신청한 과목명, 성적을 전부 출력하고 성적순으로 내림차순 정렬하세요.
+SELECT 이름,전공, 과목명,성적 FROM sample.학생 inner join 수강신청 on 학생.학번 = 수강신청.학번 order by 성적;
+SELECT 이름,전공, 과목명,성적 FROM sample.학생, 수강신청 where 학생.학번 = 수강신청.학번 order by 성적;
+5. 학생 이름별 신청한 과목 수를 출력하세요. (이름, 과목 수)
+SELECT 이름,COUNT(과목명) AS "과목 수" FROM 학생 inner join 수강신청 on 학생.학번 = 수강신청.학번 group by 이름;
+SELECT 이름,COUNT(과목명) AS "과목 수" FROM 학생 ,수강신청 where 학생.학번 = 수강신청.학번 group by 이름;
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
