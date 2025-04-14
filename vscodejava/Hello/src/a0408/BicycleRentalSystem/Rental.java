@@ -17,7 +17,7 @@ public class Rental {
 
 
 
-    private static final File file = new File("d:\\\\KGH\\\\vscodejava\\\\hello\\\\src\\\\a0408\\\\BicycleRentalSystem\\rentals.txt");
+    private static final File file = new File("d:\\\\KGH\\\\vscodejava\\\\hello\\\\src\\\\a0408\\\\BicycleRentalSystem\\rentals.txt");   //대여정보 파일저장 경로
 
 
     public Rental(String phone, String bicycleId, int rentalTimes, int payment) {
@@ -27,7 +27,7 @@ public class Rental {
         this.payment = payment;
     }
 
-    public Rental(String phone, String bicycleId, int rentalTimes) {  //계산용
+    public Rental(String phone, String bicycleId, int rentalTimes) {  //계산용 생성자
         this.phone = phone;
         this.bicycleId = bicycleId;
         this.rentalTimes = rentalTimes;
@@ -105,20 +105,20 @@ public class Rental {
     }
 
 
-
+    //대여 정보를 파일에서 읽어오는 메서드
     public static List<Rental> findAll() throws IOException {
         List<Rental> list = new ArrayList<>();
         BufferedReader br = new BufferedReader(new FileReader(file));
         String line;
         while ((line = br.readLine()) != null) {
-            if (line.trim().isEmpty()) continue;
+            if (line.trim().isEmpty()) continue; //빈 줄 건너뜀
             String[] temp = line.split(",");
             if (temp.length != 4) continue;
             try {
-                Rental r = new Rental(temp[0].trim(),
-                temp[1].trim(),
-                Integer.parseInt(temp[2].trim()),
-                Integer.parseInt(temp[3].trim()));
+                Rental r = new Rental(temp[0].trim(),  //전화번호
+                temp[1].trim(),                        //자전거id
+                Integer.parseInt(temp[2].trim()),      //대여시간
+                Integer.parseInt(temp[3].trim()));     //대여금액
                 list.add(r);
             } catch (NumberFormatException e) {
                 System.out.println("잘못된 렌탈 정보");
@@ -129,6 +129,7 @@ public class Rental {
     }
 
 
+    //대여 정보 파일에 저장하는 메서드
     public static void saveAll(List<Rental> rentals) throws IOException {
         BufferedWriter bw = new BufferedWriter(new FileWriter(file));
         for (Rental r : rentals) {

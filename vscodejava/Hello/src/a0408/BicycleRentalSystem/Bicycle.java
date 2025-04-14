@@ -14,8 +14,8 @@ class Bicycle {
     private BicycleStatus status;   // 자전거 상태 (대여가능, 불가능, 고장)
 
     
-
-    private static final File file = new File("d:\\KGH\\vscodejava\\hello\\src\\a0408\\BicycleRentalSystem\\bicycles.txt");
+    
+    private static final File file = new File("d:\\KGH\\vscodejava\\hello\\src\\a0408\\BicycleRentalSystem\\bicycles.txt"); //자전거데이터 저장경로
     private static List<Bicycle> bicycles = new ArrayList<>();
     
     public Bicycle(String id, BicycleStatus status) {
@@ -41,13 +41,13 @@ class Bicycle {
     }
 
 
-    //자전거 찾는 메서드 
+    //자전거 파일에서 읽어 bicycles에 보내는 메서드 
     public static List<Bicycle> findAll() throws IOException{
         bicycles.clear();
         BufferedReader br = new BufferedReader(new FileReader(file));
         String line = null;
-        while ((line = br.readLine()) != null) {
-            String [] temp = line.split(",");
+        while ((line = br.readLine()) != null) {  //파일의 각줄 읽음
+            String [] temp = line.split(",");  //쉼표로 데이터 구분
             if(temp.length !=2){
                 continue;
             }
@@ -108,7 +108,7 @@ class Bicycle {
                 return false;
             }
         }
-        BufferedWriter bw = new BufferedWriter(new FileWriter(file, true)); // append 모드로 파일 열기
+        BufferedWriter bw = new BufferedWriter(new FileWriter(file, true)); 
         bw.write(newbicycle.getId() + "," + newbicycle.getStatus());
         bw.newLine();
         bw.close();
@@ -132,14 +132,9 @@ class Bicycle {
         System.out.println("존재하지 않는 자전거입니다.");
         return false;
     }
-
-
-
-
-    
 }
 
-// 자전거상태
+// 자전거상태 열거
 enum BicycleStatus { 
     AVAILABLE, //대여가능
     RENTED, //대여중

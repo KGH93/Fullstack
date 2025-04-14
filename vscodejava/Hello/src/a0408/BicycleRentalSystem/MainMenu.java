@@ -4,13 +4,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-
+//부모클래스 상속
 class MainMenu extends AbstractMenu{
-    private static final MainMenu instance = new MainMenu(null);
-    private List<Bicycle> bicycles = new ArrayList<>();
-    private static List<Rental> rentals = new ArrayList<>();
+    private static final MainMenu instance = new MainMenu(null); //싱글톤
+    private List<Bicycle> bicycles = new ArrayList<>();  // 자전거목록
+    private static List<Rental> rentals = new ArrayList<>();   //대여정보
 
-    public static MainMenu getInstance() {
+    public static MainMenu getInstance() { //싱글톤 인스턴스
         return instance;
     }   
     
@@ -24,12 +24,12 @@ class MainMenu extends AbstractMenu{
         "메뉴를 선택하세요 : ";
         
     private MainMenu(Menu preMenu){   //findall의 IOEXCEPTION 떄문에 TRY CATCH구문사용
-         super(Main_Text, preMenu);
+         super(Main_Text, preMenu);   //부모 생성자 호출
     try {
         bicycles = Bicycle.findAll(); // 자전거 목록 초기화
         rentals = Rental.findAll(); // 대여 목록 초기화
     } catch (IOException e) {
-        System.out.println("자전거 데이터를 불러오는 중 오류 발생: " + e.getMessage());
+        System.out.println("자전거 데이터를 불러오는 중 오류 발생");
     }
     }
 
@@ -55,8 +55,8 @@ class MainMenu extends AbstractMenu{
                     System.out.println("비밀번호가 틀렸습니다.");
                     return this;
                 }    
-                AdminMenu adminMenu = AdminMenu.getInstance();
-                adminMenu.setPrevMenu(this);
+                AdminMenu adminMenu = AdminMenu.getInstance();   //싱글톤
+                adminMenu.setPrevMenu(this);  //이전메뉴 // 관리자메뉴 나올때
                 return adminMenu;
             case "q"://종료
                 System.out.println("프로그램을 종료합니다.");
@@ -79,9 +79,9 @@ class MainMenu extends AbstractMenu{
     //대여 가능한 자전거 확인 메서드
     private void showStatus() {
         int total = bicycles.size();
-        int availableCount = 0;
-        int rentalCount = 0;
-        int brokenCount = 0;
+        int availableCount = 0;  //대여가능
+        int rentalCount = 0;     //대여중
+        int brokenCount = 0;     //고장
 
         for(Bicycle b : bicycles){
             switch (b.getStatus()) {
@@ -170,11 +170,8 @@ class MainMenu extends AbstractMenu{
 
 
 
-        //자전거 반납 메서드
+    //자전거 반납 메서드
     private void returnBicycle() {
-
-
-    // rentals 리스트 초기화
     if (rentals == null || rentals.isEmpty()) {
         try {
             rentals = Rental.findAll();
@@ -182,8 +179,6 @@ class MainMenu extends AbstractMenu{
             System.err.println("렌탈 데이터 로드 중 오류 발생: " + e.getMessage());
             return;
         }
-
-
 
         System.out.print("전화번호 뒷자리: ");
         String phone = scan.nextLine().trim();
@@ -217,7 +212,7 @@ class MainMenu extends AbstractMenu{
             return;
         }
 
-        Rental selectedRental = userRentals.get(index);
+        Rental selectedRental = userRentals.get(index);   //Rental에서 대여중인 자전거 아이디 가져옴
         String bicycleId = selectedRental.getBicycleId();
 
         for (Bicycle b : bicycles) {
@@ -246,7 +241,7 @@ class MainMenu extends AbstractMenu{
     
     
 
-        //자전거 신고 메서드
+    //자전거 신고 메서드
     private void reportBicycle() {
         System.out.print("전화번호 뒷자리: ");
         String phone = scan.nextLine();
@@ -255,7 +250,6 @@ class MainMenu extends AbstractMenu{
             return;
         }
 
-        
         System.out.println("고장 신고할 자전거 번호를 입력하세요:");
         String bicycleId = scan.nextLine();
 
@@ -272,7 +266,6 @@ class MainMenu extends AbstractMenu{
                 return;
             }
         }
-
         System.out.println("해당 번호의 자전거를 찾을 수 없습니다.");
     }
 }

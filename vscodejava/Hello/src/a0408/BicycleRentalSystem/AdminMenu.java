@@ -4,9 +4,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+// 관리자메뉴
 class AdminMenu extends AbstractMenu{
-    private static final AdminMenu instance = new AdminMenu(null);
-    private static List<Bicycle> bicycles = new ArrayList<>();
+    private static final AdminMenu instance = new AdminMenu(null);   //싱글톤 선언
+    private static List<Bicycle> bicycles = new ArrayList<>(); //자전거목록 리스트
 
     private static final String ADMENU_TEXT =
         "1. 자전거 목록\n"+
@@ -15,7 +16,7 @@ class AdminMenu extends AbstractMenu{
         "q: 종료\n"+
         "메뉴를 선택하세요 : ";
 
-    private AdminMenu(Menu prevMenu){
+    private AdminMenu(Menu prevMenu){  //관리자메뉴라 private사용
         super(ADMENU_TEXT, prevMenu);
         try {
             bicycles = Bicycle.findAll(); // bicycles 리스트 초기화
@@ -24,7 +25,7 @@ class AdminMenu extends AbstractMenu{
         }
     }
 
-    public static AdminMenu getInstance(){
+    public static AdminMenu getInstance(){  //싱글톤
         return instance;
     }
 
@@ -60,7 +61,7 @@ class AdminMenu extends AbstractMenu{
                 return;
             }
             for (Bicycle bicycle : bicycles) {
-                System.out.println(bicycle); // 각 자전거 정보를 한 줄씩 출력
+                System.out.println(bicycle);
             }
         } catch (Exception e) {
             System.out.println("조회 실패했습니다.");
@@ -81,7 +82,7 @@ class AdminMenu extends AbstractMenu{
                 System.out.println("신규 자전거 등록 완료");
                 bicycles.add(newbicycle); // bicycles 리스트에 추가
             } else {
-                System.out.println("자전거 등록 실패"); // 실패 메시지 추가
+                System.out.println("자전거 등록 실패");
             }
         } catch (IOException e) {
             System.out.println("신규 자전거 등록 실패: " + e.getMessage());
