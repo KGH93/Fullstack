@@ -72,6 +72,8 @@ CREATE TABLE member -- 회원 테이블
 
 -DESC [테이블명]; // 테이블 구조보기
 
+-SHOW TABLES  // 테이블 보기
+
 -alter table [테이블명] rename [NEW테이블명]; // 테이블 이름 변경
 
 -DROP TABLE [테이블명]; // 테이블 삭제;
@@ -82,7 +84,7 @@ CREATE TABLE member -- 회원 테이블
 
 
 
-3. 필드 명령문 
+3. 필드 CRUD명령문 
 
 -Alter table[ 테이블명] add [NEW필드명] [필드데이터형[ [first 또는 after 필드명];  //필드 추가하기
 
@@ -128,17 +130,31 @@ CREATE TABLE member -- 회원 테이블
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 *AS 
+SELECT 컬럼 AS 원하는명칭 FROM 테이블명;
 
 *WHERE
+SELECT 컬럼 FROM 테이블명 WHERE 컬럼 = '조건';
 
 *WHERE LIKE '%'
+SELECT 컬럼 FROM 테이블명 WHERE A컬럼 LIKE '%A컬럼안의조건';  
 
 *ORDER BY
+SELECT 컬럼 AS 원하는명칭 FROM 테이블명 [WHERE문] ORDER BY 배열중심컬럼 (DESC사용가능);
 
-*UPDATE [테이블명] SET [컬럼명] = NULL WHERE [컬럼명] = '';  
+*UPDATE 
+UPDATE [테이블명] SET [컬럼명] = NULL WHERE [컬럼명] = '';  
 
 *IS NOT NULL
+NULL인지 아닌지 검사하는 조건. NULL이 아닌 값만 선택
 
+*LIMIT
+SELECT * FROM 고객 LIMIT 3;
+
+*GROUP BY
+SELECT 그룹으로묶을컬럼명, 집계함수 FROM 테이블명 [WHERE절] GROUP BY 그룹으로묶을컬럼명 OR 컬럼순번;
+
+* HAVING  
+SELECT 그룹으로묶을컬럼명, 집계함수 FROM 테이블명 [WHERE절] GROUP BY 그룹으로묶을컬럼명 [HAVING절];
 
 
 
