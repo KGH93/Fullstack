@@ -1,0 +1,157 @@
+0. 데이터
+
+*데이터 정의어 ,DDL문
+
+-CREATE //데이터베이스 객체를 생성한다
+-ALTER //생성된 객체의 구조를 변경한다
+-DROP //생성된 객체를 삭제한다
+-TRUNUCATE //테이블에 있는 데이터를 모두 삭제한다
+
+
+*데이터 조작어, DML문
+-SELECT //테이블에서 조건에 맞는 데이터를 검색한다
+-INSERT //테이블에 새로운 레코드를 삽입한다
+-UPDATE //테이블에 있는 데이터 값을 수정한다
+-DELETE // 테이블에 있는 레코드를 삭제한다
+
+*데이터 조작어, DCL문
+
+-GRANT //특정 사용자 또는 특정 객체에 대해 생성, 수정등 특정 작업을 할 수있도록 권한을 부여한다.
+-REVOKE //GRANT문으로 부여한 권한을 철회할 때 사용한다
+ 
+*데이터 조작어, TCL문
+
+-COMMIT //트랜잭션 작업 내용을 실제 데이터베이스에 영구 저장한다
+-ROLLBACK //트랜잭션 처리 과정에서 발생한 변경 사항을 취소한다
+
+
+
+
+
+
+1.Database 명령문
+
+-SHOW DATABASES;    데이터 목록표시
+
+-CREATE DATABASE [DB명]; 데이터베이스 생성
+
+-DROP DATABASE [삭제할 DB명]; 데이터베이스 삭제
+
+-USE [DB명]; 데이터베이스 접근
+
+
+
+
+
+
+
+2. 테이블 명령문
+
+-테이블 생성
+
+-CREATE TABLE [table명] (
+  [column1] [datatype] [option],
+  [column2] [datatype] [option],
+  [column3] [datatype] [option],
+  ...
+  PRIMARY KEY ([PK로 지정할 column명]),
+  FOREIGN KEY ([FK로 지정할 column명]) REFERENCES [참조할 table명] ([참조할 PK명])
+);
+
+EX)
+CREATE TABLE member -- 회원 테이블
+( mem_id        CHAR(8) NOT NULL PRIMARY KEY,   # primary key로 설정
+  mem_name      VARCHAR(10) NOT NULL, 
+  mem_number    TINYINT NOT NULL, 
+  addr          CHAR(2) NOT NULL,
+  phone1        CHAR(3) NULL,
+  phone2        CHAR(8) NULL,
+  height        TINYINT UNSIGNED NULL, 
+  debut_date    DATE NULL
+);
+
+-DESC [테이블명]; // 테이블 구조보기
+
+-alter table [테이블명] rename [NEW테이블명]; // 테이블 이름 변경
+
+-DROP TABLE [테이블명]; // 테이블 삭제;
+
+
+
+
+
+
+
+3. 필드 명령문 
+
+-Alter table[ 테이블명] add [NEW필드명] [필드데이터형[ [first 또는 after 필드명];  //필드 추가하기
+
+-Alter table 테이블명 drop  [삭제할필드명]; //필드 삭제하기
+
+-Alter table 테이블명 change [수정할필드명] [NEW필드명] [필드데이터형]; //필드명 변경
+
+-Alter table 테이블명 modify [필드명] [수정할데이터형]; //필드 데이터 변경
+
+
+
+
+
+
+
+4. 전체 필드와 데이터 검색
+
+-select * from [테이블명]; //전체 필드와 데이터 출력
+
+-select [필드명1], [필드명2],[필드명3] from [테이블명]; // 테이블내 특정 필드 레코드 검색
+
+-select [필드명1], [필드명2] from [테이블명] where [조건]; // 테이블내 특정 필드에 조건을 달고 레코드 검색
+
+-select [필드명1], [필드명2] from [테이블명] where [검색필드] like [%문자열수식%];  //테이블명’이라는 DB 테이블에서 ‘검색필드’에 포함된 ‘문자열_수식’ 조건을 만족하는 레코드의 필드명1, 필드명2를 검색하는 명령 형식
+
+-SELECT LEFT(‘ABCDEFG’,3) -> 왼쪽부터 3글자 추출
+
+-SELECT RIGHT(‘ABCDEFG’,3) -> 오른쪽부터 3글자 추출
+
+-SELECT SUBSTR(‘ABCDEFG’,2,5) -> 2번째부터 5번째까지 추출
+
+-SELECT SUBSTR(‘ABCDEFG’,4) -> 4번째부터 끝까지 추출
+
+-Delete from [테이블명]  where [조건식] //‘테이블명’이라는 DB테이블에서 조건식을 만족하는 레코드를 삭제하는 명령 형식
+
+-Delete from [테이블명]; // 테이블의 전체 레코드를 삭제하는 명령 형식
+
+
+
+
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+*AS 
+
+*WHERE
+
+*WHERE LIKE '%'
+
+*ORDER BY
+
+*UPDATE [테이블명] SET [컬럼명] = NULL WHERE [컬럼명] = '';  
+
+*IS NOT NULL
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

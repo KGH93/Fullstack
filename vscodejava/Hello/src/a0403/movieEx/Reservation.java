@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.time.Instant;
 import java.util.ArrayList;
 
-import javax.imageio.IIOException;
 
 public class Reservation {
     private long id; //발급번호
