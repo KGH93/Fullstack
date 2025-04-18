@@ -1,4 +1,4 @@
-0. 데이터
+BASIC. 데이터
 
 *데이터 정의어 ,DDL문
 
@@ -27,6 +27,61 @@
 
 
 
+0.USER
+
+Root 로 진입
+ Mysql -u root -p
+
+Mysql 사용
+Use my sql;
+
+현재 로그인한 사용자
+Select current_user();
+결과  : root@localhost
+
+-새로운 User 생성
+
+CREATE USER junsuk@localhost IDENTIFIED BY ‘12345’;
+CREATE USER junsuk@localhost IDENTIFIED BY ‘ password’;
+
+특정 db(test)에 대한 전체 권한 추가
+GRANT ALL ON test.* TO junsuk@localhost; 
+메모리에 적용(저장)
+Flush PRIVILEGES;
+
+전체 db에 대한 전체 권한 추가
+GRANT ALL ON *.* TO junsuk@localhost; 
+GRANT ALL ON *.* TO junsuk@’%’;
+
+
+
+전체 db에 대한 SELECT, INSERT 권한 추가
+GRANT SELECT, INSERT ON *.* TO junsuk@localhost; 
+
+ 
+특정db(TEST)에 대한 SELECT, INSERT 권한 추가
+GRANT SELECT, INSERT ON test.* TO junsuk@localhost; 
+
+특정 db(test)에 포함된 특정 Table(friend)대한 권한 주기
+GRANT ALL ON test.friend TO junsuk@localhost; 
+
+쓰기 , 수정 권한을 삭제
+
+REVOKE INSERT, UPDATE ON test.* FROM junsuk;
+
+사용자 전체권한 삭제 
+REVOKE ALL ON *.* FROM junsuk;
+
+사용자 전체 쓰기 권한 삭제
+REVOKE INSERT ON *.* TO junsuk@localhost
+
+유저 삭제
+DROP USER junsuk@localhost;
+
+localhost; 와 % 차이 
+로컬컴퓨터(자기 자신)에서만 접속 허용 
+% 어디서든 접속 가능 (보안위험, 방화벽 필수)
+Create user junsuk@192.168.1.10  IDENTIFIED BY ‘1234’;
 
 
 1.Database 명령문
@@ -154,15 +209,98 @@ SELECT * FROM 고객 LIMIT 3;
 SELECT 그룹으로묶을컬럼명, 집계함수 FROM 테이블명 [WHERE절] GROUP BY 그룹으로묶을컬럼명 OR 컬럼순번;
 
 * HAVING  
+group by 묶은 후, 그 결과를 필터링
 SELECT 그룹으로묶을컬럼명, 집계함수 FROM 테이블명 [WHERE절] GROUP BY 그룹으로묶을컬럼명 [HAVING절];
 
+*BETWEEN AND
+
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+*JOIN
+
+
+조인  JOIN join Join
+ 조인(join)은 두개 이상의 테이블을 연결하여 데이터를 검색하는 방법으로 서로 다른 테이블에서
+저장된 관련된 데이터를 함께 가져와 하나의 결과로 표시. 검색하고 싶은 
+서로다른 테이블에 있을 때 사용 할 수 있으며, 여러개의 테이블을 하나의 테이블인것처럼 쓸 수 있다.
+
+
+1. [Inner Join] - 두 테이블에서 공통된 요소들을 통해 결합하는 조인 방식
+
+ex) 셀럽을 기준으로 snl출현한 호스트 출력하기 //셀럽 id , 이름 , snl쇼 id, 호스트 출력하기// inner join 하여 각 테이블에서 필요한부분을 조회
+
+SELECT celeb.id, celeb.name, snl_show.id, snl_show.host
+from celeb
+inner join snl_show
+on celeb.name = snl_show.host
+
+// snl에 출현한 셀럽들만 출력
+
+
+
+2. [Self Join]  - inner join과 유사하고 table 간의 공통된 데이터를 조회하며 가장 자주 쓰는 join방법이다.
+
+ex) 셀럽을 기준으로 snl출현한 호스트 출력하기 //셀럽 id , 이름 , snl쇼 id, 호스트 출력하기// self join 하여 각 테이블에서 필요한부분을 조회
+
+SELECT celeb.id, celeb.name, snl_show.id, snl_show.host
+from celeb, snl_show
+where celeb.name = snl_show.host
+
+// snl에 출현한 셀럽들만 출력  // inner join 생략하고 ,로 표시, on대신 where로 대체
+
+
+
+3.[Left Join] - 두 테이블에서 공통된 요소들을 통해 결합하고 Left기준 테이블 정보를 전부 출력하는 조인 방식
+
+ex) 셀럽을 기준으로 snl출현한 호스트 출력하기 //셀럽 id , 이름 , snl쇼 id, 호스트 출력하기// left join 하여 각 테이블에서 필요한부분을 조회
+
+SELECT celeb.id, celeb.name, snl_show.id, snl_show.host
+from celeb
+left join snl_show
+on celeb.name = snl_show.host
+
+// 셀럽을 기준으로한 left join, snl에 출연안한 셀럽들도 출력, host로 출력안한 셀럽들의 show id,host는 null로 표시
+
+
+
+4.[Right Join] - 두 테이블에서 공통된 요소들을 통해 결합하고 right기준 테이블 정보를 전부 출력하는 조인 방식
+
+ex) 셀럽을 기준으로 snl출현한 호스트 출력하기 //셀럽 id , 이름 , snl쇼 id, 호스트 출력하기// right join 하여 각 테이블에서 필요한부분을 조회
+
+SELECT celeb.id, celeb.name, snl_show.id, snl_show.host
+from celeb
+right join snl_show
+on celeb.name = snl_show.host
+
+// snl show을 기준으로한 right join, snl에 출연한  셀럽들 전부 출력, 셀럽에 없는 호스트들은 셀럽 id, name는 null로 표시
+
+
+
+5.[Full Other Join] - 두 테이블에서 공통된 요소들을 포함, 양쪽 테이블의 다른영억들을 전부 포함하는 조인방식
+- sql에서 full other join을 지원하지 않는다. 대신 Union을 사용해서 left  join , right join을 동시에 사용
+-[Union] - 유니온 은 두 셀렉트 값을 결합할때 사용하며 데이터타입의 대비가 다르면 사용할 수 없다.
+
+ex) 셀럽을 기준으로 snl출현한 호스트 출력하기 //셀럽 id , 이름 , snl쇼 id, 호스트 출력하기// full other join 하여 각 테이블에서 필요한부분을 조회
+
+ select celeb.id, celeb.name, snl_show.id, snl_show.host
+     from celeb
+     left join snl_show
+     on celeb.name = snl_show.host
+    union
+     select celeb.id, celeb.name, snl_show.id, snl_show.host
+     from celeb
+     right join snl_show
+    on celeb.name = snl_show.host;
+
+//두테이블의 데이터 전부 출력,  빈 데이터는 null로 표시
 
 
 
 
-
-
-
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 
