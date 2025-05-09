@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>imageMap</title>
+</head>
+<body>
+    <img src="images/pic_7.jpg" alt="로고" usemap="#logo">
+    <map name="logo" id="logo">
+        <area shape="rect" coords="150,175,300,556" href="https://www.starbucks.co.kr/index.do" alt="">
+        <area shape="rect" coords="299,170,431,531" href="https://paikdabang.com/" alt="">
+        <!-- 사각형모양의 좌표네개(그림판이용) shape = rect -->
+
+        <area shape="poly" coords="300,547,430,516,463,541,300,580" href="https://nate.com/" alt="">
+        <!-- 다각형등 복잡한 모양의 좌표여러개(그림판이용) shape = poly -->
+
+        <area shape="circle" coords="300,65,70" href="https://korea.com/" alt="">
+        <!-- 원모양의 좌표와 반지름(그림판이용) shape = circle -->
+       
+       
+    </map>
+</body>
+</html>

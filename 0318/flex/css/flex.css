@@ -1,0 +1,127 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font: normal 18px/1.5 "Helvetica Neue", sans-serif;
+}
+
+html,
+body {
+    margin: 0;
+    height: 100%;
+    overflow: hidden;
+}
+
+.flex-wrapper {
+    display: flex;
+    height: 100%;
+}
+
+.flex-wrapper a {
+    position: relative;
+    flex: 1;
+    /* 1:1:1:1:1 */
+    transition: all 0.4s;
+}
+
+.flex-wrapper a.one {
+    background-color: red;
+    background: url(../images/a1.jpg) no-repeat 50% 50% / cover;
+}
+
+.flex-wrapper a.two {
+    background-color: green;
+    background: url(../images/a2.jpg) no-repeat 50% 50% / cover;
+}
+
+.flex-wrapper a.three {
+    background-color: steelblue;
+    background: url(../images/a3.jpg) no-repeat 50% 50% / cover;
+}
+
+.flex-wrapper a.four {
+    background-color: orange;
+    background: url(../images/a4.jpg) no-repeat 50% 50% / cover;
+}
+
+.flex-wrapper a.five {
+    background-color: tomato;
+    background: url(../images/a5.jpg) no-repeat 50% 50% / cover;
+}
+
+.flex-wrapper a:hover {
+    flex: 3;
+    /* 3번째 hover 1:1:3:1:1 */
+}
+
+.flex-wrapper .overlay {
+    padding: 0 10px;
+    position: absolute;
+    /* width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0; */
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+    /* 세로중앙정렬 */
+    justify-content: center;
+    /* 수평정렬(좌우정렬) */
+}
+
+.flex-wrapper a:hover .overlay {
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+/* .overlay-inner 밑의 모든선택자 h2,p */
+.flex-wrapper a .overlay-inner * {
+    color: #fff;
+    text-align: center;
+    opacity: 0;
+    visibility: hidden;
+}
+
+.flex-wrapper a .overlay-inner h2 {
+    transform: translateY(-60px);
+    /* 큰글씨를 위로 올리고 숨김 */
+}
+
+.flex-wrapper a .overlay-inner p {
+    transform: translateY(60px);
+    /* 현재위치보다 60만큼 아래로내려감 */
+}
+
+.flex-wrapper a:hover .overlay-inner * {
+    opacity: 1;
+    visibility: visible;
+    transition: all 0.3s 0.3s;
+    /* 마우스를 올렸을때만 호버로 트랜지션 적용 */
+    /* transform: translateY(0px); */
+    transform: none;
+    /* 원래위치나 크기로 돌아옴 */
+}
+
+
+/* 800이하일때 */
+
+@media screen and (max-width:800px) {
+    /* 세로로 나열 */
+    .flex-wrapper {
+        flex-direction: column;
+    }
+    /* 투명색상 */
+    .flex-wrapper a:hover .overlay {
+        background-color: transparent;
+    }
+
+    .flex-wrapper a:hover .overlay-inner * {
+        opacity: 1;
+        visibility: visible;
+        transform: none;
+    }
+}

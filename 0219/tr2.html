@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    .bigbox{
+        position: absolute;
+        width: 500px;
+        height: 500px;
+        border: 2px solid #333;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%,-50%);
+    }
+
+    .box1{
+        position: absolute;
+        width: 100px;
+        height: 100px;
+        background-color: yellow;
+        border-radius: 50%;
+    }
+
+    .box2{
+        position: absolute;
+        width: 100px;
+        height: 100px;
+        right: 0;
+        background-color: yellow;
+        border-radius: 50%;
+    }
+
+    .box3{
+        position: absolute;
+        width: 100px;
+        height: 100px;
+        right: 0;
+        bottom: 0;
+        background-color: yellow;
+        border-radius: 50%;
+    }
+
+    .box4{
+        position: absolute;
+        width: 100px;
+        height: 100px;
+        left: 0;
+        bottom: 0;
+        background-color: yellow;
+        border-radius: 50%;
+    }
+
+    .line{
+        opacity: 0;
+    }
+
+    .line1{
+        position: absolute;
+        width: 400px;
+        height: 2px;
+        top: 50px;
+        left: 50px;
+        background-color: #333;
+        animation: line1 3s forwards;
+    }
+
+    @keyframes line1 {
+        0%{width: 0;}
+        100%{width: 400px; opacity: 1;}
+    }
+
+    .line2{
+        position: absolute;
+        width: 2px;
+        height: 400px;
+        top: 50px;
+        right: 50px;
+        background-color: #333;
+        animation: line2 3s 3s forwards;
+    }
+
+    @keyframes line2 {
+        0%{height: 0;}
+        100%{height: 400px; opacity: 1;}
+    }
+
+    .line3{
+        position: absolute;
+        width: 400px;
+        height: 2px;
+        bottom: 50px;
+        right: 50px;
+        background-color: #333;
+        animation: line3 3s 6s forwards;
+    }
+
+    @keyframes line3 {
+        0%{width: 0px;}
+        100%{width: 400px; opacity: 1;}
+    }
+    .line4{
+        position: absolute;
+        width: 2px;
+        height: 400px;
+        bottom: 50px;
+        left: 50px;
+        background-color: #333;
+        animation: line4 3s 9s forwards;
+    }
+
+    @keyframes line4 {
+        0%{height: 0;}
+        100%{height: 400px; opacity: 1;}
+    }
+
+    .img{
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%,-50%);
+        animation: img 1s 12s forwards;
+        opacity: 0;
+    }
+
+    @keyframes img {
+        0%{opacity: 0;}
+        100%{opacity: 1;}
+    }
+
+</style>
+<body>
+    <div class="bigbox">
+        <div class="box1"></div>
+        <div class="box2"></div>
+        <div class="box3"></div>
+        <div class="box4"></div>
+        <div class="line line1"></div>
+        <div class="line line2"></div>
+        <div class="line line3"></div>
+        <div class="line line4"></div>
+        <img src="ani/img/sunset.jpg" alt="" class="img">
+    </div>
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>box1margin (p195)</title>
+    <style>
+        .box{
+            width: 200px;
+            height: 200px;
+        }
+/* margin 바깥여백 너비는 상관x */
+        .box1{
+            background-color: #389;
+            margin-top: 10px;
+            margin-left: 10px;
+        }
+        .box2{
+            /* 넓이가 있는 블럭요소는 왼쪽 오른쪽 마진을 auto시 중앙정렬 */
+            background-color: #789;
+            margin-left: auto;
+            margin-right: auto;
+            /* 블럭요소 안에 글자를 좌우중앙정렬하려면  */
+            text-align: center;
+            /* 글자를 위아래 중앙정렬 하려면 */
+            line-height: 200px;
+        }
+        .box3{
+            background-color: #589;
+            margin: 0 auto;
+        }
+        .box4{
+            background-color: #989;
+        }
+    </style>
+</head>
+<body>
+    <!-- .box.box1 = div class box box1 -->
+    <div class="box box1">박스1</div>
+    <div class="box box2">박스2</div>
+    <div class="box box3">박스3</div>
+    <div class="box box4">박스4</div>
+</body>
+</html>

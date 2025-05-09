@@ -1,0 +1,46 @@
+CREATE TABLE cosmetics (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(30) NOT NULL,
+    brand VARCHAR(30) NOT NULL,
+    price INT NOT NULL,
+    main_ingredient VARCHAR(60) NOT NULL,
+    effect VARCHAR(60) NOT NULL,
+    category VARCHAR(30) NOT NULL,
+    image_file VARCHAR(60) NOT NULL,
+    likes INT DEFAULT 0
+);
+
+화장품 DB
+ID (자동증가 숫자)
+이름
+브랜드
+가격
+메인성분
+효과/효능
+카테고리
+이미지파일
+좋아요수
+
+
+더미데이터 
+INSERT INTO cosmetics (name, brand, price, main_ingredient, effect, category, image_file, likes)
+VALUES
+('Hydrating Toner', 'BrandA', 20000, 'Hyaluronic Acid', 'Moisturizing', '토너', 'makeup01.jpg', 25),
+('Soothing Toner', 'BrandB', 18000, 'Aloe Vera', 'Calming', '토너', 'makeup02.jpg', 30),
+('Brightening Toner', 'BrandC', 22000, 'Vitamin C', 'Brightening', '토너', 'makeup03.jpg', 15),
+('Purifying Toner', 'BrandD', 25000, 'Tea Tree Oil', 'Purifying', '토너', 'makeup04.jpg', 40),
+('Matte Foundation', 'BrandE', 35000, 'Silicone', 'Matte Finish', '파운데이션', 'makeup05.jpg', 50),
+('Liquid Foundation', 'BrandF', 38000, 'Water-based', 'Full Coverage', '파운데이션', 'makeup06.jpg', 28),
+('Cream Foundation', 'BrandG', 40000, 'Beeswax', 'Smooth Finish', '파운데이션', 'makeup07.jpg', 18),
+('Stick Foundation', 'BrandH', 42000, 'Mineral Oil', 'Long-lasting', '파운데이션', 'makeup08.jpg', 35),
+('Anti-Aging Serum', 'BrandI', 30000, 'Retinol', 'Anti-aging', '스킨케어', 'makeup09.jpg', 60),
+('Moisturizing Serum', 'BrandJ', 28000, 'Peptides', 'Hydrating', '스킨케어', 'makeup10.jpg', 45),
+('Brightening Serum', 'BrandK', 32000, 'Vitamin E', 'Brightening', '스킨케어', 'makeup11.jpg', 22),
+('Exfoliating Serum', 'BrandL', 35000, 'Salicylic Acid', 'Exfoliating', '스킨케어', 'makeup12.jpg', 38),
+('Eye Cream', 'BrandM', 28000, 'Caffeine', 'Reduces Puffiness', '아이템', 'makeup13.jpg', 55),
+('Lip Balm', 'BrandN', 15000, 'Shea Butter', 'Hydrating', '아이템', 'makeup14.jpg', 20),
+('Facial Mask', 'BrandO', 20000, 'Clay', 'Purifying', '아이템', 'makeup15.jpg', 45),
+('Hand Cream', 'BrandP', 17000, 'Almond Oil', 'Moisturizing', '아이템', 'makeup16.jpg', 33),
+('Nourishing Cream', 'BrandQ', 25000, 'Honey', 'Nourishing', '스킨케어', 'makeup01.jpg', 50),
+('Sun Block', 'BrandR', 15000, 'Zinc Oxide', 'Sun Protection', '스킨케어', 'makeup02.jpg', 48),
+('Body Lotion', 'BrandS', 22000, 'Coconut Oil', 'Hydrating', '스킨케어', 'makeup03.jpg', 27);

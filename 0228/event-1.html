@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>event-1 (p404)</title>
+    <link rel="stylesheet" href="css/function.css">
+</head>
+<body>
+    <ul>
+        <li><a href="#" onclick ="return changeBg('green')">green</a></li>
+        <li><a href="#" onclick ="return changeBg('orange')">orange</a></li>
+        <li><a href="#" onclick ="return changeBg('purple')">purple</a></li>
+    </ul>
+    <div id="result"></div>
+    <script>
+        // 그린 오렌지 퍼플을 전달할 매개변수 color
+        function changeBg(color){
+            const list = document.querySelectorAll('li');
+            // li는 여러개 있으므로 querySelectorall
+
+            list.forEach(item => item.classList.remove('on'));
+
+            event.target.parentElement.classList.add('on');
+            // a가 모두 세개 중 클릭한 a의 부모 list 
+            // 이벤트타겟=클릭한대상 페어런츠엘리멘트= 부모 
+
+            
+            // var result = document.getElementById('result');
+            var result = document.querySelector('#result');
+            result.style.backgroundColor = color;
+            return false;  //a 링크금지
+        }
+    </script>
+</body>
+</html>

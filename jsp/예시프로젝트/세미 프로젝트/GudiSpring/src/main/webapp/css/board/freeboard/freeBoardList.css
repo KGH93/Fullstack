@@ -1,0 +1,100 @@
+#main-container {
+    margin: 120px auto 0;
+    padding: 20px;
+    max-width: 1000px;
+    background-color: #f4f4f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.title {
+    color: #333;
+    margin-bottom: 20px;
+    font-size: 24px;
+    text-align: center;
+}
+
+.board-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.table-header {
+    background-color: #5c6bc0;
+    color: white;
+    padding: 12px;
+    text-align: left;
+}
+
+.table-row {
+    border-bottom: 1px solid #ddd;
+}
+
+.table-cell {
+    padding: 12px;
+    text-align: left;
+}
+
+.table-link {
+    color: #5c6bc0;
+    text-decoration: none;
+}
+
+.table-link:hover {
+    text-decoration: underline;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin: 20px auto;
+    width: 100%;
+}
+
+.pagination-link {
+    margin: 0 5px;
+    padding: 8px 16px;
+    text-decoration: none;
+    color: #333;
+    border: 1px solid #ddd;
+}
+
+.pagination-link.active {
+    background-color: #4CAF50;
+    color: white;
+    border: 1px solid #4CAF50;
+}
+
+.pagination-link:hover {
+    background-color: #ddd;
+}
+
+.current-page {
+    margin: 0 5px;
+    padding: 8px 16px;
+    background-color: #4CAF50;
+    color: white;
+    border: 1px solid #4CAF50;
+}
+
+.button-container {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.action-button {
+    padding: 10px 15px;
+    background-color: #5c6bc0;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+.action-button:hover {
+    background-color: #3949ab;
+}

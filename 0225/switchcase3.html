@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // 사용자입력에 따라 간단한 계산을 수행하는 프로그램입니다.
+        // proppt로
+        // 입력 10 , 5 , '+'
+        // 15
+        // && a == Number && b == Number  && a,b == Number
+
+        var a = Number(prompt('첫번째 숫자를 입력하세요.',""));
+        var b = Number(prompt('두번째 숫자를 입력하세요.',""));
+        var operator = prompt('연산자를 입력하세요.',"");
+        var result;
+        switch (operator) {
+            case "+":
+                result = a + b;
+                break;
+            case "-":
+                result = a - b;
+                break;
+            case "*":
+                result = a * b;
+                break;
+            case "/":
+                result = a / b;
+                break;
+            default:
+                result = "잘못된 연산자 입력";
+                break;
+        }
+        document.write("연산결과는"+ result +"입니다.");
+    </script>
+</body>
+</html>

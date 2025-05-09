@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .box{
+            width: 200px;
+            height: 200px;
+        }
+
+        .box1{
+            background-color: #389;
+        }
+        .box2{
+            background-color: #789;
+        }
+        .box3{
+            background-color: #589;
+            position: relative;
+            top: 50px;
+            left: 50px;
+            /* p248 */
+            z-index: 1;
+        }
+        /* position: relative;
+        1. top과 left 위치조정
+        2. 원래있던 위치에서 이동
+        3. 자리값이 있다.
+        4. absolte에 부모역할(기준역할) 
+        5. 다음에 오는 태그에 영향을 미치지 않음(box4를 이동시키지 않음)
+        */
+
+        .box4{
+            position: relative;
+            background-color: #989;
+            z-index: 2;
+        }
+    </style>
+</head>
+<body>
+    <!-- .box.box1 = div class box box1 -->
+    <div class="box box1">박스1</div>
+    <div class="box box2">박스2</div>
+    <div class="box box3">박스3</div>
+    <div class="box box4">박스4</div>
+</body>
+</html>

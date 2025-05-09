@@ -1,0 +1,132 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="<%= request.getContextPath() %>/css/reservationstyle.css">
+<title>reservation</title>
+</head>
+<body>
+
+<header>
+    <div class="container">
+        <div class="header-content">
+            <div class="logo">K-<span>FOOD</span> GUIDE</div>
+            <nav>
+                <ul>
+                    <li><a href="#">홈</a></li>
+                    <li><a href="#">대표 음식</a></li>
+                    <li><a href="#">지역별</a></li>
+                    <li><a href="#">레스토랑</a></li>
+                    <li><a href="#">커뮤니티</a></li>
+                    <li><a href="#">소개</a></li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</header>
+
+<section class="hero">
+    <div class="container">
+        <div class="hero-content">
+            <h1>한국 전통 음식을 통해 새로운 경험을 느껴보세요</h1>
+            <p>한국 전통 방식을 체험하고, 즐겨보세요. GongGan과 함께 전통적인 한식의 세계로 초대합니다.</p>
+            <a href="#" class="btn">한식 체험 예약 하기</a>
+        </div>
+    </div>
+</section>
+
+<!-- 메인 콘텐츠: 왼쪽 이미지 + 오른쪽 설명 -->
+<div class="container mt-5 mb-5">
+    <div class="row align-items-center">
+        <div class="col-md-6 d-flex justify-content-center">
+            <img src="<%= request.getContextPath() %>/infoimg/ev02.jpg" class="img-fluid rounded shadow" style="width: 70%;" alt="Product Main">
+        </div>
+        <div class="col-md-6">
+            <h3>전통 한과 만들기 체험</h3>
+            <p class="lead">정성 가득한 전통 한과를 직접 만들어보세요. 가족, 친구와 함께하는 특별한 체험으로 한국의 맛과 멋을 느낄 수 있습니다.</p>
+            <ul>
+                <li>전통 방식의 한과 제조 과정을 직접 체험</li>
+                <li>100% 국산 재료로 안전하고 건강하게</li>
+                <li>완성된 한과는 예쁜 포장으로 가져가기 가능</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- 관련 이미지 -->
+<div class="container mb-5">
+    <h4 class="mb-3"></h4>
+    <div class="d-flex flex-wrap film-strip">
+        <img src="<%= request.getContextPath() %>/infoimg/rg01.jpg" class="img-thumbnail hover-zoom" alt="related1">
+        <img src="<%= request.getContextPath() %>/infoimg/rg02.jpg" class="img-thumbnail hover-zoom" alt="related2">
+        <img src="<%= request.getContextPath() %>/infoimg/rg03.png" class="img-thumbnail hover-zoom" alt="related3">
+        <img src="<%= request.getContextPath() %>/infoimg/rg04.jpg" class="img-thumbnail hover-zoom" alt="related4">
+        <img src="<%= request.getContextPath() %>/infoimg/rg05.jpg" class="img-thumbnail hover-zoom" alt="related5">
+        <img src="<%= request.getContextPath() %>/infoimg/rg06.jpg" class="img-thumbnail hover-zoom" alt="related6">
+    </div>
+</div>
+
+<!-- 예약하기 섹션 -->
+<div class="container mb-5">
+    <div class="bg-light p-4 rounded shadow-sm">
+        <h4 class="mb-4 text-center">전통 한과 만들기 체험 예약</h4>
+        <form action="reservationDetail.jsp" method="post">
+            <div class="text-center mt-4">
+                <button type="submit" class="btn btn-danger px-4 py-2 me-3">예약하기</button>
+                <a href="javascript:history.back()" class="btn btn-success px-4 py-2">뒤로가기</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<footer>
+    <div class="container">
+        <div class="footer-content">
+            <div class="footer-column">
+                <h3>K-FOOD GUIDE</h3>
+                <ul>
+                    <li><a href="#">소개</a></li>
+                    <li><a href="#">팀 소개</a></li>
+                    <li><a href="#">채용 정보</a></li>
+                    <li><a href="#">언론 보도</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>가이드</h3>
+                <ul>
+                    <li><a href="#">음식 카테고리</a></li>
+                    <li><a href="#">지역별 맛집</a></li>
+                    <li><a href="#">추천 레스토랑</a></li>
+                    <li><a href="#">시즌 스페셜</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>커뮤니티</h3>
+                <ul>
+                    <li><a href="#">포럼</a></li>
+                    <li><a href="#">이벤트</a></li>
+                    <li><a href="#">쿠킹 클래스</a></li>
+                    <li><a href="#">회원 혜택</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>문의하기</h3>
+                <ul>
+                    <li><a href="#">고객 지원</a></li>
+                    <li><a href="#">제휴 문의</a></li>
+                    <li><a href="#">레스토랑 등록</a></li>
+                    <li><a href="#">피드백</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2025 K-FOOD GUIDE. All rights reserved.</p>
+        </div>
+    </div>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app>
+
+    <!-- 서블릿 등록 -->
+    <servlet>
+        <servlet-name>BeautyListServlet</servlet-name>
+        <servlet-class>com.yourpackage.controller.BeautyListServlet</servlet-class>
+    </servlet>
+
+    <!-- 서블릿 매핑 -->
+    <servlet-mapping>
+        <servlet-name>BeautyListServlet</servlet-name>
+        <url-pattern>/beautyList</url-pattern>
+    </servlet-mapping>
+
+</web-app>

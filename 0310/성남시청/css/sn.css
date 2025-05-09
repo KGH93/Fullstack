@@ -1,0 +1,56 @@
+*{margin: 0; padding: 0;} 
+ul,li{list-style: none;}
+a{text-decoration: none;color: #333;}
+
+#img_slider{
+    width: 835px;
+    height: 450px;
+    margin:0 auto;
+    border: 1px solid #333;
+}
+
+#img_slider .slider{
+    width: 835px;
+    height: 420px;
+   position: relative;
+
+}
+/* bxslider 이용시 슬라이드 이미지 cover하는법. 
+f12 요소에서 이미 클릭하고 
+bxlisder.css bx-wrapper 몇번째 줄인지 찾아 주석으로 변환*/
+
+.controls{
+    margin-top: -50px;
+    width: 100%;
+    height: 30px;
+    display: flex;
+}
+
+.count{margin-left: 15px;
+}
+
+.button{margin-left: 15px;}
+
+.button span{
+    display: inline-block;
+    width: 20px;
+    height: 21px;
+    text-indent: -9999px;
+}
+
+.button span.prev{
+    background: url(../img/slickButton.png)no-repeat 0 0;  
+}
+
+.button span.stop{
+    background: url(../img/slickButton.png)no-repeat -20px 0;  
+}
+
+.button span.stop.on{
+    background-position: -40px 0;  
+}
+
+.button span.next{
+    background: url(../img/slickButton.png)no-repeat -60px 0;  
+}
+

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>table2_1 (p62)</title>
+    <style>
+        table{
+            /* border(테두리): 선두께 선종류 선색상 */
+            /* border-collapse: collapse; 하나의 테두리로 통합 */
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+        td{
+            border: 1px solid black;
+            /* 안여백 상하좌우 10px */
+            padding: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <table>
+        <!-- tr은 행(줄)을 뜻하고 td는 열(칸)을 뜻함 -->
+        <tr>
+            <td rowspan="2">과목/난이도</td>
+            <td colspan="2">Html/Css</td>
+            
+            <td colspan="2">Javascript/Jquery</td>
+            
+        </tr>
+        <tr>
+            
+            <td>쉽고</td>
+            <td>재미있고</td>
+            <td>어렵고</td>
+            <td>신기하다.</td>
+        </tr>
+    </table>
+</body>
+
+</html>

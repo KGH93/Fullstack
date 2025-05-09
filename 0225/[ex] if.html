@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        //세개의 숫자 a,b,c 중 가장 큰수를 삼항 연산자로 찾으세요
+        // let a = 25, b = 12, c = 18;
+        // let max = a > b ? ( a > c ? a : c):( b > c ? b : c);
+        // console.log(max);
+        // 위의 내용을 if문을 이용해서 구하시오
+
+
+        let a = 25, b = 12, c = 18;
+        if( a > b && a > c ){
+            result = a + "가 제일 크다."
+        }
+        else if( a < b && b > c ){
+            result = b + "가 제일 크다."
+        }
+        else if( a < c && b < c ){
+            result = c + "가 제일 크다."
+        }
+        else{
+            result = " 잘못된 입력입니다."
+        }
+        document.write(result);
+
+    </script>
+</body>
+</html>

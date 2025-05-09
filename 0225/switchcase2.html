@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        //사용자로부터 0~6을 입력받아 해당요일을 출력하세요 
+        //0 이면 일요일 1이면 월요일 6이면 토요일 
+        //switch case 문을 활용해서 만들어 보세요
+
+        var day = prompt('숫자를 입력해주세요.(0~6)',"");
+        var result;
+        switch (day) {
+            case '0':
+                result = '일요일입니다.'
+                break;
+            case '1':
+                result = '월요일입니다.'
+                break;
+            case '2':
+                result = '화요일입니다.'
+                break;
+            case '3':
+                result = '수요일입니다.'
+                break;
+            case '4':
+                result = '목요일입니다.'
+                break;
+            case '5':
+                result = '금요일입니다.'
+                break;
+            case '6':
+                result = '토요일입니다.'
+                break;
+        
+            default:
+                result =  '입력값을 확인해주세요.(0~6)'
+                break;
+        }
+        document.write(result);
+        
+    </script>
+</body>
+</html>

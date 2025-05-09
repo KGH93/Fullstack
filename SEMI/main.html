@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>K-Culture Info Site</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    /* ===== 1. 공통 레이아웃 ===== */
+    body {
+      background-color: #ffffff;
+      color: #333333;
+      font-family: 'Noto Sans KR', sans-serif;
+    }
+  
+    /* ===== 2. 제목, 헤딩 ===== */
+    h4 {
+      color: #005BAC;
+      font-weight: bold;
+    }
+
+    /* 3. 네비바 호버 메뉴  */
+    .nav-item.dropdown:hover .dropdown-menu {
+      display: block;
+      margin-top: 0;
+    }
+
+    .dropdown-menu {
+      display: none;
+    }
+
+    /* 4. 메인 슬라이드 */
+
+    /* 메인 슬라이드 텍스트 오버레이 */
+    .carousel-item {
+      position: relative;
+    }
+
+    .carousel-item img {
+      width: 100%;
+      max-height: 400px;  /* 원하는 높이로 설정 */
+      object-fit: cover;
+    }
+
+    /* 고정된 텍스트 스타일 */
+    .fixed-caption {
+      position: absolute;
+      top: 50%;  /* 화면 중앙에 위치 */
+      left: 50%;
+      transform: translate(-50%, -50%);  /* 정확한 중앙 정렬 */
+      color: white;
+      font-size: 2rem;
+      font-weight: bold;
+      text-align: center;
+      z-index: 2; /* 이미지 위로 텍스트가 위치하게 설정 */
+    }
+    /* 메인슬라이드 이미지 크기 조절 */
+    #mainCarousel .carousel-item img {
+      width: 100%; /* 이미지 너비를 100%로 설정 */
+      max-height: 400px; /* 이미지 최대 높이를 400px로 설정 */
+      object-fit: cover; /* 이미지가 영역을 채우되 비율을 유지하도록 설정 */
+    }
+
+    /*  5. 카테고리 소제목 링크 스타일 */
+    .category-item {
+    text-align: center; /* 글자 중앙 정렬 */
+    }
+
+    .category-link {
+    text-decoration: none !important; /* 밑줄 제거 */
+    color: #005BAC !important; /* 공지사항 보드처럼 색상 적용 */
+    font-weight: bold; /* 글자 굵게 */
+    }
+
+    /* 호버 시 색상 변경 */
+    .category-link:hover {
+      color: #02325c !important; /* 호버 시 색상 변경 */
+    }
+    
+    /* ===== 6. 게시판 카드 ===== */
+    .list-group-item {
+      height: 50px;
+      background-color: #FFF8F0;
+      border-color: #FFDAB9;
+    }
+  
+    /* ===== 7. 체험 광고 슬라이드 ===== */
+    #adCarousel .carousel-inner {
+      border-radius: 10px;
+      overflow: hidden;
+    }
+  
+    #adCarousel .carousel-item img {
+      border-radius: 10px;
+    }
+  
+    /* ===== 8. 하단 네비게이션 링크 ===== */
+    .small-nav a {
+      color: #fff;
+      transition: color 0.3s;
+    }
+  
+    .small-nav a:hover {
+      color: #02325c;
+    }
+  
+    /* ===== 9. 푸터 ===== */
+    footer {
+      text-align: center;
+      background-color: #fff;
+      color: #000000;
+    }
+
+  </style>
+  
+</head>
+
+<body>
+
+  <!-- 네비바 -->
+  <nav class="navbar navbar-expand-lg" style="background-color: #005BAC;">
+    <div class="container">
+      <!-- 로고 -->
+      <a class="navbar-brand text-white fw-bold" href="#">K-Culture INFO</a>
+      
+      <!-- 토글 버튼 (모바일용) -->
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+  
+      <!-- 메뉴 -->
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto" style="margin-left: 100px;"> <!-- 메뉴를 100px 오른쪽으로 이동 -->
+          <!-- K-FOOD 메뉴 -->
+          <li class="nav-item dropdown me-4">
+            <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              K-FOOD
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="#">Traditional Food</a></li>
+              <li><a class="dropdown-item" href="#">Street Food</a></li>
+              <li><a class="dropdown-item" href="#">Experience Program</a></li>
+            </ul>
+          </li>
+  
+          <!-- K-BEAUTY 메뉴 -->
+          <li class="nav-item dropdown me-4">
+            <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              K-BEAUTY
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="#">Korean Skincare</a></li>
+              <li><a class="dropdown-item" href="#">Makeup Trends</a></li>
+              <li><a class="dropdown-item" href="#">Recommended Purchase Place</a></li>
+            </ul>
+          </li>
+  
+          <!-- LOCATION 메뉴 -->
+          <li class="nav-item dropdown me-4">
+            <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              LOCATION
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="#">Seoul</a></li>
+              <li><a class="dropdown-item" href="#">Busan</a></li>
+              <li><a class="dropdown-item" href="#">Jeju</a></li>
+            </ul>
+          </li>
+  
+          <!-- LOGIN 메뉴 -->
+          <li class="nav-item dropdown me-4">
+            <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              LOGIN
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="#">Login</a></li>
+              <li><a class="dropdown-item" href="#">Sign Up</a></li>
+              <li><a class="dropdown-item" href="#">Sign Out</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+
+  <!-- Main SLIDE -->
+  <div id="mainCarousel" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <img src="img/slideimg01.jpg" class="d-block w-100" alt="...">
+        <div class="fixed-caption">
+          <h3>Welcome to K-Culture</h3>
+          <p>Explore the rich and vibrant world of Korean culture!</p>
+        </div>
+      </div>
+      <div class="carousel-item">
+        <img src="img/slideimg02.jpg" class="d-block w-100" alt="...">
+        <div class="fixed-caption">
+          <h3>Experience Korea</h3>
+          <p>From food to fashion, discover everything Korean!</p>
+        </div>
+      </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#mainCarousel" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon"></span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#mainCarousel" data-bs-slide="next">
+      <span class="carousel-control-next-icon"></span>
+    </button>
+  </div>
+
+
+  <!-- 카테고리 이미지 -->
+  <div class="container mt-4 category-container">
+    <h4>CATEGORY</h4>
+    <div class="row">
+      <div class="col-md-4 mb-4 category-item">
+        <a href="https://www.example.com/kfood" target="_blank" class="category-link">
+          <img src="img/KFOOD.JPG" class="img-fluid rounded" alt="K-푸드">
+          <div class="fw-bold">K-푸드</div>
+        </a>
+      </div>
+      <div class="col-md-4 mb-4 category-item">
+        <a href="https://www.example.com/kbeauty" target="_blank" class="category-link">
+          <img src="img/BEAUTY01.jpg" class="img-fluid rounded" alt="K-뷰티">
+          <div class="fw-bold">K-뷰티</div>
+        </a>
+      </div>
+      <div class="col-md-4 mb-4 category-item">
+        <a href="https://www.example.com/location" target="_blank" class="category-link">
+          <img src="img/img (1).jpg" class="img-fluid rounded" alt="LOCATION">
+          <div class="fw-bold">LOCATION</div>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- 게시판 + 체험/광고 슬라이드 나란히 출력 -->
+  <div class="container mt-5">
+    <div class="row">
+      <!-- 게시판 -->
+      <div class="col-md-6">
+        <h4>Notice Board</h4>
+        <ul class="list-group">
+          <li class="list-group-item">[공지] K-팝 체험 신청 시작!</li>
+          <li class="list-group-item">[신청] k-푸드 체험 김장 프로그램 신청</li>
+          <li class="list-group-item">[질문] 종로에서 음식점 추천 해주세요</li>
+        </ul>
+      </div>
+
+      <!-- 광고 슬라이드 -->
+      <div class="col-md-6 d-flex flex-column" style="height: 100%;">
+        <h4>Attraction Experience Program</h4>
+        <div id="adCarousel" class="carousel slide ad-slide" data-bs-ride="carousel" style="flex-grow: 1;">
+          <div class="carousel-inner">
+            <div class="carousel-item active">
+              <img src="img/체험0.jpg" class="d-block w-100" style="max-height: 150px; object-fit: cover;">
+            </div>
+            <div class="carousel-item">
+              <img src="img/체험1.png" class="d-block w-100" style="max-height: 150px; object-fit: cover;">
+            </div>
+            <div class="carousel-item">
+              <img src="img/체험2.jpg" class="d-block w-100" style="max-height: 150px; object-fit: cover;">
+            </div>
+            <div class="carousel-item">
+              <img src="img/체험3.jpg" class="d-block w-100" style="max-height: 150px; object-fit: cover;">
+            </div>
+          </div>
+          <button class="carousel-control-prev" type="button" data-bs-target="#adCarousel" data-bs-slide="pre v">
+            <span class="carousel-control-prev-icon"></span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#adCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon"></span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 작은 네비게이션 바 (푸터 위, 배너 아래) -->
+  <div class="w-100 border-top small-nav" style="height: 50px; margin-top: 40px; background-color: #005BAC;">
+    <div class="d-flex justify-content-center align-items-center h-100">
+     <a class="mx-3 text-decoration-none fw-bold" style="color: #fff;">Posts</a>
+     <a class="mx-3 text-decoration-none fw-bold" style="color: #fff;">View reserved </a>
+     <a class="mx-3 text-decoration-none fw-bold" style="color: #fff;">View activity history</a>
+     <a class="mx-3 text-decoration-none fw-bold" style="color: #fff;">Apply for experience</a>
+     <a class="mx-3 text-decoration-none fw-bold" style="color: #fff;">View details</a>
+    </div>
+   </div>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2025 K-Culture Info. All rights reserved.</p>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

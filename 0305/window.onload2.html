@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>window onload</title>
+    <script>
+        //html, css를 읽고 나서 함수를 실행해라  (옛날방식)
+        // window.onload = function(){
+
+
+        document.addEventListener("DOMContentLoaded",function(){
+            //  window.onload 와 비슷한 기능/ window onload의 최근방식 
+
+
+        // const element = document.getElementById('myDiv');
+        const element = document.querySelector("#myDiv");
+        console.log(element.textContent);  // hello world 출력
+    
+        // const elements = document.getElementsByClassName("myClass");
+        const elements = document.querySelectorAll(".myClass");
+        console.log(elements[0].textContent); //First Div 출력
+        console.log(elements[1].textContent); //Second Div 출력
+    
+        const Paragraphs = document.getElementsByTagName('p');
+        console.log(Paragraphs.length);         // 2출력
+        console.log(Paragraphs[0].textContent);    // Paragraph 1 출력
+        console.log(Paragraphs[1].textContent);    // Paragraph 2 출력
+
+    });
+
+    </script>
+</head>
+<body>
+    <div id="myDiv">Hello, World!</div>
+    <div class="myClass">First Div</div>
+    <div class="myClass">Second Div</div>
+    <p>PostPost 1</p>
+    <p>PostPost 2</p>
+</body>
+</html>

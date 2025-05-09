@@ -1,0 +1,41 @@
+
+  /* 위에 정보사진과 텍스트 간격 100px */
+  .main-content {
+    margin-top: 100px; /* 텍스트와 위 정보사진 간격 */
+  }
+  
+/* 확대 효과 (2배 확대) */
+  .hover-zoom {
+    transition: transform 0.3s ease;
+  }
+
+  .hover-zoom:hover {
+    transform: scale(2);
+    z-index: 10;
+    position: relative;
+  }
+
+  /* 이미지 간격 최소화 */
+  .film-strip img {
+    width: 150px;
+    height: 100px;
+    object-fit: cover;
+    margin-right: 4px;
+  }
+
+  .film-strip {
+    gap: 4px;
+    justify-content: center; /* 이미지를 가로로 가운데 정렬 */
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+/* 하단 네비바와 푸터 간의 여백을 제거 */
+.small-nav {
+  margin-bottom: 0; /* small-nav 아래쪽 여백 제거 */
+}
+
+footer {
+  margin-top: 0; /* footer 위쪽 여백 제거 */
+}
+ 

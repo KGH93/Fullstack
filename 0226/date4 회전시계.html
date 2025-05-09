@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Date p(395)</title>
+    <style>
+        *{margin: 0; padding: 0;}
+        #clock{
+            position: relative;
+            width: 300px;
+            height: 300px;
+            margin: 100px auto;
+            border: 1px solid #333;
+        }
+
+        #clock img{
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: block;
+        }
+
+    </style>
+</head>
+<body>
+
+    <h1>
+        <span Id = "year">0000</span>년
+        <span Id = "month">00</span>월
+        <span Id = "date">00</span>일
+        <span Id = "nday">0</span>
+        <span Id = "hour">00</span>시
+        <span Id = "minute">00</span>분
+        <span Id = "second">00</span>초
+    </h1>
+
+
+
+    <div id="clock">
+        <img src="images/clock.png" alt="시계" id="clock1">
+        <img src="images/h.png" alt="시침" id="hour1">
+        <img src="images/m.png" alt="분침" id="minute1">
+        <img src="images/s.png" alt="초침" id="second1">
+    </div>
+
+
+
+
+
+
+
+
+    <script>
+
+        autoTime();
+        setInterval(autoTime,1000);
+
+
+        function autoTime() {
+
+            
+        var today = new Date();
+        var year = today.getFullYear();
+        var month = today.getMonth()+1;
+        var date = today.getDate();
+        var day = today.getDay();
+        
+        switch (day) {
+            case 0:
+                result = "일요일";
+                break;
+            case 1:
+                result = "월요일";
+                break;
+            case 2:
+                result = "화요일";
+                break;
+            case 3:
+                result = "수요일";
+                break;
+            case 4:
+                result = "목요일";
+                break;
+            case 5:
+                result = "금요일";
+                break;
+            case 6:
+                result = "토요일";
+                break;
+        
+            default:
+                break;
+        }
+
+        // if (day === 0){
+        //     comment = "일요일"
+        // }
+        // else if (day === 1){
+        //     comment = "월요일"
+        // }
+        // else if (day === 2){
+        //     comment = "화요일"
+        // }
+        // else if (day === 3){
+        //     comment = "수요일"
+        // }
+        // else if (day === 4){
+        //     comment = "목요일"
+        // }
+        // else if (day === 5){
+        //     comment = "금요일"
+        // }
+        // else if (day === 6){
+        //     comment = "토요일"
+        // }
+        // else{}
+
+        // alert(comment);
+        
+
+        var h = today.getHours();
+        var m = today.getMinutes();
+        var s = today.getSeconds();
+
+
+        document.getElementById('year').innerHTML = year;
+        document.getElementById('month').innerHTML = month;
+        document.getElementById('date').innerHTML = date;
+        document.getElementById('nday').innerHTML = result;
+        document.getElementById('hour').innerHTML = h;
+        document.getElementById('minute').innerHTML = m;
+        document.getElementById('second').innerHTML = s;
+
+
+        // id선택자를 선택하는 방법
+
+    var si = document.getElementById('hour1');
+    var bun = document.getElementById('minute1');
+    var cho = document.getElementById('second1');
+
+
+    // // 시간은 시침이 12까지 있고 24시간이므로 if문이 필요
+    if(h > 12){
+        h = h - 12;
+    }
+
+    var dh = h * 30 + (m * 0.5) ; // 시간당 30도씩 가야만 24시간 일때 360(1회전)
+    //  아날로그시계 시침 =  시간 x30 + (분 * 0.5) // 1시간에 30도이동 = 60분에 0.5도씩 이동중함 분계산을 안붙이면 1시간마다 30도씩한번에움직임
+    // var dh = h * 30 + (m / 2) ; // 시간당 30도씩 가야만 24시간 일때 360(1회전)
+    var dm = m * 6 ; // 분당 6도씩 가야만 60초일때 360(1회전)
+    var ds = s * 6 ; // 초당 6도씩 가야만 60초일때 360(1회전)
+
+    si.style.transform = "rotate("+dh+"deg)";
+    bun.style.transform = "rotate("+dm+"deg)";
+    cho.style.transform = "rotate("+ds+"deg)";
+
+    }
+
+    </script>
+</body>
+</html>

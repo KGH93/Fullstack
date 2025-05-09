@@ -1,0 +1,57 @@
+*{margin: 0; padding: 0;}
+
+.back{
+    width: 100%;
+    /* 보이는 높이 꽉채우기 */
+    height: 100vh;
+}
+
+.back1{
+    background-color: azure;
+    background-image: url(../images/B1.png);
+    /* background-repeat: no-repeat; repeat-x, repeat-y
+    배경이미지는 기본적으로 반복  / no repeat 반복안함
+    repeat-x x축으로 반복 repeat-y y축으로 반복 */
+    /* background-size: cover;
+    이미지 배경이 화면에 꽉차게 덮음 */
+    background-size: cover;
+}
+
+.back2{
+    background-color: rgb(38, 121, 121);
+    background-image: url(../images/B2.jpg);
+    background-size: cover;
+}
+
+.back3{
+    background-color: rgb(29, 114, 18);
+    background-image: url(../images/B3.jpg);
+    background-size: cover;
+    /* 배경 고정 */
+    background-attachment: fixed;
+}
+
+.back4{
+    background-color: #a4d61a;
+    background-image: url(../images/B4.jpg);
+    background-size: cover;
+}
+
+.back5{
+    background-color: rgb(122, 18, 79);
+    background-image: url(../images/B5.jpg);
+    background-size: cover;
+}
+
+.back6{
+    background-image: url(../images/Cat1.jpg);
+    background-repeat: no-repeat;
+    /* 배경위치 : 가로위치 세로위치*/
+    background-position: 50% 50%;
+    background-color: cyan;
+}
+
+.back7{
+    background: coral url(../images/Cat1.jpg) no-repeat 50% 50%;
+}
+

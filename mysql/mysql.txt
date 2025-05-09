@@ -1,0 +1,1582 @@
+SQL문의 종류
+
+데이터 정의어
+
+데이터 베이스나 테이블 , 인덱스와 같은 데이터베이스 객체를 생성, 변경, 삭제할 떄 쓰임
+
+DDL
+
+CREATE 데이터베이스 객체생성
+
+ALTER 생성된 객체의 구조 변경
+
+DROP 생성된 객체를 삭제 
+
+TRUNCATE 테이블에 있는 데이터 모두 삭제
+
+
+데이터 조작어
+
+DML - 데이터 관리
+
+레코드 추가, 삭제하거나 변경, 검색
+
+SELECT 테이블에서 조건에 맞는 데이터 검색
+
+INSERT 테이블에 새로운 레코드 삽입
+
+UPDATE 데이블에 있는 데이터값을 수정
+
+DELETE  테이블에 있는 레코드 삭제
+
+
+
+데이터 제어어 와 트랜잭션 제어어
+
+DCL 
+
+DCL - GRANT 특정 사용자 또는 특정 객체에 대해 생성, 수정등 특정 작업에 권한 부여
+
+- REVOKE GRANT문으로 부여한 권한을 철회할 떄 사용
+
+TCL - COMMIT 트랜잭션 작업 내용을 실체 데이터베이스에서 영구 저장
+
+-ROLLBACK 트랙젼 처리과정에서 발생한 변경 사항을 취소
+
+
+
+
+
+설치부터///////////////////////////////////////////////////////////////////////////////
+
+
+pttps://dev.mysql.com/downloads/file/?id=536788
+
+custon  -   mysql server, workbench
+
+msql 기본port 3306  
+
+use legacy autentication method
+
+password
+
+////////////////////////////////////////////////////
+
+CMD상태에서 MYSQL 접속
+
+-root로 진입
+
+mysql -u -root -p   - >   PASSWORD입력
+
+-Mysql 사용
+
+Use mysql;
+
+-현재 로그인한 사용자
+
+SELECT CURRENT USER();
+
+-새로운 User 생성
+
+CREATE USER NAME@localhost IDENTIFIED BY 'PASSWORD';
+
+EX ) CREATE USER KGH@localhost IDENTIFIED BY '12345';
+
+EX ) CREATE USER KGH@192.168.1.10 IDENTIFIED BY '12345';
+
+mysql -u KGH -p
+
+- 특정 DB에 전체권한추가
+
+GRANT ALL ON DB.*TO USER;
+
+EX ) GRANT ALL ON TEST.*TO KGH@LOCALHOST;
+
+FLUSH PRIVILEGES; = > 메모리에 적용
+
+
+-전체 db에 대한 select,insert 권한 추가
+
+GRANT SELECT, INSERT ON*.*TO KGH@LOCALHOST
+
+
+-전체 db(TEST)에 포함된 특정 TABLE(FRIEND)대한 권한 추가
+
+GRANT ALL ON TEST.FRIEND TO KGH@LOCALHOST
+
+-쓰기 , 수정 권한을 삭제
+
+REVOKE INSERT,UPDATE ON test*From KGH;
+
+- 사용자 전체 권한을 삭제
+
+REVOKE ALL ON *.* FROM KGH;
+
+- 사용자 전체 쓰기 권한 삭제
+
+REVOKE INSERT ON *.* TO KGH@LOCALHOST;
+
+- 사용자 삭제
+
+DROP USER KGH@LOCALHOST;
+
+- LOCALHOST;  와 % 차이
+
+로컬컴퓨터는 자기 자신에서만 접속 허용
+
+% 어디서든 접속 가능 ( 보안위험, 방화벽 필수)
+
+- MYSQL 종료
+
+QUIT  => mysql 종료
+
+///////////////////////////////////////////////////////////////////////////////////////
+-Workbench 에서 접속
+
+root 계정 접속
+
+administration - users and privileges - 어카운트에 원하는 유저에 권한 설정 
+
+워크벤치 메인에서 계정 생성 (유저이름입력) 
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+SHOW DATABASES;  데이터 목록보기
+
+mysqldump -uroot -p1234 sample > sample.sql  -> 데이터 생성
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+
+CREATE DATABASE TEST;  -> 데이터 베이스 'TEST'생성
+
+DROP DATABASE TEST;  -> 데이터 베이스 'TEST'삭제
+
+USE TEST -> 데이터 베이스 'TEST' 선택
+
+SHOW DATEBASES -> 데이터 베이스 목록 조회
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+create table member()   -> 테이블 생성
+drop table memer; -> 테이블 삭제
+show tables -> 테이블 목록조회
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+// 테이블의 카테고리 8개 생성  //not null 빈칸이면 안되는거 // null null값으로 대체가능
+
+create table member(  //member =테이블이름
+mem_id char(8) not null primary key,  //primary key(유일키) 필수 //테이블 정의의 처음에 위치할 필요x테이블의 마지막 부분에 정의가능
+mem_name varchar(8) not null,    
+mem_number tinyint not null,
+addr char(2) not null,
+phone1 char(3) null,
+phone2 char(8) null,
+height tinyint unsigned null,
+dubut_date date null
+);
+
+// 멤버 추가 예시문
+insert into member values('TWC', '트와이스',9,'서울', '02','11111111', 167,'2015-10-19');
+INSERT INTO member VALUES('BLK', '블랙핑크', 4, '경남', '055', '22222222', 163, '2016-8-8');
+INSERT INTO member VALUES('WMN', '여자친구', 6, '경기', '031', '33333333', 166, '2015-1-15');
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+desc member;  -> 테이블 구조 출력
+alter table member add xxx type;   -> 맨뒤에 필드추가  ex )name char(20)
+alter table member add xxx after www;   ->  www라는 필드 뒤에 순서로 추가
+alter table member change aaa bbb type;  -> aaa ->bbb 로 필드명수정,뒤의타입은 유지
+alter table member modify aaa type null; -> 필드의 데이터타입 수정 ex)aaa int; aaa의 타입 int값으로 변환
+alter table xxx add column yyy type;  -> 테이블xxx의 필드yyy 타입추가 -> 새 필드 추가
+alter table member drop xxx;  ->  필드삭제 - xxx라는 필드삭제
+
+
+
+select * from xxx;   -> 테이블(xxx) 내용 검색
+rename table aaa to bbb -> 테이블이름 변경 aaa->bbb
+select id, name from xxx;  -> 테이블xxx의 멤버 id랑 name만 검색
+
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+create table buy(
+num int auto_increment not null primary key,
+mem_id char(8) not null,
+prod_name char(6) not null,
+group_name char(4) null,
+price int unsigned not null,
+amount smallint unsigned not null,
+foreign key(mem_id) references member(mem_id)
+);
+
+buy 추가 예시
+insert into buy values(null, 'BLK', '지갑', null, 30,2);
+insert into buy values(null, 'BLK','맥북프로','디지털',1000,1);
+INSERT INTO buy VALUES( NULL, 'APN', '아이폰', '디지털', 200, 1);  //오류 apn이없음.
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+mysql> create table friend(
+    -> num int not null auto_increment,
+    -> name char(20) not null,
+    -> tal char(20) not null,
+    -> address char(80),
+    -> primary key(num)
+    -> );
+
+추가 예시
+insert into friend (name,tel,address) values ('송예진', '031-123-4567', '경기도 용인시 주시구 정평로 30');  //네임텔어드레스 지정해서 3개값만입력
+insert into friend values(null,'김수정', '034-333-4444', '양지군 지평면 묵방길 123번지');  //지정값이없어 not null전부입력
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+1. 여성 회원의 아이디, 이름 ,주소 , 성별 검색  //조건1 여성
+select id,name,address, gender from member where gender = 'W';   // 조건걸떄 where
+2. 50세 이상인 남성 회원의 이름 , 전화번호 , 성별 ,나이 검색  //조건2 남성, 50세이상
+select name,tel,gender,age from member where gender = 'M' and age >=50; //조건두개걸때 사이에 and
+3. 20대 회원의 이름,성별,주소,나이 검색
+select name,gender,address,age from member where age >19 and age<30;
+4. 30대또는 50대 남성 회원의 이름, 전화번호,나이,성별 검색
+ select name,tel,age,gender from member where gender = 'M' and ((age >29 and age <40) or (age >49 and age <60));
+5. 이름이 '안철영'인 회원의 일련번호,이름,전화번호,주소,우편번호,나이,성별 검색
+mysql> select num, name, tel, address, post_num, age, gender from member where name = '안철영';
+6. 성이 박씨인 회원의 이름, 전화번호 검색
+select name, tel from member where name like '박%';
+7. 서울에 거주하는 회원의 일련번호, 이름, 주소, 성별 검색 //서울로 시작 서울%
+select num,name,address,gender from member where address like '서울%';
+8, 은평구에 거주하는 회원의 모든 정보 검색  // %은평구% 은평구라는 단어를 포함한전부
+ select * from member where address like '%은평구%';
+9. 성이 김씨이고 광주에 거주하는 회원의 모든 정보 검색
+select * from member where address like '광주%' and name like '김%';
+
+//////////////////////////////////
+select 출력시 조건 걸떄 where 사용
+조건을 두개 걸땐 조건사이에 and 사용
+조건에 또는이 붙을때  or 사용 , 조건에 괄호필수  // 같은 필드의 조건이면 IN('a','b'); 가능 // 숫자 이상이하면 between a and b
+단어로 조건걸때  %사용 
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+레코드 정렬
+select 필드명1, 필드명2 from 테이블명 order by 정렬중심인 필드명;
+
+10. 서울에 사는 회원을 나이순으로 오름차순 정렬한 뒤 이름,나이,주소,전화번호,성별 출력
+select name, age, address, tel, gender from member where address like '서울%' order by age;
+11. 부산에 사는 회원을 나이순으로 내림차순 정렬한 뒤 이름,나이,주소 ,전화번호 출력
+select name, age, address ,tel from member where address like '부산%' order by age desc;
+
+ascending- 오름차순 -생력가능
+desc - descending - 내림차순
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-레코드 수정
+update 테이블명 set 필드명=필드값 where 조건식;
+
+12. 이름이 '고재진' 레코드의 전화번호를 123-4567로 변경
+update member set tel='123-4567' where name = '고재진';
+select name, tel from member where name = "고재진";
+13. 이름이 '정한나'인 회원의 나이를 확인하고 값을 37로 변경
+select name,age from member where name = "정한나";
+update member set age=37 where name = "정한나";
+select name,age from member where name = "정한나";
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+레코드 삭제
+delete from 테이블명 where 조건식
+
+14. 이름이 '김수련'인 레코드를 삭제 한 뒤 확인
+select name from member where name = '김수련';
+delete from member where name = '김수련';
+select name from member where name like '김%';
+15. 40대 회원의 레코드를 삭제 한뒤 35~53세 회원의 이름,나이,성별을 나이순을 출력하여 확인
+delete from member where ( age >39 and age <50);
+select name,age,gender from member where age>34 and age<54 order by age;
+
+delete from member;
+member 테이블의 전체 레코드를 삭제
+
+조건식을 생략하고 delete form 명령어를 실행하면 member 테이블의 전체 레코드를 삭제 할 수있으니 주의바람
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+산술연산
+select 23+5 as 더하기 , 23-5 as 빼기 , 23*5 as 곱하기 , 23/5 as 실수나누기 , 23 div 5 as 정수나누기 , 23%5 as 나머지1 , 23 mod 5 as 나머지2
+비교연산
+select 23>=5, 23<=5, 23>23, 23<23, 23 = 23, 23!=23, 23 <> 23;
+true = 1 , false = 0 표시
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+Limit 개수 제한
+
+1. 고객 테이블에서 1행부터 시작하여 3개의 고객 정보를 조회하시오
+select*from 고객 limit 3; 
+2. 고객 테이블에서 10행부터 시작하여 3개의 고객 정보를 조회하시오
+select*from 고객 limit 10,3; 
+3. 마일리지가 많은 고객 상위부터 3위까지
+select*from 고객 order by 마일리지 desc limit 3; 
+4. 도시 컬럼에 들은 값들을 중복없이 한개씩만 표시하시오
+select distinct 도시 from 고객;
+5. 대표이사가 아닌 담당자직위들만 출력하기
+SELECT * FROM 고객 where 담당자직위 <> '대표 이사';
+SELECT * FROM 고객 where 담당자직위 != '대표 이사';
+
+
+SELECT A B 
+C
+UNION
+SELECT D E
+F
+
+유니온 은 두 셀렉트 값을 결합할때 사용하며 데이터타입의 대비가 다르면 사용할 수 없다.
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+1. 고객 테이블에서 고객번호,담당자명,회사명,마일리지,10%인상마일리지 조회. 마일리지를 포인트로 별명붙이기
+SELECT 고객번호, 담당자명, 고객회사명, 마일리지 as 포인트, 마일리지 * 1.1 as "10%인상된 마일리지" from 고객;
+2. 마일리지 10만이상의 고객번호, 담당자명,마일리지 조회
+SELECT 고객번호, 담당자명, 마일리지 from 고객 where 마일리지 >=100000;
+3.서울시 사는고객의 고객번호,담당자명,도시,마일리지 조회, 마일리지 많은고객부터 순차로, 포인트로변경
+SELECT 고객번호,담당자명,도시,마일리지 as 포인트 from 고객 where 도시 = '서울특별시' order by 마일리지 desc;
+4.도시가 부산광역시 면서 마일리지가 1000점보다 작은 고객 정보 출력
+SELECT * from 고객 where 도시 = '부산광역시' and 마일리지 <1000;
+5. 부산광역시에 살거나 마일리지 1000점보다 작은 고객의 번호,담당자명,마일리지,도시 출력 , 고객번호순으로 정렬 
+SELECT 고객번호, 담당자명, 마일리지, 도시 from 고객 where 도시 = '부산광역시' or 마일리지 < 1000 order by 1;    //1대신 고객번호가능
+6. 담당자직위가 영업과장이나 마케팅 과장인 고객의 고객번호 담당자명 담당자직위 출력
+SELECT 고객번호,담당자명,담당자직위 from 고객 where 담당자직위 = '영업 과장' or 담당자직위 = '마케팅 과장';
+SELECT 고객번호,담당자명,담당자직위 from 고객 where 담당자직위 IN ('영업 과장' , '마케팅 과장');
+7. 마일리지가 10만점이상 20만전이하인 고객의 담당자명, 마일리지를 출력
+SELECT 담당자명, 마일리지 FROM 고객 WHERE (마일리지 >= 100000) AND (마일리지 <= 200000);
+SELECT 담당자명,마일리지 from 고객 where 마일리지 between 100000 and 200000;
+8. 도시가 광역시인 고객들중 고객번호의 두번째 세번째가 C인 직원들의 정보 표시 
+SELECT*from 고객 where 도시 like '%광역시' and (고객번호 like '_C%' or 고객번호 Like '__C%');
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+레코드 LIKE 연산자 검색
+AA컬럽값중 BB 들어가는것  = AA LIKE '%BB%'
+AA컬럽값중 BB로 끝나는것  = AA LIKE '%BB'
+AA컬럽값중 BB로 시작하는것  = AA LIKE 'BB%'
+CC컬럼값의 두번째가 C 인것 = CC LIKE '_C%'
+CC컬럼값의 세번째가 C 인것 = CC LIKE '__C%'	
+CC컬럼값의 5글자면서 세번째가 C 인것 = CC LIKE '__C__'
+
+/////////////////////////////////빈문자열 설정하기//////////////////////////////////////////////////////////////////////
+
+Csv 파일을 임포트 했을떄 null 이나 빈칸 값은 ''으로 저장된다.  빈칸값은 null이아니라  '' 공란을 저장한 것
+이를 null이나 다른값으로 수정하려면 세이프티 모드를 해제하고 수정을해야한다. 
+0. 옵션으로 세이프티 모드 해제하기
+Edit> Preferences > SQL Editor > Safe Updates 옵션 설정 후 재부팅
+1. 세이프티 모드 명령문으로 해제
+set sql_safe_updates = 0;
+2. 세이프티 모드 명령문으로 설정
+set sql_safe_updates = 1;
+3. 지역이 아예 없는 직원들만 표시    
+SELECT * FROM 고객 where 지역 = '';
+4. 세이프티모드 잠금 해제하고 지역 '' 를 null 로 바꾸기
+set sql_safe_updates = 0;
+update 고객 set 지역 = null where 지역 = '';
+set sql_safe_updates = 1;
+5. 지역값이 null 인 고객표시
+SELETE * from 고객 where 지역 is null;
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+함수
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-글자의 길이 
+select char_length('HELLO')     //영문자 개수반환5
+       ,LENGTH('HELLO')      // 바이트수  5
+       ,char_length('안녕')  //문자 개수 2
+       ,length('안녕'); //UTF-8  바이트수 6
+
+
+select concat('DREAMES','COME','TRUE')   //DREAMESCOMETRUE
+             ,concat_ws('-','2025','04','10');  //2025-04-10 
+
+
+-LEFT(문자열,길이)
+SELECT LEFT('SQL 완전정복', 3)  // 왼쪽부터 3글자 추출 // SQL
+		,RIGHT('SQL 완전정복', 4)  // 완전정복
+      		,SUBSTR('SQL 완전정복', 2, 5)  //  QL 완전
+      		,SUBSTR('SQL 완전정복', 2);  // QL 완전정복
+
+-공백부터 삭제하기
+SELECT SUBSTRING_INDEX('서울시 동작구 흑석로', ' ', 2)  //  서울시 동작구  // 공백2번쨰뒤부터 삭제
+      ,SUBSTRING_INDEX('서울시 동작구 흑석로', ' ', -2); // 동작구 흑석로 // 공백-2번쨰뒤부터 삭제
+
+
+-LPAD(문자열,길이,채울 문자열)
+SELECT LPAD('SQL',10,'#')  // #######SQL
+	,RPAD('SQL',5,'*');  // SQL**
+
+
+-공백을 제거하고 글자수
+SELECT LENGTH(LTRIM(' SQL '))  //4
+     ,LENGTH(RTRIM(' SQL '))  //4
+      ,LENGTH(TRIM(' SQL '));  //3  //양쪽공백을 제거하고 글자수
+
+-
+SELECT TRIM(BOTH 'abc' FROM 'abcSQLabcabc')   //SQL // 양쪽 abc제거
+      ,TRIM(LEADING 'abc' FROM 'abcSQLabcabc')  //SQLabcabc // 왼쪽 abc 제거
+      ,TRIM(TRAILING 'abc' FROM 'abcSQLabcabc');  //abcSQL // 오른쪽 abc 제거
+
+-반복
+SELECT REPEAT('*',5);   // ***** 
+
+- .을 -로 대체
+SELECT REPLACE('010.1234.5678','.','-');   // 010-1234-5678 
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+-소수자리 올림 내림
+SELECT CEILING(123.56)   //124 올림
+         ,FLOOR(123.56)   //123 내림
+         ,ROUND(123.56)  //124 반올림
+         ,ROUND(123.56,1)  //123.6  소수둘째에서 반올림해서 첫째짜리까지 표시
+         ,TRUNCATE(123.56,1);  //123.5  소수둘째자리 버림
+
+
+-나눈나머지
+SELECT MOD(203,4)   //3
+	,203 % 4   //3
+   	 ,203 MOD 4   //3
+
+-제곱
+SELECT POWER(2,3)  //8 (2X2X2) // 거듭제곱
+	,SQRT(16) //4 // 제곱근
+	,RAND() // 0~1 사이 랜덤값
+	,RAND(100)   //  랜덤값 하나를 시드100에 고정//  같은값 다시 재현가능
+	,ROUND(RAND()*100);  // 랜덤생성값에 100을곱하고 반올림 // 0~1사잇수
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+시간
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+SELECT NOW(), SYSDATE(), curdate(), curtime();
+	NOW = 년월일 시분초
+           SYSDATE = 년월일 시분초
+	CURDATE = 년월일
+ 	CURTIME = 시분초
+
+SELECT NOW()
+      ,YEAR(NOW())
+      ,QUARTER(NOW())   //분기 
+      ,MONTH(NOW())
+      ,DAY(NOW())
+      ,HOUR(NOW())
+      ,MINUTE(NOW())
+      ,SECOND(NOW())
+
+
+SELECT NOW()
+	,DATEDIFF('2026-12-20',NOW()) //목표일수에서 현재일수를 뺸수 // 남은일수
+       	 ,DATEDIFF(NOW(),'2026-12-20')//현재일수에서 목표일수를 뺀수 // -남은일수
+       	 ,timestampDIFF(year, NOW(), '2026-12-20')  // 몇년남았는지
+       	 ,timestampDIFF(month, NOW(), '2026-12-20')  //몇개월남았는지
+	,timestampDIFF(day, NOW(), '2026-12-20')  //몇일남았는지
+
+
+SELECT NOW()
+	,adddate(NOW(),50)  // 현재에 50일+
+       	,adddate(NOW(),INTERVAL 50 DAY)   //현재에 50일+ 인터벌이 확실한 명시
+	,adddate(NOW(),INTERVAL 50 MONTH)  ////현재에 50개월+
+	,subdate(NOW(),interval 50 HOUR);  //현재에서 50시간-
+
+
+SELECT NOW()
+	,LAST_DAY(NOW())  //월마지막일 
+       	,dayofyear((NOW()))  //1년중 NOW일째
+	,monthname((NOW()))   // 이번달
+	,weekday((NOW()));  // 일주일중 NOW번째 / /EX MON -0 THUR -3
+
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+숫자를 문자로 또는 문자를 숫자로 변경
+SELECT CAST('1' AS UNSIGNED)   //1
+	,CAST(2 AS CHAR(1))  //2
+     	,CONVERT('1', UNSIGNED)   //1
+     	,CONVERT(2, CHAR(1));   //2
+
+
+IF 문 
+SELECT IF(12500 * 450 > 5000000, '초과달성', '미달성');  // 초과달성 출력
+CASE 문
+SELECT case WHEN 12500 * 450 > 5000000 THEN '초과달성'
+	    WHEN 12500 * 450 > 4000000 THEN '달성'
+               ELSE '미달성'
+               END;       //초과달성 출력
+
+
+///////////////////////////////////////////////////ex //////////////////////////////////////////////////////////////////
+
+1. 회사명 앞에 2자리 **표 // 전화번호 ) 를 - 로 변경
+고객회사명2 = **회사명으로 출력
+전화번호2 = XX)XXX를 XX-XXX로 출력
+
+
+ELECT 고객회사명, CONCAT('**', SUBSTR(고객회사명,3)) AS 고객회사명2,
+	   전화번호, replace(SUBSTR(전화번호,2),')','-') AS 전화번호2
+	 FROM 고객;
+
+
+
+2. 모든금액 1의단위를 버림하고 10의단위부터 표시, 주문수량 ,할인금액, 실주문금액
+
+SELECT 단가*주문수량 AS 주문금액, 	
+	truncate(단가*주문수량*할인율,-1) AS 할인금액,
+            단가 * 주문수량 - truncate(단가*주문수량*할인율,-1) AS 실주문금액 FROM 주문세부;
+
+
+
+
+
+
+3. 이름 생일 만나이 입사일 입사일수 500일후 표시
+
+SELECT 이름 ,
+          생일 ,
+          timestampdiff(Year, 생일, curdate())as 만나이,   
+          입사일,
+          datediff(curdate(),입사일) as 입사일수,
+          adddate(입사일, 500) as 500일후 
+          FROM 사원;
+
+//curdate(년월일만 표시) , now(시분초까지 표시)  //구별해서 쓰는게 좋음 . 위예제는 '일'기준이라 curdate사용
+
+
+
+4. 특별시 광역시 대도시 구분, 마일리지 등급 구분
+SELECT 담당자명,
+       고객회사명,
+       도시,
+       IF(도시 LIKE '%특별시' or 도시 like '%광역시', '대도시', '도시') as 도시구분,
+       마일리지,
+       CASE WHEN 마일리지 >= 100000 THEN 'VVIP고객' WHEN 마일리지 >= 10000 THEN 'VIP고객' ELSE '일반고객' END AS 마일리지구분
+       FROM 고객;
+
+
+
+5. 주문테이블에서 주문번호, 고객번호, 주문일, 주문년도,분기,월,일,요일,한글요일
+
+SELECT 주문번호, 고객번호, 주문일,
+       YEAR(주문일) AS 주문년도, QUARTER(주문일) AS 주분분기, MONTH(주문일) AS 주문월, DAY(주문일) AS 주문일, WEEKDAY(주문일) AS 주문요일 ,
+       CASE WEEKDAY(주문일) WHEN 0 THEN '월요일' WHEN 1 THEN '화요일' WHEN 2 THEN '수요일' WHEN 3 THEN '목요일' WHEN 4 THEN '금요일' WHEN 5 THEN '토요일' ELSE '일요일' END AS 한글요일
+       FROM 주문;
+
+
+
+6. 주문요청일 부터 7일이상 지연된 주문출력
+
+SELECT *
+          ,DATEDIFF(발송일, 요청일) AS 지연일수
+          FROM 주문 WHERE DATEDIFF(발송일, 요청일) >= 7;
+
+
+7. .2020년 2사분기 주문내역
+
+SELECT * FROM 주문 WHERE quarter(주문일)=2;
+
+8. 제품번호 제품명 재고 재고구분 // 100 과다 10적정 나머지 재고부족
+
+SELECT 제품번호, 제품명, 재고, 
+CASE WHEN 재고 >=100 THEN '과다재고' WHEN 재고 >=10 THEN '적정' ELSE '재고부족' END AS 재고구분 FROM 제품;
+
+9. 입사한지 40개월 지난 사원 이름,부서번호,직위,입사일,입사일수,입사개월수
+
+SELECT 이름, 부서번호, 직위, 입사일, 
+          DATEDIFF(CURDATE(),입사일) AS 입사일수, 
+          timestampDIFF(MONTH, 입사일, CURDATE()) AS 입사개월수 
+          FROM 사원 
+          WHERE timestampDIFF(MONTH, 입사일, CURDATE()) >= 40;
+
+
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+CMD상태에서 MYSQL 접속
+
+-root로 진입
+
+mysql -u -root -p   - >   PASSWORD입력
+
+-Mysql 사용
+
+Use mysql;
+
+-현재 로그인한 사용자
+
+SELECT CURRENT USER();
+
+-새로운 User 생성
+
+CREATE USER NAME@localhost IDENTIFIED BY 'PASSWORD';
+
+EX ) CREATE USER KGH@localhost IDENTIFIED BY '12345';
+
+EX ) CREATE USER KGH@192.168.1.10 IDENTIFIED BY '12345';
+
+mysql -u KGH -p
+
+- 특정 DB에 전체권한추가
+
+GRANT ALL ON DB.*TO USER;
+
+EX ) GRANT ALL ON TEST.*TO KGH@LOCALHOST;
+
+FLUSH PRIVILEGES; = > 메모리에 적용
+
+
+-전체 db에 대한 select,insert 권한 추가
+
+GRANT SELECT, INSERT ON*.*TO KGH@LOCALHOST
+
+
+-전체 db(TEST)에 포함된 특정 TABLE(FRIEND)대한 권한 추가
+
+GRANT ALL ON TEST.FRIEND TO KGH@LOCALHOST
+
+-쓰기 , 수정 권한을 삭제
+
+REVOKE INSERT,UPDATE ON test*From KGH;
+
+- 사용자 전체 권한을 삭제
+
+REVOKE ALL ON *.* FROM KGH;
+
+- 사용자 전체 쓰기 권한 삭제
+
+REVOKE INSERT ON *.* TO KGH@LOCALHOST;
+
+- 사용자 삭제
+
+DROP USER KGH@LOCALHOST;
+
+- LOCALHOST;  와 % 차이
+
+로컬컴퓨터는 자기 자신에서만 접속 허용
+
+% 어디서든 접속 가능 ( 보안위험, 방화벽 필수)
+
+- MYSQL 종료
+
+QUIT  => mysql 종료
+
+///////////////////////////////////////////////////////////////////////////////////////
+-Workbench 에서 접속
+
+root 계정 접속
+
+administration - users and privileges - 어카운트에 원하는 유저에 권한 설정 
+
+워크벤치 메인에서 계정 생성 (유저이름입력) 
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+- 집계 함수의 개념
+
+SELECT 집계_함수 FROM 테이블명 WHERE절
+
+COUNT(*컬럼) / 레코드 개수 / COUNT(*), COUNT(마일리지), COUNT(고객번호)
+SUM / AVG / MAX /MIN / STDDEV(표준편차,단가)
+
+-having 절  // 집계함수에만 사용가능
+레코드 출력의 조건의 걸때 // having 조건; 으로 마무리 ex having sum(마일리지) >=1000;]
+
+-with rollup;
+총계 . 구한 조건의 총계가 NULL로 표시됌.
+IF문을 사용해서 이름변경 가능 
+EX ) SELECT ifnull(도시, "총계") as 도시
+	   ,count(*) as 고객수
+       ,avg(마일리지) AS 평균마일리지
+       FROM 한빛무역.고객 where 지역 is null group by 도시 with rollup;
+-grouping 
+그룹핑은 with rollup의 결과로 나온 null에 대해서 1을 반환.
+null 아니면 0으로 출력.
+
+
+-group_concat
+필드 한종류를 한 레코드에 전부 표시/ distinct 안쓰면 중복된 결과값도 같이 출력됌
+
+EX) SELECT group_concat(distinct 지역) FROM 한빛무역.고객; 
+
+
+1. 고객 테이블에서 고객번호, 도시 , 지역의 개수를 조회하시오.
+SELECT COUNT(*)
+	  ,COUNT(고객번호)
+     	 ,COUNT(도시)
+      	,COUNT(지역) 
+	FROM 한빛무역.고객;
+
+2. 마일리지 SUM , 평균, 최대 , 최소
+
+SELECT SUM(마일리지)
+	  ,AVG(마일리지)
+     	 ,MIN(마일리지)
+     	 ,MAX(마일리지) FROM 한빛무역.고객;
+
+3. 마일리지 SUM, 평균, 최대 , 최소 , 서울시만
+
+SELECT SUM(마일리지)
+	  ,AVG(마일리지)
+      	,MIN(마일리지)
+     	 ,MAX(마일리지) FROM 한빛무역.고객 WHERE 도시 = '서울특별시';
+
+4. 도시별로 고객수와 평균마일리지를 구하기
+
+SELECT 도시
+	,COUNT(*) AS 고객수
+        	,AVG(마일리지) AS 평균마일리지
+       	 FROM 한빛무역.고객 group by 도시;
+
+5. 고객테이블에서 고객번호,도시,지역 개수 조회
+
+SELECT COUNT(고객번호),
+       COUNT(도시),
+       COUNT(지역) FROM 한빛무역.고객;
+
+6. 담당자직위 도시 고객수 평균마일리지 출력 / 담당지직위랑 도시 정렬
+
+
+group by 사용
+
+SELECT 담당자직위, 도시
+       ,COUNT(*) AS 고객수
+       ,AVG(마일리지) AS 평균마일리지
+       FROM 한빛무역.고객 group by 담당자직위,도시 order by 담당자직위, 도시;
+						// order by 1, 2; 로 표시가능
+
+7. 고객테이블에서 도시별로 그룹 묶어서 고객수와 평균마일리지를 구하고 이중에서 고객수가 10명 이상인 레코드만 걸러내기
+
+// having 절 사용
+
+SELECT 도시
+       ,COUNT(*) AS 고객수
+       ,AVG(마일리지) AS 평균마일리지
+       FROM 한빛무역.고객 group by 도시 having count(*) >= 10;
+
+
+8. 고객번호가 T로 시작하는 고객에 대해 도시별로 묶어 고객 마일리지 합을 구하기, 마일리지천점이상인 레코드만 출력
+
+having 사용
+
+SELECT 도시
+       ,sum(마일리지) AS 마일리지합계
+       FROM 한빛무역.고객 where 고객번호 like 'T%' group by 도시 having sum(마일리지) >= 1000;
+
+9. 광역시 고객의 담당자직위별로 최대 마일리지 출력, 최대마일리지가 만점이상인 레코드만 출력
+
+having 사용
+
+SELECT 담당자직위
+       ,max(마일리지) AS 최대마일리지
+       FROM 한빛무역.고객 where 도시 like '%광역시' group by 담당자직위 having max(마일리지) >= 10000;
+
+10. 지역이 NULL인 고객에 도시별로 고객수와 평균마일리지 출력, 맨마지막에 전체 고객수와 고객에대한 평균마일리지도 같이출력
+
+with rollup 사용
+
+SELECT ifnull(도시, "총계") as 도시
+       ,count(*) as 고객수
+       ,avg(마일리지) AS 평균마일리지
+       FROM 한빛무역.고객 where 지역 is null group by 도시 with rollup;
+
+
+11. 담당자 직위에 '마케팅' 이 들어간 고객의 담당자직위,도시별 고객수를 출력, 담당자직위별 고객수와 전체고객수도 같이출력
+
+with rollup 사용
+
+SELECT 담당자직위, 도시
+        ,count(*) as 고객수
+       FROM 한빛무역.고객 
+       where 담당자직위 LIKE '%마케팅%' 
+       group by 담당자직위,도시 with rollup;
+
+12. 담당자직위가 대표이사인 고객수 출력 , 구분표시
+
+grouping 사용
+
+SELECT 지역
+       ,count(*) as 고객수
+       ,grouping(지역) AS 구분
+       FROM 한빛무역.고객 
+       where 담당자직위 = '대표 이사' 
+       group by 지역 with rollup;
+
+13. 도시별로 고객회사명목록을 출력
+
+grouping 사용
+
+SELECT 도시
+       ,group_concat(고객회사명) AS 고객회사명목록 
+       FROM 한빛무역.고객 group by 도시 ;
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+조인  JOIN join Join
+ 
+조인(join)은 두개 이상의 테이블을 연결하여 데이터를 검색하는 방법으로 서로 다른 테이블에서
+저장된 관련된 데이터를 함께 가져와 하나의 결과로 표시. 검색하고 싶은 
+서로다른 테이블에 있을 때 사용 할 수 있으며, 여러개의 테이블을 하나의 테이블인것처럼 쓸 수 있다.
+
+EX // 테이블에 조인기능사용해보기
+
+//테이블 4개 삽입하고 조인기능 사용해보기
+
+
+CREATE TABLE celeb (
+    ID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    NAME VARCHAR(32) NOT NULL,
+    BIRTHDAY DATE DEFAULT NULL,
+    AGE INT DEFAULT NULL,
+    SEX CHAR(1) DEFAULT NULL,
+    JOB_TITLE VARCHAR(32) DEFAULT NULL,
+    AGENCY VARCHAR(32) DEFAULT NULL
+);
+
+-- 데이터 삽입
+INSERT INTO celeb (NAME, BIRTHDAY, AGE, SEX, JOB_TITLE, AGENCY) VALUES
+('아이유', '1993-05-16', 29, 'F', '가수, 텔런트', 'EDAM엔터테이먼트'),
+('이미주', '1994-09-23', 28, 'F', '가수', '울림엔터테이먼트'),
+('송강',   '1994-04-23', 28, 'M', '텔런트', '나무엑터스'),
+('강동원', '1981-01-18', 41, 'M', '영화배우, 텔런트', 'YG엔터테이먼트'),
+('유재석', '1972-08-14', 50, 'M', 'MC, 개그맨', '안테나'),
+('차승원', '1970-06-07', 48, 'M', '영화배우, 모델', 'YG엔터테이먼트'),
+('이수현', '1999-05-04', 23, 'F', '가수', 'YG엔터테이먼트');
+
+# member 테이블 구성
+DROP TABLE IF EXISTS member;  -- 기존에 있으면 삭제
+CREATE TABLE member -- 회원 테이블
+( mem_id        CHAR(8) NOT NULL PRIMARY KEY,   # primary key로 설정
+  mem_name      VARCHAR(10) NOT NULL, 
+  mem_number    TINYINT NOT NULL, 
+  addr          CHAR(2) NOT NULL,
+  phone1        CHAR(3) NULL,
+  phone2        CHAR(8) NULL,
+  height        TINYINT UNSIGNED NULL, 
+  debut_date    DATE NULL
+);
+
+# buy 테이블 구성
+DROP TABLE IF EXISTS buy;  -- 기존에 있으면 삭제
+CREATE TABLE buy 
+(  num         INT AUTO_INCREMENT NOT NULL PRIMARY KEY, -- AUTO_INCREMENT를 통해 자동부여하고, 순번(PK)
+   mem_id      CHAR(8) NOT NULL,  -- 아이디(FK)
+   prod_name     CHAR(6) NOT NULL,  --  제품이름
+   group_name     CHAR(4) NULL , -- 분류
+   price         INT UNSIGNED NOT NULL, -- 가격
+   amount        SMALLINT UNSIGNED  NOT NULL, -- 수량
+   FOREIGN KEY(mem_id) REFERENCES member(mem_id)   # 위의 member테이블에서 mem_id와 엮어서 Foreign key 생성
+);
+
+
+# 구성한 각 테이블에 정보 주입
+-- member tabel
+INSERT INTO member VALUES('TWC', '트와이스', 9, '서울', '02', '11111111', 167, '2015-10-19');
+INSERT INTO member VALUES('BLK', '블랙핑크', 4, '경남', '055', '22222222', 163, '2016-8-8');
+INSERT INTO member VALUES('WMN', '여자친구', 6, '경기', '031', '33333333', 166, '2015-1-15');
+-- buy table
+INSERT INTO buy VALUES( NULL, 'BLK', '지갑', NULL, 30, 2);
+INSERT INTO buy VALUES( NULL, 'BLK', '맥북프로', '디지털', 1000, 1);
+INSERT INTO buy VALUES( NULL, 'APN', '아이폰', '디지털', 200, 1);
+
+
+-- 테이블 생성
+CREATE TABLE snl_show (
+    ID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    SEASON INT NOT NULL,
+    EPISODE INT NOT NULL,
+    BROADCAST_DATE DATE DEFAULT NULL,
+    HOST VARCHAR(32) NOT NULL
+);
+
+-- 데이터 삽입
+INSERT INTO snl_show (SEASON, EPISODE, BROADCAST_DATE, HOST) VALUES
+(8, 7, '2020-09-05', '강동원'),
+(8, 8, '2020-09-12', '유재석'),
+(8, 9, '2020-09-19', '차승원'),
+(8, 10, '2020-09-26', '이수현'),
+(9, 1, '2021-09-04', '이병헌'),
+(9, 2, '2021-09-11', '하지원'),
+(9, 3, '2021-09-18', '제시'),
+(9, 4, '2021-09-25', '조정석'),
+(9, 5, '2021-10-02', '조여정'),
+(9, 6, '2021-10-09', '옥주현');
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+JOIN join Join 5개
+
+1. [Inner Join] - 두 테이블에서 공통된 요소들을 통해 결합하는 조인 방식
+
+ex) 셀럽을 기준으로 snl출현한 호스트 출력하기 //셀럽 id , 이름 , snl쇼 id, 호스트 출력하기// inner join 하여 각 테이블에서 필요한부분을 조회
+
+SELECT celeb.id, celeb.name, snl_show.id, snl_show.host
+from celeb
+inner join snl_show
+on celeb.name = snl_show.host
+
+// snl에 출현한 셀럽들만 출력
+
+
+
+2. [Self Join]  - inner join과 유사하고 table 간의 공통된 데이터를 조회하며 가장 자주 쓰는 join방법이다.
+
+ex) 셀럽을 기준으로 snl출현한 호스트 출력하기 //셀럽 id , 이름 , snl쇼 id, 호스트 출력하기// self join 하여 각 테이블에서 필요한부분을 조회
+
+SELECT celeb.id, celeb.name, snl_show.id, snl_show.host
+from celeb, snl_show
+where celeb.name = snl_show.host
+
+// snl에 출현한 셀럽들만 출력  // inner join 생략하고 ,로 표시, on대신 where로 대체
+
+
+
+3.[Left Join] - 두 테이블에서 공통된 요소들을 통해 결합하고 Left기준 테이블 정보를 전부 출력하는 조인 방식
+
+ex) 셀럽을 기준으로 snl출현한 호스트 출력하기 //셀럽 id , 이름 , snl쇼 id, 호스트 출력하기// left join 하여 각 테이블에서 필요한부분을 조회
+
+SELECT celeb.id, celeb.name, snl_show.id, snl_show.host
+from celeb
+left join snl_show
+on celeb.name = snl_show.host
+
+// 셀럽을 기준으로한 left join, snl에 출연안한 셀럽들도 출력, host로 출력안한 셀럽들의 show id,host는 null로 표시
+
+
+
+4.[Right Join] - 두 테이블에서 공통된 요소들을 통해 결합하고 right기준 테이블 정보를 전부 출력하는 조인 방식
+
+ex) 셀럽을 기준으로 snl출현한 호스트 출력하기 //셀럽 id , 이름 , snl쇼 id, 호스트 출력하기// right join 하여 각 테이블에서 필요한부분을 조회
+
+SELECT celeb.id, celeb.name, snl_show.id, snl_show.host
+from celeb
+right join snl_show
+on celeb.name = snl_show.host
+
+// snl show을 기준으로한 right join, snl에 출연한  셀럽들 전부 출력, 셀럽에 없는 호스트들은 셀럽 id, name는 null로 표시
+
+
+
+5.[Full Other Join] - 두 테이블에서 공통된 요소들을 포함, 양쪽 테이블의 다른영억들을 전부 포함하는 조인방식
+- sql에서 full other join을 지원하지 않는다. 대신 Union을 사용해서 left  join , right join을 동시에 사용
+-[Union] - 유니온 은 두 셀렉트 값을 결합할때 사용하며 데이터타입의 대비가 다르면 사용할 수 없다.
+
+ex) 셀럽을 기준으로 snl출현한 호스트 출력하기 //셀럽 id , 이름 , snl쇼 id, 호스트 출력하기// full other join 하여 각 테이블에서 필요한부분을 조회
+
+ select celeb.id, celeb.name, snl_show.id, snl_show.host
+     from celeb
+     left join snl_show
+     on celeb.name = snl_show.host
+    union
+     select celeb.id, celeb.name, snl_show.id, snl_show.host
+     from celeb
+     right join snl_show
+    on celeb.name = snl_show.host;
+
+//두테이블의 데이터 전부 출력,  빈 데이터는 null로 표시
+
+
+/////////////////////////////////////////////////////EX ///////////////////////////////////////////////////////////////////////////
+
+1. CELEB TABLE의 셀럽중 SNL 출현했고 소속사가 안테나인 셀럽의 이름과 직업조회
+
+-LEFT JOIN(ANSI) 방식
+select celeb.name, celeb.job_title
+from celeb
+left join snl_show
+on celeb.name = snl_show.host
+where celeb.agency = '안테나';
+
+-SELF JOIN(NON -ANSI) 방식  // 이쪽을 더 자주 사용
+select celeb.name, celeb.job_title
+from celeb, snl_show
+where celeb.name = snl_show.host and celeb.agency = '안테나';
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+UNION.union.Union
+
+여러 개의 sql문을 합쳐서 하나의 sql 문으로 만들어주는 방법(주의 -컬럼의 개수가 같아야함)
+
+-ex1
+
+test1, test2 table 생성
+
+
+mysql> create table test1
+    -> (
+    ->  no int
+    -> );
+
+mysql> create table test2
+    -> (
+    ->  no int
+    -> );
+
+
+test1, test2 table에 데이터 입력
+
+# test 1
+mysql> insert into test1 values (1);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into test1 values (2);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into test1 values (3);
+Query OK, 1 row affected (0.00 sec)
+
+# test2
+mysql> insert into test2 values (5);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into test2 values (6);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into test2 values (3);
+Query OK, 1 row affected (0.01 sec)
+
+
+종복된 값을 제외하고 조회
+
+ex_ test1, 2 table로 확인
+
+SELECT * FROM sample.test1
+union
+SELECT * FROM sample.test2;
+
+중복된 3은 하나만 출력, 총5개 출력됌.
+
+
+-ex2  sample data
+
+성별이 여자인 데이터를 검색하는 쿼리와 소속사가 YG엔터테이먼트인 데이터를 검색하는 쿼리를 UNION으로 실행 조회
+
+SELECT * FROM celeb where sex = 'F'
+union
+SELECT * FROM celeb where AGENCY = 'YG엔터테이먼트';
+
+// 중복빼서 5명 출력
+
+SELECT * FROM celeb where sex = 'F' or AGENCY = 'YG엔터테이먼트';
+//데이터 베이스 실제 테이블을 스캔할 떄 중복된 행을 하나만 반환할 가능성이 높음;
+SELECT distinct * FROM celeb where sex = 'F' or AGENCY = 'YG엔터테이먼트'; 
+//이게 더 정확한 방식
+
+//중복을 포함해서 출력하고 싶으면 (union all)
+
+
+
+-ex3  한빛무역 data
+
+'이소미' 사원의 사원번호, 직위, 부서번호 부서명을 보이시오
+
+사원테이블에서 부서테이블을 inner join(ansi join) 하고 , self join(non ansi join)하시오.
+
+inner join
+SELECT 사원번호,직위, 사원.부서번호, 부서명 from 한빛무역.사원 inner join 부서 on 사원.부서번호 = 부서.부서번호 WHERE 이름 = '이소미';
+SELECT 사원번호,직위, 부서.부서번호, 부서명 from 한빛무역.사원 inner join 부서 on 사원.부서번호 = 부서.부서번호 WHERE 이름 = '이소미';
+//부서번호는 둘다 있으므로 정확한 지정이 필요
+
+self join
+SELECT 사원번호,직위, 사원.부서번호, 부서명 from 한빛무역.사원 ,부서 where 사원.부서번호 = 부서.부서번호 and 이름 = '이소미';
+
+
+
+-ex4  한빛무역 data
+고객과 주문을 조인하시오
+고객회사들이 주문한 주문건수를 주문건수가 많은 순서대로 보이시오. 이때 고객회사의 정보로는 고객번호,담당자명,고객회사명을 보이시오
+
+inner join
+SELECT 고객.고객번호,담당자명,고객회사명, count(*) as 고객건수 from 한빛무역.고객 inner join 주문 on 고객.고객번호 = 주문.고객번호 group by 고객.고객번호,담당자명,고객회사명 order by count(*) desc; 
+
+self join
+SELECT 고객.고객번호,담당자명,고객회사명, count(*) as 고객건수 from 한빛무역.고객, 주문 where 고객.고객번호 = 주문.고객번호 group by 고객.고객번호,담당자명,고객회사명 order by count(*) desc; 
+
+
+
+-ex5  한빛무역 data
+고객 테이블과 마일리지 등급 조인하시오
+고객 테이블 담당자 '이은광' 인 경우 고객번호,고객회사명,담당자명,마일리지와 마일리지 등급을 보이시오
+
+innre join
+SELECT 고객번호,고객회사명,담당자명,마일리지,등급명 FROM 한빛무역.고객 INNER JOIN 마일리지등급 ON 마일리지 >= 하한마일리지 and 마일리지 <= 상한마일리지 where 담당자명 = '이은광';   //부등호 방향주의 =<는 출력안됌
+SELECT 고객번호,고객회사명,담당자명,마일리지,등급명 FROM 한빛무역.고객 INNER JOIN 마일리지등급 ON 마일리지 between 하한마일리지 and 상한마일리지 where 담당자명 = '이은광';
+
+self join
+SELECT 고객번호,고객회사명,담당자명,마일리지,등급명 FROM 한빛무역.고객,마일리지등급 where 마일리지 between 하한마일리지 and 상한마일리지 and 담당자명 = '이은광';
+
+
+
+-ex6  한빛무역 data
+제품과 주문세부 조인해서 제품명,주문수량합,주문금액합 출력하시오 (제품명을 그룹으로 묶어서 출력됌)
+SELECT 제품명,sum(주문수량) as 주문수량합,sum(주문세부.단가*주문수량) as 주문금액합 FROM 한빛무역.제품 inner join 주문세부 on 제품.제품번호 = 주문세부.제품번호 group by 제품명;
+SELECT 제품명,sum(주문수량) as 주문수량합,sum(주문세부.단가*주문수량) as 주문금액합 FROM 한빛무역.제품, 주문세부 where 제품.제품번호 = 주문세부.제품번호 group by 제품명;
+
+
+
+
+-ex7  한빛무역 data
+주문,주문세부,제품 테이블 활용해 '아이스크림' 제품에 대해 주문년도,제품명,주문수량합 출력
+SELECT year(주문일) as 주문년도,제품명,sum(주문세부.주문수량) as 주문수량합 from 제품 
+	     inner join 주문세부 on 제품.제품번호 = 주문세부.제품번호 
+                 inner join 주문 on 주문.주문번호 = 주문세부.주문번호 
+                 where 제품명 like '%아이스크림' group by year(주문일), 제품명  order by 1,2;
+SELECT year(주문일) as 주문년도,제품명,sum(주문세부.주문수량) as 주문수량합 
+	      from 제품,주문세부,주문 
+                  where 제품.제품번호 = 주문세부.제품번호 and 주문.주문번호 = 주문세부.주문번호 and 제품명 like '%아이스크림'
+	      group by year(주문일), 제품명  order by 1,2;
+
+
+
+
+-ex8  한빛무역 data
+제품,주문세부 조인해서 제품명별로 주문수량합 출력, 한번도주문안된것도 출력
+select 제품명, Sum(주문수량) as 주문수량합 from 제품
+	   left join 주문세부 on 제품.제품번호 = 주문세부.제품번호
+       	   group by 제품명;
+	
+
+
+
+-ex9  한빛무역 data
+고객 회사중 마일리지등급 a고개만 출력.  고객번호,고객회사명,담당자명,등급명,마일리지 출력
+SELECT 고객번호,고객회사명,담당자명,등급명,마일리지 FROM 한빛무역.고객 inner join 마일리지등급 on 고객.마일리지 between 10000 and 99999 where 등급명 = 'A';
+SELECT 고객번호,고객회사명,담당자명,등급명,마일리지 FROM 한빛무역.고객 ,마일리지등급 where 고객.마일리지 between 10000 and 99999 and 등급명 = 'A';
+
+
+-ex10
+
+CREATE TABLE 학생 (
+    학번 INT PRIMARY KEY,
+    이름 VARCHAR(20),
+    전공 VARCHAR(30)
+);
+
+CREATE TABLE 수강신청 (
+    신청번호 INT PRIMARY KEY AUTO_INCREMENT,
+    학번 INT,
+    과목명 VARCHAR(50),
+    성적 CHAR(2),
+    FOREIGN KEY (학번) REFERENCES 학생(학번)
+);
+
+INSERT INTO 학생 VALUES (1001, '김철수', '컴퓨터공학');
+INSERT INTO 학생 VALUES (1002, '이영희', '전자공학');
+INSERT INTO 학생 VALUES (1003, '박민수', '경영학');
+INSERT INTO 학생 VALUES (1004, '최지은', '컴퓨터공학');
+
+INSERT INTO 수강신청 (학번, 과목명, 성적) VALUES (1001, '데이터베이스', 'A+');
+INSERT INTO 수강신청 (학번, 과목명, 성적) VALUES (1001, '네트워크', 'B0');
+INSERT INTO 수강신청 (학번, 과목명, 성적) VALUES (1002, '데이터베이스', 'A0');
+INSERT INTO 수강신청 (학번, 과목명, 성적) VALUES (1004, '프로그래밍', 'B+');
+INSERT INTO 수강신청 (학번, 과목명, 성적) VALUES (1003, '경제학원론', 'A+');
+
+
+
+Inner Join 연습 문제 5개
+1. 학생 이름과 그 학생이 신청한 과목명을 모두 출력하세요.
+SELECT 이름,과목명 FROM sample.학생 inner join 수강신청 on 학생.학번 = 수강신청.학번;
+SELECT 이름,과목명 FROM sample.학생, 수강신청 where 학생.학번 = 수강신청.학번;
+2. 전공이 **'컴퓨터공학'**인 학생들의 이름과 수강한 과목명을 출력하세요.
+SELECT 이름,과목명 FROM sample.학생 inner join 수강신청 on 학생.학번 = 수강신청.학번 where 전공 = '컴퓨터공학';
+SELECT 이름,과목명 FROM sample.학생, 수강신청 where 학생.학번 = 수강신청.학번 and 전공 = '컴퓨터공학';
+3. 성적이 **'A+'**인 학생 이름과 과목명을 출력하세요.
+SELECT 이름,과목명 FROM sample.학생 inner join 수강신청 on 학생.학번 = 수강신청.학번 where 수강신청.성적 = 'A+';
+SELECT 이름,과목명 FROM sample.학생 ,수강신청 where 학생.학번 = 수강신청.학번 and 수강신청.성적 = 'A+';
+4. 학생 이름, 전공, 신청한 과목명, 성적을 전부 출력하고 성적순으로 내림차순 정렬하세요.
+SELECT 이름,전공, 과목명,성적 FROM sample.학생 inner join 수강신청 on 학생.학번 = 수강신청.학번 order by 성적;
+SELECT 이름,전공, 과목명,성적 FROM sample.학생, 수강신청 where 학생.학번 = 수강신청.학번 order by 성적;
+5. 학생 이름별 신청한 과목 수를 출력하세요. (이름, 과목 수)
+SELECT 이름,COUNT(과목명) AS "과목 수" FROM 학생 inner join 수강신청 on 학생.학번 = 수강신청.학번 group by 이름;
+SELECT 이름,COUNT(과목명) AS "과목 수" FROM 학생 ,수강신청 where 학생.학번 = 수강신청.학번 group by 이름;
+
+
+
+
+ex11 test 고객 주문 예제
+
+문제 1:
+
+고객의 이름과 해당 고객이 주문한 주문 ID를 함께 조회하세요.
+
+SELECT 이름,주문ID FROM test.고객 inner join 주문 on 고객.고객ID = 주문.고객ID;
+
+SELECT c.이름,o.주문ID FROM test.고객 c inner join 주문 o on c.고객ID = o.고객ID;
+
+SELECT 이름,주문ID FROM test.고객,주문 where 고객.고객ID = 주문.고객ID;
+
+문제 2:
+
+주문한 고객의 이름과 주문일자, 총금액을 조회하세요.
+
+SELECT 이름,주문일자,총금액 FROM test.고객 inner join 주문 on 고객.고객ID = 주문.고객ID;
+
+SELECT c.이름,o.주문일자,o.총금액 FROM test.고객 c inner join 주문 o on c.고객.고객ID = o.주문.고객ID;
+
+SELECT 이름,주문일자,총금액 FROM test.고객,주문 where 고객.고객ID = 주문.고객ID;
+
+문제 3:
+
+VIP 등급 고객의 이름과 그 고객의 모든 주문 ID를 조회하세요.
+
+SELECT 이름,주문ID FROM test.고객 inner join 주문 on 고객.고객ID = 주문.고객ID where 등급 = 'VIP';
+
+SELECT c.이름,o.주문ID FROM test.고객 c inner join 주문 o on c.고객ID = o.고객ID where c.등급 = 'VIP';
+
+SELECT 이름,주문ID FROM test.고객 ,주문 where 고객.고객ID = 주문.고객ID and 등급 = 'VIP';
+
+문제 4:
+
+총금액이 10만원 이상인 주문을 한 고객의 이름과 주문 ID, 총금액을 조회하세요.
+
+SELECT 이름,주문Id,총금액 FROM test.고객 inner join 주문 on 고객.고객ID = 주문.고객ID where 총금액 >= 100000;
+
+SELECT c.이름,o.주문Id,o.총금액 FROM test.고객 c inner join 주문 o on c.고객ID = o.고객ID where o.총금액 >= 100000;
+
+SELECT 이름,주문Id,총금액 FROM test.고객, 주문 where 고객.고객ID = 주문.고객ID and 총금액 >= 100000;
+
+문제 5:
+
+각 고객별로 주문 건수를 조회하고, 고객 이름과 주문 건수를 함께 출력하세요. (힌트: GROUP BY 절과 COUNT() 함수를 사용하세요.)
+
+SELECT 이름,count(주문ID) as 주문건수 FROM test.고객 inner join 주문 on 고객.고객ID = 주문.고객ID group by 이름;
+
+SELECT c.이름,count(0.주문ID) as 주문건수 FROM test.고객 c inner join 주문 o on c.고객ID = o.고객ID group by c.이름;
+
+SELECT 이름,count(주문ID) as 주문건수 FROM test.고객 ,주문 where 고객.고객ID = 주문.고객ID group by 이름;
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+1. 제품 테이블에 새로운 제품 ('태블릿', 450000, 1, 25)을 삽입하는 명령을 쓰시오.
+
+INSERT INTO 제품 values(null,"태블릿",450000,1,25);
+
+2. 제품 테이블에서 제품명이 '마우스'인 제품의 가격을 30000으로 수정하는 명령을 쓰시오.
+
+SET SQL_SAFE_UPDATES = 0;
+update test.제품 set 가격 = 30000 where 제품명 = '마우스'
+SET SQL_SAFE_UPDATES = 1;
+
+3. 제품 테이블에서 재고 수량이 10개 미만인 제품의 제품명과 재고 수량을 조회하는 명령을 쓰시오.
+
+SELECT 제품명,재고수량 FROM test.제품 where 재고수량 < 10;
+
+4.  제품 테이블에서 카테고리 ID가 NULL인 제품을 삭제하는 명령을 쓰시오.
+
+delete from 제품 where 카테고리ID is null;
+
+5. 카테고리 테이블에 새로운 카테고리 ('사무용품')을 삽입하는 명령을 쓰시오.
+
+INSERT INTO 카테고리 VALUES(NULL,'사무용품');
+
+6. 카테고리 테이블에서 카테고리명이 '도서'인 레코드를 삭제하는 명령을 쓰시오
+
+DELETE FROM 카테고리 WHERE 카테고리명 = '도서';
+
+JOIN 문제:
+7. 제품 테이블과 카테고리 테이블을 조인하여 제품명과 해당 제품의 카테고리명을 함께 조회하세요.
+
+SELECT 제품명,카테고리.카테고리명 FROM test.제품 INNER JOIN 카테고리 ON 제품.카테고리ID = 카테고리.카테고리ID;
+SELECT 제품명,카테고리.카테고리명 FROM test.제품, 카테고리 WHERE 제품.카테고리ID = 카테고리.카테고리ID;
+
+8. 가격이 10만원 이상인 제품의 제품명과 카테고리명을 조회하세요.
+
+SELECT 제품명,카테고리.카테고리명 FROM test.제품 INNER JOIN 카테고리 ON 제품.카테고리ID = 카테고리.카테고리ID WHERE 제품.가격 >= 100000;
+SELECT 제품명,카테고리.카테고리명 FROM test.제품 ,카테고리 WHERE 제품.카테고리ID = 카테고리.카테고리ID WHERE 제품.가격 >= 100000;
+
+9.  카테고리명이 '컴퓨터 주변기기'인 모든 제품의 제품명과 가격을 조회하세요.
+
+SELECT 제품명,가격 FROM test.제품 INNER JOIN 카테고리 ON 제품.카테고리ID = 카테고리.카테고리ID WHERE 제품.카테고리ID = 2;
+SELECT 제품명,가격 FROM test.제품, 카테고리 WHERE 제품.카테고리ID = 카테고리.카테고리ID AND 제품.카테고리ID = 2;
+
+10.각 카테고리별로 포함된 제품의 수를 조회하고, 카테고리명과 '제품 수'를 함께 출력하세요.
+SELECT 카테고리.카테고리명, COUNT(제품.카테고리ID) AS '제품 수' FROM test.제품 inner join 카테고리 on 제품.카테고리ID = 카테고리.카테고리ID GROUP BY 카테고리.카테고리명;	
+SELECT 카테고리.카테고리명, COUNT(제품.카테고리ID) AS '제품 수' FROM test.제품 ,카테고리 WHERE 제품.카테고리ID = 카테고리.카테고리ID GROUP BY 카테고리.카테고리명;	
+
+
+
+
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+서브쿼리
+
+SQL 서브쿼리는 메인쿼리 안에 또 다른 쿼리(서브쿼리) 사용하여 데이터를 추출하거나 처리
+
+데이터 필터링
+
+집계 및 계산
+
+비교 및 검증
+
+중첩된 데이터 추출
+
+Exist절 : 특정조건을 만족하는 레코드 존재여부
+
+sum과 같은 집계함수는 where절에 직접 사용할 수 없고 반드시 서브쿼리를 통해 결과를 획득
+
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+ex)
+
+1. 최고 마일리지를 보유한 고객 정보 출력
+
+//서브쿼리 사용
+SELECT 고객번호, 고객회사명, 담당자명, 마일리지 from 한빛무역.고객 where 마일리지 = (select max(마일리지) from 한빛무역.고객);
+
+// 서브쿼리 안쓴 방법
+SELECT 고객번호, 고객회사명, 담당자명, 마일리지 from 한빛무역.고객 order by 마일리지 desc limit 1;
+
+2. 주문번호 'H0250'을 주문한 고객에 대해 고객회사명과 담당자명을 INNER 조인과 서브커리로 구해보자
+
+//서브쿼리 안쓴 방법
+SELECT 고객회사명,담당자명 FROM 한빛무역.고객 INNER JOIN 주문 ON 고객.고객번호 = 주문.고객번호 WHERE 주문.주문번호 = 'H0250';
+//서브쿼리 사용
+SELECT 고객회사명,담당자명 FROM 한빛무역.고객 
+WHERE 고객번호 = (SELECT 고객번호 FROM 주문 WHERE 주문번호 = 'H0250');
+
+3. 부산광역시 고객의 최소 마일리지보다 큰 마일리지를 가진 고객 정보를 보이시오
+
+//서브쿼리 사용
+SELECT *FROM 한빛무역.고객 
+WHERE 마일리지 > (SELECT MIN(마일리지) FROM 한빛무역.고객 WHERE 도시 = '부산광역시');
+
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+복수행 서브쿼리
+
+복수행 서브쿼리는 서브쿼리의 결과가 여러 행이 나오는 쿼리
+
+(IN, ALL, ANY, SOME, EXISTS) 와 같은 복수행 비교연산자를 사용하여 메인쿼리와 서브쿼리연결
+
+
+IN - 서브쿼리의 결과에 해당 값이 포함되어 있는지
+
+ALL - 서브쿼리의 결과의 모든 값과 비교해서 조건을 만족해야함
+
+ANY/SOME - 서브쿼리 결과중 어느 하나라도 조건을 만족하면 참(TRUE)
+
+EXISTS - 서브쿼리의 결과가 존재하기만 하면 TRUE, 보통 WHERE 절 내부 존재 여부 확인에 사용 
+
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+EX
+
+1. 부산광역시 고객이 주문한 주문건수를 보이시오
+
+SELECT count(*) AS 주문건수 FROM 한빛무역.주문 
+
+WHERE 고객번호 IN (SELECT 고객번호 FROM 고객 WHERE 도시 = '부산광역시');
+
+
+2. 부산광역시 전체 고객의 마일리지보다 마일리지가 큰 고객의 정보를 보이시오
+
+SELECT *FROM 한빛무역.고객 WHERE 마일리지 > ANY ( SELECT 마일리지 FROM 고객 WHERE 도시 = '부산광역시');
+// ANY = OR과 비슷 , 부산고객중 제일낮은사람한명보다 크면 출력
+SELECT *FROM 한빛무역.고객 WHERE 마일리지 > ALL ( SELECT 마일리지 FROM 고객 WHERE 도시 = '부산광역시');
+// ALL = AND와 비슷, 부산고객모두의 마일리지와 비교해서 전부다 크면 출력
+
+
+3. 각 지역의 어느 평균 마일리지보다도 마일리지가 큰 고객의  정보를 보이시오
+
+SELECT *FROM 한빛무역.고객 
+WHERE 마일리지 > ALL(SELECT AVG(마일리지) FROM 한빛무역.고객 GROUP BY 지역);
+
+4. 한번이라도 주문한 적이 있는 고객의 정보를 보이시오
+
+SELECT *FROM 한빛무역.고객 
+WHERE EXISTS (SELECT *FROM 한빛무역.주문 WHERE 주문.고객번호 = 고객.고객번호);
+//INNER JOIN방식
+SELECT DISTINCT 고객.고객번호,고객회사명 FROM 한빛무역.고객 
+INNER JOIN 주문 ON 고객.고객번호 = 주문.고객번호;
+
+
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+조건절에서 사용하는 서브쿼리
+
+HAVING : 그룹핑 후 조건을 거는 것. 집계값 필터링
+
+WHERE : 그룹핑 전에 조건을 거는 것. 일반행 필터링
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+EX)
+
+1. 고객 전체의 평균 마일리지 보다 평균마일리지가 큰 도시에 대해 도시명과 도시의 평균마일리지를 보이시오
+
+SELECT 도시,AVG(마일리지) AS 평균마일리지 FROM 한빛무역.고객 GROUP BY 도시 
+HAVING AVG(마일리지) > (SELECT AVG(마일리지) FROM 한빛무역.고객);
+//HAVING절 사용 
+//GROUP BY 도시 - 고객테이블을 도시별로 그룹으로 나눔
+//HAVING AVG = 첫번째줄에서 구한 도시평균 마일리지
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+FROM 절에서 사용하는 서브쿼리
+
+FROM 절에서도 서브쿼리 사용할 수 있다. 이를 인라인 뷰라고 한다. 
+인라인 뷰에는 반드시 별명을 지정해주어야 하며, 별명을 테이블명처럼 사용 할 수 있다. 
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+EX)
+
+1.  담당자명,고객회사명, 마일리지 ,도시 ,해당도시의 평균 마일리지를 보이시오. 
+그리고 고객이 위치한 도시의 평균 마일리지와 각 고객의 마일리지 간의 차이도 함께 보이시오.
+
+
+SELECT 담당자명,고객회사명,마일리지,고객.도시,
+도시_평균마일리지,(도시_평균마일리지-마일리지)AS 차이 FROM 한빛무역.고객
+,(SELECT 도시, AVG(마일리지) AS 도시_평균마일리지 FROM 한빛무역.고객 GROUP BY 도시) 
+AS 도시별요약 WHERE 고객.도시 = 도시별요약.도시;
+
+
+//INNER JOIN
+SELECT 담당자명,고객회사명,마일리지,고객.도시,
+도시_평균마일리지,(도시_평균마일리지-마일리지)AS 차이 FROM 한빛무역.고객
+INNER JOIN (SELECT 도시, AVG(마일리지) AS 도시_평균마일리지 FROM 한빛무역.고객 GROUP BY 도시) 
+AS 도시별요약 ON 고객.도시 = 도시별요약.도시;
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+SELECT 절에서 사용하는 서브쿼리
+
+스칼라 서브쿼리 정확히 한개의 행에 대해  한개의 값을 반환
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+EX)
+
+1. 고객번호, 담당자명과 고객의 최종 주문일을 보이시오
+
+SELECT 고객번호,담당자명,
+(SELECT MAX(주문.주문일) FROM 주문 WHERE 주문.고객번호 = 고객.고객번호) AS '최종 주문일' 
+FROM 한빛무역.고객;
+
+//LEFT JOIN 사용
+SELECT 고객.고객번호,담당자명,MAX(주문.주문일) AS '최종 주문일' FROM 한빛무역.고객
+LEFT JOIN 주문 ON 고객.고객번호 = 주문.고객번호 group by 고객.고객번호,고객.담당자명;
+
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+*CTE
+
+ex)
+SELECT 담당자명,고객회사명,마일리지,고객.도시,
+도시_평균마일리지,(도시_평균마일리지-마일리지)AS 차이 FROM 한빛무역.고객
+,(SELECT 도시, AVG(마일리지) AS 도시_평균마일리지 FROM 한빛무역.고객 GROUP BY 도시) 
+AS 도시별요약 WHERE 고객.도시 = 도시별요약.도시;
+
+위에 처럼 구하기 쉽지않음
+
+CTE는 뷰와 마찬가지로 파생 테이블처럼 사용가능  //   형식 WITH CTE명 AS (    SELECT    );
+
+//CTE 사용해서 출력
+WITH 도시별요약 AS 
+(SELECT 도시, AVG(마일리지) AS 도시_평균마일리지 FROM 한빛무역.고객 GROUP BY 도시)
+SELECT 담당자명,고객회사명,마일리지,고객.도시,
+도시_평균마일리지,(도시_평균마일리지-마일리지)AS 차이 FROM 한빛무역.고객
+, 도시별요약 WHERE 고객.도시 = 도시별요약.도시;
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+*상관 서브쿼리
+
+메인쿼리와 서브쿼리 간의 상관관계를 포함하는 형태의 쿼리
+
+EX)
+
+1. 사원테이블에서 사원번호, 사원의 이름, 상사의 사원번호, 상사의 이름을 보이시오
+
+SELECT 사원번호,이름,상사번호,
+(SELECT 이름 FROM 사원 AS 상사 WHERE 상사.사원번호 = 사원.상사번호)AS 상사이름 FROM 사원;
+
+//left join , self join 사용
+SELECT 사원.사원번호,사원.이름,사원.상사번호,상사.이름 as 상사이름 FROM 사원 left join 사원 as 상사 on 사원.상사번호 = 상사.사원번호;
+
+사원 테이블을 자기자신과 조인 할 떄 , 별칭을 상사로 주었다.
+left join을 사용해 상사번호가 없는 사원도 함께 표시
+사원.상사번호 = 상사.사원번호; 조건을 통해 상사의 이름을 가져옴
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+*다중 컬럼 서브쿼리
+
+여러개의 컬럼을 사용하여 다중비교하는 쿼리
+
+
+ex)
+1. 각 도시마다 최고 마일리지를 보유한 고객의 정보를 보이시오
+
+SELECT 도시,담당자명,고객회사명,마일리지 from 고객 
+where (도시,마일리지) in (select 도시, max(마일리지) from 고객 group by 도시);
+
+
+
+

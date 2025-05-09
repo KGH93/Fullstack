@@ -1,0 +1,12 @@
+참고사이트
+
+정렬의 종류
+https://sjh9708.tistory.com/209
+
+
+
+선택정렬 (Selection Sort)
+https://st-lab.tistory.com/168
+
+삽입정렬 (Insertion Sort)
+https://st-lab.tistory.com/179

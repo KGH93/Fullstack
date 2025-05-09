@@ -1,0 +1,6 @@
+Git 설치하기 
+https://git-scm.com/downloads/win
+
+Git - vcs(version control system)의 일종으로 프로그램의 버전 관리를 위한 툴
+
+GitHub - Git으로 관리하는 프로젝트들을 온라인 공간에 공유해서 프로젝트 구성원들이 함께 소프트웨어를 작업 할 수 있게 코드 공유 및 협업 서비스

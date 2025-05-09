@@ -1,0 +1,20 @@
+   .hover-zoom {
+    transition: transform 0.3s ease;
+  }
+
+  .hover-zoom:hover {
+    transform: scale(2);
+    z-index: 10;
+    position: relative;
+  }
+
+  .film-strip img {
+    width: 150px;
+    height: 100px;
+    object-fit: cover;
+    margin-right: 4px;
+  }
+
+  .film-strip {
+    gap: 4px;
+  }

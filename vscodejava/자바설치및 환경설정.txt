@@ -1,0 +1,5 @@
+
+-vs코드 확장프로그램설치
+Extension Pack for Java
+-view  -   command palette   -java create java project -  no tools
+

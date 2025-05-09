@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>relative</title>
+    <style>
+        .box{
+            width: 200px;
+            height: 200px;
+        }
+
+        .box1{
+            background-color: #389;
+        }
+        .box2{
+            background-color: rgb(173, 61, 224);
+        }
+        .box3{
+            /* position: relative;
+            1. 자리값이 있다
+            2. 레프트와 탑으로 이동가능
+            3. 아래 .box4에 영향을 미치지 않는다
+            4. 향후 absolute의 부모가 되기도 한다
+            5. 기준위치가 원래 있던 위치에서 계산 */
+            position: relative;
+            left: 300px;
+            top: 50px;
+            background-color: #589;
+        }
+        .box4{
+            background-color: rgb(87, 211, 114);
+        }
+    </style>
+</head>
+<body>
+    <!-- .box.box1 = div class box box1 -->
+    <div class="box box1">박스1</div>
+    <div class="box box2">박스2</div>
+    <div class="box box3">박스3</div>
+    <div class="box box4">박스4</div>
+</body>
+</html>

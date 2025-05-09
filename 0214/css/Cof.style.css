@@ -1,0 +1,113 @@
+*{margin: 0; padding: 0;}
+
+.wrapper{
+    width: 1000px;
+    margin: 0 auto;
+}
+
+header{
+   height: 350px;
+   background-color: brown;
+   background-image: url(../cofimg/top.jpg);
+   background-repeat: no-repeat;
+   background-size: cover;
+}
+
+header h1{
+    float: right;
+    color: #fff;
+    margin-top: 250px;
+    margin-right: 70px;
+}
+nav{
+    height: 100px;
+    background-color: rgb(30,15, 00);
+}
+
+nav ul{
+    list-style: none;
+}
+
+nav ul li{
+    float: left;
+   margin-left: 70px;
+   margin-top: 15px;
+}
+
+nav ul li a{
+    display: block;
+    text-decoration: none;
+    color: #fff;
+    width: 100px;
+    height: 50px;
+    line-height: 50px;
+    padding: 10px;
+    text-align: center;
+    font-style: bold;
+}
+
+nav ul li a:hover{
+    font-weight: bold;
+    color: #000;
+    background-color: rgb(201, 26, 26);
+    border-radius: 25px;
+}
+.main{
+    width: 1000px;
+    height: 600px;
+}
+section{
+    float:left;
+    width: 700px;
+    height: 600px;
+    background-color: #ccc;
+}
+
+section h2{
+    text-align: center;
+}
+
+section article{
+    float: left;
+    width: 270px;
+    height: 220px;
+    padding: 10px;
+    border: 1px solid #333;
+    background-color: #fff;
+    margin-top: 20px;
+    margin-left: 40px;
+}
+
+article h3{
+    background-image: url(../cofimg/kong.png);
+    background-repeat: no-repeat;
+    padding-left: 30px;
+}
+
+article p{
+    text-align: justify;
+    margin-top: 15px;
+}
+
+aside{
+    float: left;
+    text-align: center;
+    width: 300px;
+    height: 600px;
+    background-color: rgba(85, 70, 50, 0.684);
+}
+
+aside img{
+    width: 240px;
+    height: 150px;
+    margin-top: 30px;
+}
+
+footer{
+    height: 70px;
+    background-color: #111;
+    color: #fff;
+    line-height: 70px;
+    text-align: center;
+    font-weight: bold;
+}

@@ -1,0 +1,356 @@
+*{margin: 0;padding: 0;}
+
+
+
+
+@media screen and (max-width:600px) {
+    
+
+.wrap{
+    width:100%;
+    margin: 0 auto;
+  
+}
+header{
+    position: relative;
+    height:300px;
+    
+    background:url('../images/top.jpg') no-repeat 0 0 / cover ;
+} 
+header h1{
+    position: absolute;
+    bottom:50px;
+    right:50px;
+    color:#fff;
+}
+nav{
+    width:100%;
+    height:140px;
+    background-color: #2a1d0a;
+}
+nav ul {
+    list-style: none;
+}
+nav ul li{
+    float: left;
+    margin-left: 25px;
+    margin-top: 15px;
+}
+nav ul li a{
+   display: block;
+   width:150px;
+   height:40px;
+   line-height: 40px;  
+   color:#fff;
+   border: 1px solid #fff;
+   text-align: center;
+   border-radius: 20px;
+   text-decoration: none;
+   font-weight: bold;
+}
+
+
+nav ul li a:hover{
+    background-color: #fff;
+    color:#000;
+    text-decoration: underline;
+}
+.content{
+    height:auto;
+}
+section{
+    width:100%;
+    height:auto;
+    background-color: #ccc;
+    padding-bottom: 10px;
+    /* float:left; */
+}
+section h3{
+    padding: 10px 0;
+    text-align: center;
+}
+section article{
+    width:90%; height:auto;
+    border: 1px solid #333;
+    /* float: left; */
+    padding: 10px;
+	margin-left: 20px;
+	margin-bottom: 20px;
+}
+
+section article{
+    font-size: 15px;
+}
+article:hover{
+    background-color: rgba(223, 255, 211, 0.5);
+}
+article h4{
+    background: url(../images/kong.png) no-repeat 0 0;
+    padding-left: 30px;
+    padding-bottom: 10px;
+}
+article p{
+    line-height: 1.7em;
+    text-align: justify;
+}
+aside{
+	width:100%;
+	height:auto;
+	background-color:#726054;
+	float:left;
+	text-align:center;
+}
+aside h3{
+    padding: 10px 0;
+}
+aside img{
+    width:55%;
+    padding-bottom: 15px;
+}
+footer{
+    clear: both;
+    height:60px;
+    line-height: 60px;
+    background-color: #333;
+    color:#fff;
+    text-align: center;
+}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+@media screen and (min-width:601px) and (max-width:1023px) {
+    
+
+.wrap{
+    width:600px;
+    margin: 0 auto;
+  
+}
+header{
+    position: relative;
+    height:300px;
+    
+    background:url('../images/top.jpg') no-repeat 0 0 / cover ;
+} 
+header h1{
+    position: absolute;
+    bottom:50px;
+    right:50px;
+    color:#fff;
+}
+nav{
+    width:600px;
+    height:140px;
+    background-color: #2a1d0a;
+}
+nav ul {
+    list-style: none;
+}
+nav ul li{
+    float: left;
+    margin-left: 35px;
+    margin-top: 15px;
+}
+nav ul li a{
+   display: block;
+   width:150px;
+   height:40px;
+   line-height: 40px;  
+   color:#fff;
+   border: 1px solid #fff;
+   text-align: center;
+   border-radius: 20px;
+   text-decoration: none;
+   font-weight: bold;
+}
+
+
+nav ul li a:hover{
+    background-color: #fff;
+    color:#000;
+    text-decoration: underline;
+}
+.content{
+    height:550px;
+}
+section{
+    width:600px;
+    height:auto;
+    background-color: #ccc;
+    float:left;
+}
+section h3{
+    padding: 10px 0;
+    text-align: center;
+}
+section article{
+    width:240px; height:180px;
+    border: 1px solid #333;
+    float: left;
+    padding: 10px;
+	margin-left: 25px;
+	margin-bottom: 20px;
+}
+article:hover{
+    background-color: rgba(223, 255, 211, 0.5);
+}
+article h4{
+    background: url(../images/kong.png) no-repeat 0 0;
+    padding-left: 30px;
+    padding-bottom: 10px;
+}
+article p{
+    line-height: 1.7em;
+    text-align: justify;
+}
+aside{
+	width:600px;
+	height:200px;
+	background-color:#726054;
+	float:left;
+	text-align:center;
+}
+aside h3{
+    padding: 10px 0;
+}
+aside img{  
+    width:180px;
+    padding-bottom: 15px;
+}
+footer{
+    clear: both;
+    height:60px;
+    line-height: 60px;
+    background-color: #333;
+    color:#fff;
+    text-align: center;
+}
+}
+
+
+
+
+
+
+
+
+
+@media screen and (min-width:1024px) {
+    
+
+.wrap{
+    width:900px;
+    margin: 0 auto;
+  
+}
+header{
+    position: relative;
+    height:300px;
+    
+    background:url('../images/top.jpg') no-repeat 0 0 / cover ;
+} 
+header h1{
+    position: absolute;
+    bottom:50px;
+    right:50px;
+    color:#fff;
+}
+nav{
+    width:900px;
+    height:70px;
+    background-color: #2a1d0a;
+}
+nav ul {
+    list-style: none;
+}
+nav ul li{
+    float: left;
+    margin-left: 25px;
+    margin-top: 15px;
+}
+nav ul li a{
+   display: block;
+   width:150px;
+   height:40px;
+   line-height: 40px;  
+   color:#fff;
+   border: 1px solid #fff;
+   text-align: center;
+   border-radius: 20px;
+   text-decoration: none;
+   font-weight: bold;
+}
+
+
+nav ul li a:hover{
+    background-color: #fff;
+    color:#000;
+    text-decoration: underline;
+}
+.content{
+    height:550px;
+}
+section{
+    width:650px;
+    height:550px;
+    background-color: #ccc;
+    float:left;
+}
+section h3{
+    padding: 10px 0;
+    text-align: center;
+}
+section article{
+    width:270px; height:200px;
+    border: 1px solid #333;
+    float: left;
+    padding: 10px;
+	margin-left: 20px;
+	margin-bottom: 20px;
+}
+article:hover{
+    background-color: rgba(223, 255, 211, 0.5);
+}
+article h4{
+    background: url(../images/kong.png) no-repeat 0 0;
+    padding-left: 30px;
+    padding-bottom: 10px;
+}
+article p{
+    line-height: 1.7em;
+    text-align: justify;
+}
+aside{
+	width:250px;
+	height:550px;
+	background-color:#726054;
+	float:left;
+	text-align:center;
+}
+aside h3{
+    padding: 10px 0;
+}
+aside img{
+    width:220px;
+    padding-bottom: 15px;
+}
+footer{
+    clear: both;
+    height:60px;
+    line-height: 60px;
+    background-color: #333;
+    color:#fff;
+    text-align: center;
+}
+}

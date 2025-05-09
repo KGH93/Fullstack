@@ -1,0 +1,3 @@
+open in browser
+AUTO RENAME TAG
+LIVE SERVER

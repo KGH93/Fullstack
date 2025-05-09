@@ -1,0 +1,110 @@
+*{margin: 0; padding: 0;}
+ul,li{list-style: none;}
+a{text-decoration: none;color: #333;font-size: 16px;}
+
+.header_out{
+    width: 100%;
+    height: 870px;
+}
+
+header{
+    width: 100%;
+    height: 170px; 
+    position: relative;
+}
+
+header .head_logo{
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+}
+
+nav{
+    width: 100%;
+    height: 50px;
+    text-align: center;
+    bottom: 0;
+    position: absolute;
+}
+
+nav>.mainmenu>ul{
+    position: relative;
+    width: 1000px;
+    height: 300px;
+    margin: 0 auto;
+    z-index: 10;
+}
+
+nav>.mainmenu>ul>li{
+    float: left;
+}
+
+nav .mainmenu ul li a{
+    display: block;
+    width: 200px;
+    height: 50px;
+    line-height: 50px;
+    position: relative;
+    text-align: center;
+}
+
+nav .mainmenu ul li ul li a{
+    margin-top: 10px;
+    height: 30px;
+    line-height: 30px;
+}
+
+nav ul li ul{
+    position: absolute;
+    height: 0;
+    overflow: hidden;
+    transition: all 0.5s;
+}
+
+nav ul:hover li ul{
+    height: 100%;
+}
+
+nav .line_on{
+    position: absolute;
+    width: 90%;
+    height: 1px;
+    bottom:50px;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    background: linear-gradient(to left,red,yellow 30%,green 50%,blue 70%, purple 100% );;
+    z-index: 15;
+}
+
+nav .line_down{
+    position: absolute;
+    width: 90%;
+    height: 1px;
+    top:50px;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    background: linear-gradient(to left,red,yellow 30%,green 50%,blue 70%, purple 100% );
+    z-index: 15;
+}
+
+.shadow{
+    position: absolute;
+    width: 100%;
+    height: 0;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+    background-color: #fff;
+    transition: all 0.3s;
+
+}
+
+nav .mainmenu:hover + .shadow{
+   height: 300px;
+}
+
+.mainvisual{
+    width: 100%;
+    height: 700%;
+}

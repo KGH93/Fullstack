@@ -1,0 +1,73 @@
+@charset "UTF-8";
+
+
+
+#main-container {
+	padding: 20px; /* 페이지 양옆 여백 */
+	
+	
+	margin-top: 150px;
+}
+
+
+
+#page-title {
+    font-size: 2em;
+    text-align: center;
+    margin-bottom: 20px;
+    color: #343a40;
+    font-family: 'Arial', sans-serif;
+    font-weight: bold;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #ffffff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.table-header {
+    background-color: #495057;
+    color: #ffffff;
+    font-size: 1.1em;
+    font-weight: bold;
+}
+
+.table-header-item {
+    padding: 12px 15px;
+    text-align: center;
+}
+
+.table-row:nth-child(even) {
+    background-color: #f1f3f5;
+}
+
+.table-item {
+    padding: 12px 15px;
+    text-align: center;
+    font-size: 0.95em;
+    color: #212529;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.table-item:last-child {
+    border-bottom: none;
+}
+
+
+
+.content-link {
+    color: #007bff;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+.content-link:hover {
+    color: #0056b3;
+}
+
+ 

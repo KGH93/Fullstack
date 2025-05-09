@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>if (p342)</title>
+</head>
+
+<body>
+    <script>
+        //html, css, javascript 시험을보고
+        //prompt 로 입력을 세과목받고
+        //평균이 60이상이고 각 과목 과락(40미만)이 없으면 합격입니다.
+
+        var html = Number(prompt("html점수입력 :", ''));
+        var css = Number(prompt("css점수입력 :", ''));
+        var javascript = Number(prompt("javascript점수입력 :", ''));
+        var avg = (html + css + javascript) / 3;
+        // document.write(avg);
+        if (avg >= 60) {
+            if (html < 40) {
+                comment = 'html' + '40점 미만 불합격입니다.';
+            }
+            else if (css < 40) {
+                comment = 'css' + '40점 미만 불합격입니다.';
+            }
+            else if (javascript < 40) {
+                comment = 'javascript' + '40점 미만 불합격입니다.';
+            }
+            else {
+                comment = '평균' + avg + "점 합격입니다."
+            }
+        }
+        else {
+            comment = '평균' + avg + "점 불합격입니다."
+        }
+
+        document.write(comment);
+        
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Date p(395)</title>
+</head>
+<body>
+    <script>
+        var today = new Date();
+        //alert(today);
+        var year = today.getFullYear();
+        alert(year);
+        var month = today.getMonth()+1;
+        alert(month);
+        var date = today.getDate();
+        alert(date);
+        var day = today.getDay();
+        
+        switch (day) {
+            case 0:
+                result = "일요일";
+                break;
+            case 1:
+                result = "월요일";
+                break;
+            case 2:
+                result = "화요일";
+                break;
+            case 3:
+                result = "수요일";
+                break;
+            case 4:
+                result = "목요일";
+                break;
+            case 5:
+                result = "금요일";
+                break;
+            case 6:
+                result = "토요일";
+                break;
+        
+            default:
+                break;
+        }
+
+        alert(result);
+
+
+        // if (day === 0){
+        //     comment = "일요일"
+        // }
+        // else if (day === 1){
+        //     comment = "월요일"
+        // }
+        // else if (day === 2){
+        //     comment = "화요일"
+        // }
+        // else if (day === 3){
+        //     comment = "수요일"
+        // }
+        // else if (day === 4){
+        //     comment = "목요일"
+        // }
+        // else if (day === 5){
+        //     comment = "금요일"
+        // }
+        // else if (day === 6){
+        //     comment = "토요일"
+        // }
+        // else{}
+
+        // alert(comment);
+        
+
+        var h = today.getHours();
+        alert(h);
+        var m = today.getMinutes();
+        alert(m);
+        var s = today.getSeconds();
+        alert(s);
+
+
+        //2025년 2월 26일 수요일 12시 1분 30초 
+
+        document.write(year + "년 " + month +"월 "+ date + "일 " + result + h + "시 " + m + "분 " + s + "초" +'</br>');
+        document.write(`${year}년 ${month}월 ${date}일 ${result} ${h}시 ${m}분 ${s}초`);
+
+        // var today1 = new Date(2025,2,26);
+        // alert(today1);
+    </script>
+</body>
+</html>

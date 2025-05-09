@@ -1,0 +1,14 @@
+@charset "UTF-8";
+
+body {
+  background-color: #f7f7f7;
+}
+
+#main-container .main-container__content {
+  width: 83vw;
+  margin-left: 325px;
+}
+
+#main-container .error-msg {
+  margin-left: 20px;
+}

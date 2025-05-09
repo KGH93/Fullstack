@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>가상클래스 (p115)</title>
+    <style>
+        /* 블릿 제거  */
+        ul, li{
+            list-style: none;
+        }
+        /* 왼쪽으로 붙여서 나열해라 */
+        ul li{float: left;}
+        /* a 태그를 붙이면 파란글씨에 밑줄이 생김 */
+        ul li a{
+            color: black;
+            /* 밑줄을 없앨 수 있음 */
+            text-decoration: none;
+        }
+        ul li:hover a{
+            background-color: yellow;
+            /* 글자에 밑줄을 보이게 함 */
+            text-decoration: underline;
+        }
+        /*  a에 마우스를 클릭 하는 순간 */
+        ul li a:active{
+            background-color: orange;
+        }
+
+    </style>
+</head>
+<body>
+    <ul>
+        <li><a href="#">메뉴1</a></li>
+        <li><a href="#">메뉴2</a></li>
+        <li><a href="#">메뉴3</a></li>
+        <li><a href="#">메뉴4</a></li>
+    </ul>
+</body>
+</html>

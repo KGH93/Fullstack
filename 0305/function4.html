@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>function4 재귀함수 (p369)</title>
+</head>
+<body>
+    <script>
+        var num = 0;
+        function testFnc(){
+            num++;
+            document.write(num,"<br>");
+            if(num == 10) return;  //조건에 만족하면 함수를 빠져나감
+            testFnc();
+            // 함수안에서 자기자신을 다시 호출
+        }
+        testFnc();
+    </script>
+</body>
+</html>

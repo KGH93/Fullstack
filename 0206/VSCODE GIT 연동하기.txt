@@ -1,0 +1,77 @@
+환경설정
+
+-VSCODE 설치 , GIT 설치
+https://git-scm.com/downloads
+https://code.visualstudio.com/download
+
+-VSCODE 에서 터미널 열기 ( CTRL + ` ) 
+
+-VSCODE 기본 터미널을 GIT BASH 로 설정
+
+-GIT-HUB에 로그인 (구글아이디, 비번숫자까지11자리)
+
+-create repository ( 새로운 저장소 생성)
+
+-or create a new repository on the command line 코드복사
+
+-VSCODE 터미널에 명렁어 입력 (ctrl + `(백틱))
+
+------------ex--------------------
+
+git init
+git add README.md
+git commit -m "first commit"
+git branch -M main
+git remote add origin github address
+git push -u origin main
+
+------------ex------------------
+1. 유저설정(컴퓨터에 첫 적용)
+
+git config --global user.name "KGH93" 
+
+git config --global user.email "howls4427@gmail.com"
+# 확인법
+
+git config --global user.name
+
+git config --globla user.email
+
+2. 기본 브랜치명 변경
+
+git config --global init.defaultBranch main
+
+git config --global init.defaultBranch
+
+- 처음 올릴때 명령어
+
+git init - git 처음 사용할떄 명령초기화
+
+git branch -m main - m의 명칭을 메인으로 변경 
+
+git commit -m "xx" - git에 버전으로 저장
+
+git remote add origin https://github.com/KGH93/TEST2.git - git 저장소 연동
+
+git push -u origin main - git에 처음 등록할때 사용하는 명령어
+
+-두번째 부터 명렁어
+
+git add .
+
+git commit -m "xx" - xx는 버전구별
+
+git push 
+
+
+-다른 컴퓨터에서 불러오기
+
+1. 처음 불러올때
+
+git clone (github에서 복사한address) 
+
+후에 VSCODE에서 오픈폴더로 폴더 다시 설정
+
+2. 전 작업내용을 업데이트 할때
+
+git pull

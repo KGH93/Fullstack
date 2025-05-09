@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>radius(p204)</title>
+    <style>
+        *{margin: 0; padding: 0;}
+
+        ul,li{list-style: none;}
+        ul li{
+            float: left;
+            padding: 10px;
+            border: 1px solid #333;
+            margin-left: 10px;
+            margin-top: 10px;
+        }
+
+        ul li:nth-child(1){
+            border-radius: 20px 0 20px 0;
+        }
+
+        ul li:nth-child(2){
+            border-radius: 20px;
+        }
+
+        .box{
+            width: 200px;
+            height: 200px;
+            border: 1px solid #333;
+            border-radius: 100px;
+            text-align: center;
+            line-height: 200px;
+        }
+    </style>
+</head>
+<body>
+    <div class="box">박스1</div>
+    <ul>
+        <li>회사소개</li>
+        <li>제품소개</li>
+        <li>커뮤니티</li>
+        <li>다운로드</li>
+    </ul>
+</body>
+</html>

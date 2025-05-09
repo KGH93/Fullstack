@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--  안쓰면 pc용으로 나옴 -->
+    <title>responsive5</title>
+    <style>
+        @media screen and (max-width: 600px) {
+            /* 최대 크기가 600이하 - 핸드폰용 미디어 쿼리 */
+
+            #wrap{
+                width: 100%;
+                margin: 0 auto;
+            }
+
+            header{
+                height: 200px;
+                background-color: red;
+            }
+
+            nav{
+                height: 70px;
+                background-color: darkgray;
+            }
+
+            section{
+                height: 500px;
+                background-color: orange;
+                float: none;
+            }
+
+            aside{
+                height: 500px;
+                background-color: yellow;
+                float: none;
+            }
+
+            footer{
+                height: 70px    ;
+                background-color: #333;
+            }
+        }
+        
+        @media screen and (min-width: 601px) and (max-width:1023px){
+            /* 최소가 601 ~ 최대 1023이하 스마트 패드 */
+
+            
+            #wrap{
+                width: 599px;
+                margin: 0 auto;
+            }
+
+            header{
+                height: 200px;
+                background-color: red;
+            }
+
+            nav{
+                height: 70px;
+                background-color: darkgray;
+            }
+
+            section{
+                height: 500px;
+                background-color: orange;
+                float: none;
+            }
+
+            aside{
+                height: 500px;
+                background-color: yellow;
+                float: none;
+            }
+
+            footer{
+                height: 70px;
+                background-color: #333;
+                
+            }
+        }
+
+        @media screen and (min-width: 1024px) {
+            /* pc용 미디어 쿼리 */
+
+            #wrap{
+                width: 900px;
+                margin: 0 auto;
+            }
+
+            header{
+                width: 900px;
+                height: 200px;
+                background-color: red;
+            }
+
+            nav{
+                width: 900px;
+                height: 70px;
+                background-color: darkgray;
+            }
+
+            section{
+                width: 650px;
+                height: 500px;
+                background-color: orange;
+                float: left;
+            }
+
+            aside{
+                width: 250px;
+                height: 500px;
+                background-color: yellow;
+                float: left;
+            }
+
+            footer{
+                width: 900px;
+                height: 70px;
+                background-color: #333;
+                float: left;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="wrap">
+        <header>해더</header>
+        <nav>네비</nav>
+        <section>섹션</section>
+        <aside>어사이드</aside>
+        <footer>푸터</footer>
+    </div>
+</body>
+</html>

@@ -1,0 +1,104 @@
+ /* ===== 1. 공통 레이아웃 ===== */
+    body {
+      background-color: #ffffff;
+      color: #333333;
+      font-family: 'Noto Sans KR', sans-serif;
+    }
+  
+    /* ===== 2. 제목, 헤딩 ===== */
+    h4 {
+      color: #005BAC;
+      font-weight: bold;
+    }
+
+    /* 3. 네비바 호버 메뉴  */
+    .nav-item.dropdown:hover .dropdown-menu {
+      display: block;
+      margin-top: 0;
+    }
+
+    .dropdown-menu {
+      display: none;
+    }
+
+    /* 4. 메인 슬라이드 */
+
+    /* 메인 슬라이드 텍스트 오버레이 */
+    .carousel-item {
+      position: relative;
+    }
+
+    .carousel-item img {
+      width: 100%;
+      max-height: 400px;  /* 원하는 높이로 설정 */
+      object-fit: cover;
+    }
+
+    /* 고정된 텍스트 스타일 */
+    .fixed-caption {
+      position: absolute;
+      top: 50%;  /* 화면 중앙에 위치 */
+      left: 50%;
+      transform: translate(-50%, -50%);  /* 정확한 중앙 정렬 */
+      color: white;
+      font-size: 2rem;
+      font-weight: bold;
+      text-align: center;
+      z-index: 2; /* 이미지 위로 텍스트가 위치하게 설정 */
+    }
+    /* 메인슬라이드 이미지 크기 조절 */
+    #mainCarousel .carousel-item img {
+      width: 100%; /* 이미지 너비를 100%로 설정 */
+      max-height: 400px; /* 이미지 최대 높이를 400px로 설정 */
+      object-fit: cover; /* 이미지가 영역을 채우되 비율을 유지하도록 설정 */
+    }
+
+    /*  5. 카테고리 소제목 링크 스타일 */
+    .category-item {
+    text-align: center; /* 글자 중앙 정렬 */
+    }
+
+    .category-link {
+    text-decoration: none !important; /* 밑줄 제거 */
+    color: #005BAC !important; /* 공지사항 보드처럼 색상 적용 */
+    font-weight: bold; /* 글자 굵게 */
+    }
+
+    /* 호버 시 색상 변경 */
+    .category-link:hover {
+      color: #02325c !important; /* 호버 시 색상 변경 */
+    }
+    
+    /* ===== 6. 게시판 카드 ===== */
+    .list-group-item {
+      height: 50px;
+      background-color: #FFF8F0;
+      border-color: #FFDAB9;
+    }
+  
+    /* ===== 7. 체험 광고 슬라이드 ===== */
+    #adCarousel .carousel-inner {
+      border-radius: 10px;
+      overflow: hidden;
+    }
+  
+    #adCarousel .carousel-item img {
+      border-radius: 10px;
+    }
+  
+    /* ===== 8. 하단 네비게이션 링크 ===== */
+    .small-nav a {
+      color: #fff;
+      transition: color 0.3s;
+    }
+  
+    .small-nav a:hover {
+      color: #02325c;
+    }
+  
+    /* ===== 9. 푸터 ===== */
+    footer {
+      text-align: center;
+      background-color: #fff;
+      color: #000000;
+    }

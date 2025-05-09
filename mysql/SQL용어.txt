@@ -1,0 +1,309 @@
+BASIC. 데이터
+
+*데이터 정의어 ,DDL문
+
+-CREATE //데이터베이스 객체를 생성한다
+-ALTER //생성된 객체의 구조를 변경한다
+-DROP //생성된 객체를 삭제한다
+-TRUNUCATE //테이블에 있는 데이터를 모두 삭제한다
+
+
+*데이터 조작어, DML문
+-SELECT //테이블에서 조건에 맞는 데이터를 검색한다
+-INSERT //테이블에 새로운 레코드를 삽입한다
+-UPDATE //테이블에 있는 데이터 값을 수정한다
+-DELETE // 테이블에 있는 레코드를 삭제한다
+
+*데이터 조작어, DCL문
+
+-GRANT //특정 사용자 또는 특정 객체에 대해 생성, 수정등 특정 작업을 할 수있도록 권한을 부여한다.
+-REVOKE //GRANT문으로 부여한 권한을 철회할 때 사용한다
+ 
+*데이터 조작어, TCL문
+
+-COMMIT //트랜잭션 작업 내용을 실제 데이터베이스에 영구 저장한다
+-ROLLBACK //트랜잭션 처리 과정에서 발생한 변경 사항을 취소한다
+
+
+
+
+0.USER
+
+Root 로 진입
+ Mysql -u root -p
+
+Mysql 사용
+Use my sql;
+
+현재 로그인한 사용자
+Select current_user();
+결과  : root@localhost
+
+-새로운 User 생성
+
+CREATE USER junsuk@localhost IDENTIFIED BY ‘12345’;
+CREATE USER junsuk@localhost IDENTIFIED BY ‘ password’;
+
+특정 db(test)에 대한 전체 권한 추가
+GRANT ALL ON test.* TO junsuk@localhost; 
+메모리에 적용(저장)
+Flush PRIVILEGES;
+
+전체 db에 대한 전체 권한 추가
+GRANT ALL ON *.* TO junsuk@localhost; 
+GRANT ALL ON *.* TO junsuk@’%’;
+
+
+
+전체 db에 대한 SELECT, INSERT 권한 추가
+GRANT SELECT, INSERT ON *.* TO junsuk@localhost; 
+
+ 
+특정db(TEST)에 대한 SELECT, INSERT 권한 추가
+GRANT SELECT, INSERT ON test.* TO junsuk@localhost; 
+
+특정 db(test)에 포함된 특정 Table(friend)대한 권한 주기
+GRANT ALL ON test.friend TO junsuk@localhost; 
+
+쓰기 , 수정 권한을 삭제
+
+REVOKE INSERT, UPDATE ON test.* FROM junsuk;
+
+사용자 전체권한 삭제 
+REVOKE ALL ON *.* FROM junsuk;
+
+사용자 전체 쓰기 권한 삭제
+REVOKE INSERT ON *.* TO junsuk@localhost
+
+유저 삭제
+DROP USER junsuk@localhost;
+
+localhost; 와 % 차이 
+로컬컴퓨터(자기 자신)에서만 접속 허용 
+% 어디서든 접속 가능 (보안위험, 방화벽 필수)
+Create user junsuk@192.168.1.10  IDENTIFIED BY ‘1234’;
+
+
+1.Database 명령문
+
+-SHOW DATABASES;    데이터 목록표시
+
+-CREATE DATABASE [DB명]; 데이터베이스 생성
+
+-DROP DATABASE [삭제할 DB명]; 데이터베이스 삭제
+
+-USE [DB명]; 데이터베이스 접근
+
+
+
+
+
+
+
+2. 테이블 명령문
+
+-테이블 생성
+
+-CREATE TABLE [table명] (
+  [column1] [datatype] [option],
+  [column2] [datatype] [option],
+  [column3] [datatype] [option],
+  ...
+  PRIMARY KEY ([PK로 지정할 column명]),
+  FOREIGN KEY ([FK로 지정할 column명]) REFERENCES [참조할 table명] ([참조할 PK명])
+);
+
+EX)
+CREATE TABLE member -- 회원 테이블
+( mem_id        CHAR(8) NOT NULL PRIMARY KEY,   # primary key로 설정
+  mem_name      VARCHAR(10) NOT NULL, 
+  mem_number    TINYINT NOT NULL, 
+  addr          CHAR(2) NOT NULL,
+  phone1        CHAR(3) NULL,
+  phone2        CHAR(8) NULL,
+  height        TINYINT UNSIGNED NULL, 
+  debut_date    DATE NULL
+);
+
+-DESC [테이블명]; // 테이블 구조보기
+
+-SHOW TABLES  // 테이블 보기
+
+-alter table [테이블명] rename [NEW테이블명]; // 테이블 이름 변경
+
+-DROP TABLE [테이블명]; // 테이블 삭제;
+
+
+
+
+
+
+
+3. 필드 CRUD명령문 
+
+-Alter table[ 테이블명] add [NEW필드명] [필드데이터형[ [first 또는 after 필드명];  //필드 추가하기
+
+-Alter table 테이블명 drop  [삭제할필드명]; //필드 삭제하기
+
+-Alter table 테이블명 change [수정할필드명] [NEW필드명] [필드데이터형]; //필드명 변경
+
+-Alter table 테이블명 modify [필드명] [수정할데이터형]; //필드 데이터 변경
+
+
+
+
+
+
+
+4. 전체 필드와 데이터 검색
+
+-select * from [테이블명]; //전체 필드와 데이터 출력
+
+-select [필드명1], [필드명2],[필드명3] from [테이블명]; // 테이블내 특정 필드 레코드 검색
+
+-select [필드명1], [필드명2] from [테이블명] where [조건]; // 테이블내 특정 필드에 조건을 달고 레코드 검색
+
+-select [필드명1], [필드명2] from [테이블명] where [검색필드] like [%문자열수식%];  //테이블명’이라는 DB 테이블에서 ‘검색필드’에 포함된 ‘문자열_수식’ 조건을 만족하는 레코드의 필드명1, 필드명2를 검색하는 명령 형식
+
+-SELECT LEFT(‘ABCDEFG’,3) -> 왼쪽부터 3글자 추출
+
+-SELECT RIGHT(‘ABCDEFG’,3) -> 오른쪽부터 3글자 추출
+
+-SELECT SUBSTR(‘ABCDEFG’,2,5) -> 2번째부터 5번째까지 추출
+
+-SELECT SUBSTR(‘ABCDEFG’,4) -> 4번째부터 끝까지 추출
+
+-Delete from [테이블명]  where [조건식] //‘테이블명’이라는 DB테이블에서 조건식을 만족하는 레코드를 삭제하는 명령 형식
+
+-Delete from [테이블명]; // 테이블의 전체 레코드를 삭제하는 명령 형식
+
+
+
+
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+*AS 
+SELECT 컬럼 AS 원하는명칭 FROM 테이블명;
+
+*WHERE
+SELECT 컬럼 FROM 테이블명 WHERE 컬럼 = '조건';
+
+*WHERE LIKE '%'
+SELECT 컬럼 FROM 테이블명 WHERE A컬럼 LIKE '%A컬럼안의조건';  
+
+*ORDER BY
+SELECT 컬럼 AS 원하는명칭 FROM 테이블명 [WHERE문] ORDER BY 배열중심컬럼 (DESC사용가능);
+
+*UPDATE 
+UPDATE [테이블명] SET [컬럼명] = NULL WHERE [컬럼명] = '';  
+
+*IS NOT NULL
+NULL인지 아닌지 검사하는 조건. NULL이 아닌 값만 선택
+
+*LIMIT
+SELECT * FROM 고객 LIMIT 3;
+
+*GROUP BY
+SELECT 그룹으로묶을컬럼명, 집계함수 FROM 테이블명 [WHERE절] GROUP BY 그룹으로묶을컬럼명 OR 컬럼순번;
+
+* HAVING  
+group by 묶은 후, 그 결과를 필터링
+SELECT 그룹으로묶을컬럼명, 집계함수 FROM 테이블명 [WHERE절] GROUP BY 그룹으로묶을컬럼명 [HAVING절];
+
+*BETWEEN AND
+
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+*JOIN
+
+
+조인  JOIN join Join
+ 조인(join)은 두개 이상의 테이블을 연결하여 데이터를 검색하는 방법으로 서로 다른 테이블에서
+저장된 관련된 데이터를 함께 가져와 하나의 결과로 표시. 검색하고 싶은 
+서로다른 테이블에 있을 때 사용 할 수 있으며, 여러개의 테이블을 하나의 테이블인것처럼 쓸 수 있다.
+
+
+1. [Inner Join] - 두 테이블에서 공통된 요소들을 통해 결합하는 조인 방식
+
+ex) 셀럽을 기준으로 snl출현한 호스트 출력하기 //셀럽 id , 이름 , snl쇼 id, 호스트 출력하기// inner join 하여 각 테이블에서 필요한부분을 조회
+
+SELECT celeb.id, celeb.name, snl_show.id, snl_show.host
+from celeb
+inner join snl_show
+on celeb.name = snl_show.host
+
+// snl에 출현한 셀럽들만 출력
+
+
+
+2. [Self Join]  - inner join과 유사하고 table 간의 공통된 데이터를 조회하며 가장 자주 쓰는 join방법이다.
+
+ex) 셀럽을 기준으로 snl출현한 호스트 출력하기 //셀럽 id , 이름 , snl쇼 id, 호스트 출력하기// self join 하여 각 테이블에서 필요한부분을 조회
+
+SELECT celeb.id, celeb.name, snl_show.id, snl_show.host
+from celeb, snl_show
+where celeb.name = snl_show.host
+
+// snl에 출현한 셀럽들만 출력  // inner join 생략하고 ,로 표시, on대신 where로 대체
+
+
+
+3.[Left Join] - 두 테이블에서 공통된 요소들을 통해 결합하고 Left기준 테이블 정보를 전부 출력하는 조인 방식
+
+ex) 셀럽을 기준으로 snl출현한 호스트 출력하기 //셀럽 id , 이름 , snl쇼 id, 호스트 출력하기// left join 하여 각 테이블에서 필요한부분을 조회
+
+SELECT celeb.id, celeb.name, snl_show.id, snl_show.host
+from celeb
+left join snl_show
+on celeb.name = snl_show.host
+
+// 셀럽을 기준으로한 left join, snl에 출연안한 셀럽들도 출력, host로 출력안한 셀럽들의 show id,host는 null로 표시
+
+
+
+4.[Right Join] - 두 테이블에서 공통된 요소들을 통해 결합하고 right기준 테이블 정보를 전부 출력하는 조인 방식
+
+ex) 셀럽을 기준으로 snl출현한 호스트 출력하기 //셀럽 id , 이름 , snl쇼 id, 호스트 출력하기// right join 하여 각 테이블에서 필요한부분을 조회
+
+SELECT celeb.id, celeb.name, snl_show.id, snl_show.host
+from celeb
+right join snl_show
+on celeb.name = snl_show.host
+
+// snl show을 기준으로한 right join, snl에 출연한  셀럽들 전부 출력, 셀럽에 없는 호스트들은 셀럽 id, name는 null로 표시
+
+
+
+5.[Full Other Join] - 두 테이블에서 공통된 요소들을 포함, 양쪽 테이블의 다른영억들을 전부 포함하는 조인방식
+- sql에서 full other join을 지원하지 않는다. 대신 Union을 사용해서 left  join , right join을 동시에 사용
+-[Union] - 유니온 은 두 셀렉트 값을 결합할때 사용하며 데이터타입의 대비가 다르면 사용할 수 없다.
+
+ex) 셀럽을 기준으로 snl출현한 호스트 출력하기 //셀럽 id , 이름 , snl쇼 id, 호스트 출력하기// full other join 하여 각 테이블에서 필요한부분을 조회
+
+ select celeb.id, celeb.name, snl_show.id, snl_show.host
+     from celeb
+     left join snl_show
+     on celeb.name = snl_show.host
+    union
+     select celeb.id, celeb.name, snl_show.id, snl_show.host
+     from celeb
+     right join snl_show
+    on celeb.name = snl_show.host;
+
+//두테이블의 데이터 전부 출력,  빈 데이터는 null로 표시
+
+
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
+

@@ -1,0 +1,38 @@
+package mvc.cotroller;
+
+import java.io.IOException;
+import java.util.ArrayList;
+
+
+import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+import mvc.model.BoardDAO;
+import mvc.model.BoardDTO;
+
+public class BoardContoller  extends HttpServlet{
+		   private static final long serialVersionUID = 1L;
+		   static final int LISTCOUNT = 5;  //한페이지당 게시글 수
+
+		   public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		      doPost(request, response);
+		   }
+
+		   public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		      
+		      String RequestURI = request.getRequestURI();
+		      String contextPath = request.getContextPath();
+		      String command = RequestURI.substring(contextPath.length());  //링크 주소 추출
+		      
+		      response.setContentType("text/html; charset=utf-8");
+		      request.setCharacterEncoding("utf-8");
+		      
+		      if(command.equals("/BoardWriteAction.do")) {
+		    	  requestLoginName(request);
+		      }
+		   }
+	
+}

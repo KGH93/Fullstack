@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>전역변수 지역변수 (p363)</title>
+</head>
+<body>
+    <script>
+        //전역변수
+        var globalMessage = "나는 전역변수야";
+        function showMessage(){
+            var localMessage = "나는 지역변수야"
+            console.log(globalMessage);  //전역변수 접근가능
+            console.log(localMessage);   //지역변수 접근가능
+
+            // 함수 내부에서도 접근 가능(전역변수)
+            // 함수 내부에서만 접근 가능(지역변수)
+        }
+
+        showMessage();
+        console.log(globalMessage);  //전역변수 출력가능
+        console.log(localMessage);   //지역변수 출력불가능 오류발생
+
+    </script>
+</body>
+</html>

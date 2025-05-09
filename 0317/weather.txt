@@ -1,0 +1,26 @@
+https://openweathermap.org/
+
+log in 
+api key 
+
+2ea43ede0dc61830586d1d25592340c4
+
+how to start
+
+http://api.openweathermap.org/data/2.5/forecast?id=524901&appid={API key}
+
+id = 524901 도시코드.   사이트에서 도시이름 검색   // seoul 1835848
+
+
+
+
+http://api.openweathermap.org/data/2.5/forecast?id=1835848&appid=2ea43ede0dc61830586d1d25592340c4&units=metric
+
+예보 -forecast
+
+현재 날씨 -weather 
+
+http://api.openweathermap.org/data/2.5/weather?id=1835848&appid=2ea43ede0dc61830586d1d25592340c4&units=metric
+
+
+

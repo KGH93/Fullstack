@@ -1,0 +1,171 @@
+cmd 접속  -> mysql -u root -p  -> 1234
+
+show databases; 데이터목록보기
+
+create database test_1; 데이터생성 
+
+create database test-1; - 사용불가
+
+drop database test-1; 데이터삭제
+
+select database();
+
+use test_1; 데이터사용
+
+테이블 생성
+create table users(
+id int auto_increment primary key,                                    //id: 자동증가 기본키
+name varchar(50) not null,                                              //name: 50글자허용, null 불허용
+email varchar(100) unique,                                              //email: 100글자허용, 중복불가
+created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP         //create_at: 자동 시간 기록
+); 
+
+insert into users (name, email) values ('홍길동','hong@example.com');   레코드추가
+
+insert into users values (null,'김철수','kim@example.com',default);  레코드추가
+
+select * from users;  users 테이블의 모든 레코드 출력
+
+select *from users where name = '김철수'; 조건부 레코드출력
+
+desc table; 테이블구조 확인
+
+alter table person add post_num char(20); 테이블에 필드추가
+
+alter table person drop post_num; 테이블에 필드 삭제
+
+alter table person change tel phone char(20); 테이블에 필드이름 수정
+
+alter table person modify phone int; 테이블에 필드의 데이터 수정
+ 
+alter table person rename person2; 테이블 이름 수정
+
+drop table person2; 테이블 삭제
+
+update member set tel='345-6789' where name = '고재진'; 레코드의 정보수정
+
+SELECT * FROM 한빛무역.고객 where 지역 is not null and 담당자직위 <> '대표 이사'; 지역이null이아니고 직위가 대표이사 아닌 두조건을 걸고 출력
+
+SELECT count(*) ,count(고객번호),count(도시),count(지역) FROM 한빛무역.고객;  고객번호 ,도시 ,지역 개수
+
+SELECT 담당자직위 ,도시,count(*) as 고객수, avg(마일리지) as 평균마일리지 FROM 한빛무역.고객 
+group by 1,2 order by 1, 2;     //담당자직위,도시 기준 고객수,평균마일리지 출력
+
+SELECT 도시,sum(마일리지) as '마일리지 합' from 고객 
+where 고객번호 like 'T%' group by 도시 having sum(마일리지) >= 1000;  //도시기준으로 마일리지합, 마일리지천점이상만표시
+
+Root 로 진입
+ Mysql -u root -p
+
+Mysql 사용
+Use my sql;
+
+현재 로그인한 사용자
+Select current_user();
+결과  : root@localhost
+
+1. 새로운 User 생성
+
+CREATE USER junsuk@localhost IDENTIFIED BY ‘12345’;
+CREATE USER KGH@localhost IDENTIFIED BY ‘ password’;
+
+특정 db(test)에 대한 전체 권한 추가
+GRANT ALL ON test.* TO junsuk@localhost; 
+메모리에 적용(저장)
+Flush PRIVILEGES;
+
+전체 db에 대한 전체 권한 추가
+GRANT ALL ON *.* TO junsuk@localhost; 
+GRANT ALL ON *.* TO junsuk@’%’;
+
+
+
+전체 db에 대한 SELECT, INSERT 권한 추가
+GRANT SELECT, INSERT ON *.* TO junsuk@localhost; 
+
+ 
+특정db(TEST)에 대한 SELECT, INSERT 권한 추가
+GRANTorREVOKE SELECT, INSERT ON table.* TO kgh@localhost; 
+
+특정 db(test)에 포함된 특정 Table(friend)대한 권한 주기
+GRANT ALL ON test.friend TO junsuk@localhost; 
+
+쓰기 , 수정 권한을 삭제
+
+REVOKE INSERT, UPDATE ON test.* FROM junsuk;
+
+사용자 전체권한 삭제 
+REVOKE ALL ON *.* FROM junsuk;
+
+사용자 전체 쓰기 권한 삭제
+REVOKE INSERT ON *.* TO junsuk@localhost
+
+유저 삭제
+DROP USER junsuk@localhost;
+
+localhost; 와 % 차이 
+로컬컴퓨터(자기 자신)에서만 접속 허용 
+% 어디서든 접속 가능 (보안위험, 방화벽 필수)
+Create user junsuk@192.168.1.10  IDENTIFIED BY ‘1234’;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+1.SELECT c.name,o.orderID FROM test_1.customers 
+inner join orders on c.CustomerID = o.CustomerID; 
+
+
+2.SELECT name,orderdate,totalamount FROM test_1.customers 
+inner join orders on customers.CustomerID = orders.CustomerID; 
+
+3.SELECT name,orderID FROM test_1.customers 
+inner join orders on customers.CustomerID = orders.CustomerID where country = 'germany'; 
+
+4.SELECT name,orderID,TotalAmount FROM test_1.customers 
+inner join orders on customers.CustomerID = orders.CustomerID where totalamount >= 1000; 
+
+5.SELECT name,count(OrderID) as 주문건수 FROM test_1.customers 
+inner join orders on customers.CustomerID = orders.CustomerID group by name; 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
