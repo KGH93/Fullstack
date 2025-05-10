@@ -1,0 +1,94 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="java.sql.*"%>
+<%@ page import="java.util.ArrayList"%>
+<%@ page import="dto.Cosmetics"%>
+
+<%
+   Connection conn = null;
+   Statement stmt = null;
+   ResultSet rs = null;
+   ArrayList<Cosmetics> cosmeticsList = new ArrayList<>();
+
+   try {
+      String url = "jdbc:mysql://localhost:3306/semi?serverTimezone=UTC";
+      String user = "root";
+      String password = "1234";
+      
+      // MySQL JDBC 드라이버 로드
+      Class.forName("com.mysql.cj.jdbc.Driver");  // 최신 JDBC 드라이버
+      conn = DriverManager.getConnection(url, user, password);
+      
+      // SQL 쿼리 실행
+      String sql = "SELECT id, name, brand, price, main_ingredient, effect, category, image_file, likes FROM cosmetics";
+      stmt = conn.createStatement();
+      rs = stmt.executeQuery(sql);
+
+      // 결과 처리
+      while (rs.next()) {
+          Cosmetics cosmetics = new Cosmetics();
+          cosmetics.setId(rs.getInt("id"));
+          cosmetics.setName(rs.getString("name"));
+          cosmetics.setBrand(rs.getString("brand"));
+          cosmetics.setPrice(rs.getInt("price"));
+          cosmetics.setMain_ingredient(rs.getString("main_ingredient"));
+          cosmetics.setEffect(rs.getString("effect"));
+          cosmetics.setCategory(rs.getString("category"));
+          cosmetics.setImage_file(rs.getString("image_file"));
+          cosmetics.setLikes(rs.getInt("likes"));
+          cosmeticsList.add(cosmetics);
+      }
+   } catch (SQLException | ClassNotFoundException ex) {
+      out.println("데이터베이스 연결 실패 또는 SQL 오류<br>");
+      out.println("SQLException: " + ex.getMessage());
+   } finally {
+      try {
+          if (rs != null) rs.close();
+          if (stmt != null) stmt.close();
+          if (conn != null) conn.close();
+      } catch (SQLException ex) {
+          out.println("리소스 종료 오류: " + ex.getMessage());
+      }
+   }
+   
+   // 조회된 데이터를 출력
+   if (cosmeticsList.isEmpty()) {
+       out.println("조회된 화장품이 없습니다.");
+   } else {
+%>
+       <table border="1">
+           <thead>
+               <tr>
+                   <th>ID</th>
+                   <th>Name</th>
+                   <th>Brand</th>
+                   <th>Price</th>
+                   <th>Main Ingredient</th>
+                   <th>Effect</th>
+                   <th>Category</th>
+                   <th>Image</th>
+                   <th>Likes</th>
+               </tr>
+           </thead>
+           <tbody>
+               <%
+                   for (Cosmetics cosmetics : cosmeticsList) {
+               %>
+                   <tr>
+                       <td><%= cosmetics.getId() %></td>
+                       <td><%= cosmetics.getName() %></td>
+                       <td><%= cosmetics.getBrand() %></td>
+                       <td><%= cosmetics.getPrice() %></td>
+                       <td><%= cosmetics.getMain_ingredient() %></td>
+                       <td><%= cosmetics.getEffect() %></td>
+                       <td><%= cosmetics.getCategory() %></td>
+                       <td><img src="<%= cosmetics.getImage_file() %>" width="50" /></td>
+                       <td><%= cosmetics.getLikes() %></td>
+                   </tr>
+               <%
+                   }
+               %>
+           </tbody>
+       </table>
+   <%
+   }
+%>
