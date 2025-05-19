@@ -1,39 +1,35 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%-- <%@ page import="mvc.model.Experience" %> --%>
+<%@ page import="java.util.*" %>
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-<link rel="stylesheet" href="<%= request.getContextPath() %>/resources/css/reservationListstyle.css">
-<script src="<%= request.getContextPath() %>/resources/js/dday.js"></script>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
-<title>reservation</title>
+  <meta charset="UTF-8">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="<%= request.getContextPath() %>/resources/css/reservationListstyle.css">
+  <script src="<%= request.getContextPath() %>/resources/js/dday.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+  <title>reservationList</title>
 </head>
 <body>
 
 <%@ include file="header.jsp" %>
 
- 
-<section class="hero">
-        <div class="hero-content">
-            <h1>한국 전통 음식을 통해 새로운 경험을 느껴보세요</h1>
-            <p>한국 전통 방식을 체험하고, 즐겨보세요. GongGan과 함께 전통적인 한식의 세계로 초대합니다.</p>
-            <a href="#" class="hero_btn">한식 체험 예약 하기</a>
-        </div>
-</section>
+<!-- 배경 이미지 섹션 -->
+<section class="bg-image">	
+<div class="overlay">
 
-
-
-<div class="container py-5">
-  <h4 class="mb-4 text-start">Cultural Experiences</h4>
-  <div class="row row-cols-1 row-cols-md-2 g-4">
+<!-- 카드 섹션 시작-->
+<div class="container pt-5 pb-3">
+  <h3 class="mb-4 text-start">Cultural Experiences</h3>
+  <div class="row row-cols-1 row-cols-md-2 gy-3 gx-3">
     <!-- 카드 1 -->
     <div class="col">
       <div class="card h-100 shadow-sm border-0">
         <img src="./resources/img/exs01.jpg" class="card-img-top" alt="...">
         <div class="card-body">
-          <div class="d-flex align-items-center mb-2">
+          <div class="d-flex align-items-center mb-1">
            <h5 class="card-title">Landscape & Cityscape</h5>
            <span class="badge d-day-badge ms-3" data-dday="2025-06-05"></span>
           </div>
@@ -55,7 +51,7 @@
       <div class="card h-100 shadow-sm border-0">
         <img src="./resources/img/exs02.jpg" class="card-img-top" alt="...">
         <div class="card-body">
-         <div class="d-flex align-items-center mb-2">
+         <div class="d-flex align-items-center mb-1">
           <h5 class="card-title">Nature & Wildlife</h5>
           <span class="badge d-day-badge ms-3" data-dday="2025-05-15"></span>
          </div>
@@ -75,9 +71,9 @@
     <!-- 카드 3 -->
     <div class="col">
       <div class="card h-100 shadow-sm border-0">
-        <img src="./resources/img/체험2.jpg" class="card-img-top" alt="...">
+        <img src="./resources/img/exs03.jpg" class="card-img-top" alt="...">
         <div class="card-body">
-         <div class="d-flex align-items-center mb-2">
+         <div class="d-flex align-items-center mb-1">
           <h5 class="card-title">Black & White</h5>
           <span class="badge d-day-badge ms-3" data-dday="2025-05-09"></span>
          </div>
@@ -97,9 +93,9 @@
     <!-- 카드 4 -->
     <div class="col">
       <div class="card h-100 shadow-sm border-0">
-        <img src="./resources/img/체험3.jpg" class="card-img-top" alt="...">
+        <img src="./resources/img/exs04.jpg" class="card-img-top" alt="...">
         <div class="card-body">
-         <div class="d-flex align-items-center mb-2">
+         <div class="d-flex align-items-center mb-1">
           <h5 class="card-title">Macro Photography</h5>
           <span class="badge d-day-badge ms-3" data-dday="2025-08-05"></span>
          </div>	
@@ -120,15 +116,14 @@
 
 
 <!-- 3카드 섹션  -->
-<div class="container py-3">
-  <div class="row row-cols-1 row-cols-md-3 g-4"> <!-- 여기 변경됨 -->
-    
+<div class="container pt-1 pb-5">
+  <div class="row row-cols-1 row-cols-md-3 g-3">
     <!-- 카드 1 -->
     <div class="col">
       <div class="card h-100 shadow-sm border-0">
-        <img src="./resources/img/체험0.jpg" class="card-img-top2" alt="...">
+        <img src="./resources/img/exs05.jpg" class="card-img-top2" alt="...">
         <div class="card-body">
-         <div class="d-flex align-items-center mb-2">
+         <div class="d-flex align-items-center mb-1">
           <h5 class="card-title">Landscape & Cityscape</h5>
           <span class="badge d-day-badge ms-3" data-dday="2025-08-05"></span>
          </div>
@@ -148,9 +143,9 @@
      <!-- 카드 2 -->
     <div class="col">
       <div class="card h-100 shadow-sm border-0">
-        <img src="./resources/img/체험1.png" class="card-img-top2" alt="...">
+        <img src="./resources/img/exs06.jpg" class="card-img-top2" alt="...">
         <div class="card-body">
-         <div class="d-flex align-items-center mb-2">
+         <div class="d-flex align-items-center mb-1">
           <h5 class="card-title">Landscape & Cityscape</h5>
           <span class="badge d-day-badge ms-3" data-dday="2025-08-05"></span>
          </div>
@@ -170,9 +165,9 @@
      <!-- 카드 3 -->
     <div class="col">
       <div class="card h-100 shadow-sm border-0">
-        <img src="./resources/img/체험2.jpg" class="card-img-top2" alt="...">
+        <img src="./resources/img/exs07.jpg" class="card-img-top2" alt="...">
         <div class="card-body">
-         <div class="d-flex align-items-center mb-2">
+         <div class="d-flex align-items-center mb-1">
           <h5 class="card-title">Landscape & Cityscape</h5>
           <span class="badge d-day-badge ms-3" data-dday="2025-08-05"></span>
          </div>
@@ -190,6 +185,9 @@
      </div>
     </div>
    </div>
+  </div>
+</section>
+
 
 
 <%@ include file="footer.jsp" %> 
