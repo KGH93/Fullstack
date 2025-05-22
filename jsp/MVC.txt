@@ -1,0 +1,3 @@
+M odel  / 데이터 이동
+V iew 
+C ontrol
