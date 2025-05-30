@@ -1,14 +1,14 @@
-package loginBoard.board2.service;
+package board3.board.service;
 
-import loginBoard.board2.dto.MemberDTO;
-import loginBoard.board2.entity.Member;
-import loginBoard.board2.repository.MemberRepository;
+
+import board3.board.dto.MemberDTO;
+import board3.board.entity.Member;
+import board3.board.repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class MemberService {
-
     @Autowired
     private MemberRepository memberRepository;
 
@@ -27,8 +27,10 @@ public class MemberService {
     }
 
     public void changePassword(Long id, String newPassword) {
-        Member member = memberRepository.findById(id).orElseThrow(()-> new RuntimeException("회원을 찾을 수 없음"));
+        Member member = memberRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("회원을 찾을 수 없음"));
         member.setPassword(newPassword);
         memberRepository.save(member);
+
     }
 }
