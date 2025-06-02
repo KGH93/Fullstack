@@ -5,7 +5,7 @@ import loginBoard.board2.dto.BoardDTO;
 import loginBoard.board2.entity.Board;
 import loginBoard.board2.entity.Member;
 import loginBoard.board2.service.BoardService;
-import org.hibernate.Session;
+import loginBoard.board2.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,11 +13,20 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import loginBoard.board2.entity.Comment;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 @Controller
 public class BoardCotroller {
 
     @Autowired
     private BoardService boardService;
+    @Autowired
+    private CommentService commentService;
 
 
     @GetMapping("/boards/write")
@@ -42,8 +51,24 @@ public class BoardCotroller {
     public String list(Model model, HttpSession session){
         Member loginUser = (Member)session.getAttribute("loginUser");
         model.addAttribute("loginUser", loginUser);
-        model.addAttribute("boards", boardService.list());
+        List<Board> boards = boardService.list();
+        model.addAttribute("boards", boards);
+        Map<Long, List<Comment>> commentMap = new HashMap<>();
+        for(Board board : boards){
+            commentMap.put(board.getId(), commentService.getComments(board));
+        }
+        model.addAttribute("commentMap", commentMap);
         return "board-list";
+    }
+
+    @PostMapping("comments/add")
+    public String addComment(@RequestParam Long boardId, @RequestParam String content, HttpSession session){
+        Member loginUser = (Member)session.getAttribute("loginUser");
+        if(loginUser == null){
+            return "redirect:login";
+        }
+        commentService.saveComment(boardId, content, loginUser);
+        return "redirect:/boards";
     }
 
     @GetMapping("/boards/edit/{id}")
@@ -81,4 +106,5 @@ public class BoardCotroller {
         boardService.delete(id);
         return "redirect:/boards";
     }
+
 }

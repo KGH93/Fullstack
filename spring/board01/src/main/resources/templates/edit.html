@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h2>글수정</h2>
+<form th:action="@{'/boards/edit/' + ${board.id}}" th:object="${board}" method="post">
+    <input type="text" th:field="*{title}" placeholder="제목" />
+    <textarea th:field="*{content}" placeholder="내용"></textarea>
+    <input type="text" th:field="*{writer}" placeholder="작성자" />
+    <button type="submit">수정하기</button>
+</form>
+</body>
+</html>`
