@@ -1,10 +1,7 @@
-package Board.Kgh.entity;
+package BOARD.KGH.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Entity
 @Getter
@@ -12,16 +9,19 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Board {
+
     @Id
     @GeneratedValue
     private Long id;
 
     private String title;
     private String content;
+    private String imagePath;
 
     @ManyToOne
     @JoinColumn(name = "member_id")
     private Member writer;
+
 
     @Override
     public String toString() {

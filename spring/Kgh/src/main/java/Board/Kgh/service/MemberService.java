@@ -1,9 +1,8 @@
-package Board.Kgh.service;
+package BOARD.KGH.service;
 
-
-import Board.Kgh.dto.MemberDTO;
-import Board.Kgh.entity.Member;
-import Board.Kgh.repository.MemberRepository;
+import BOARD.KGH.dto.MemberDTO;
+import BOARD.KGH.entity.Member;
+import BOARD.KGH.repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

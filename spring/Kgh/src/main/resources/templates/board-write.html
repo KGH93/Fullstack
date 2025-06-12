@@ -6,9 +6,10 @@
 </head>
 <body>
 <h1>글쓰기</h1>
-<form action="/boards/write" method="post">
+<form action="/boards/write" method="post" enctype="multipart/form-data">
   <input name="title" placeholder="제목">
   <textarea name="content" placeholder="내용"></textarea>
+    <input type="file" name="imageFile"/>
   <button type="submit">작성</button>
 </form>
 </body>

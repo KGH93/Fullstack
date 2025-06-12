@@ -1,4 +1,4 @@
-package Board.Kgh;
+package BOARD.KGH;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

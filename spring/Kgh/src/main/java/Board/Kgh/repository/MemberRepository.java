@@ -1,12 +1,10 @@
-package Board.Kgh.repository;
+package BOARD.KGH.repository;
 
-
-import Board.Kgh.entity.Member;
+import BOARD.KGH.entity.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
 
-public interface MemberRepository extends JpaRepository<Member, Long> {
-
+public interface MemberRepository extends JpaRepository<Member,Long> {
     Optional<Member> findByUsername(String username);
 }

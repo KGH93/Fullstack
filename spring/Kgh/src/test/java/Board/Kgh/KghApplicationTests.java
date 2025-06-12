@@ -1,4 +1,4 @@
-package Board.Kgh;
+package BOARD.KGH;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

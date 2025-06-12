@@ -1,29 +1,28 @@
-package Board.Kgh.controller;
+package BOARD.KGH.controller;
 
-import Board.Kgh.dto.MemberDTO;
-import Board.Kgh.entity.Member;
-import Board.Kgh.service.MemberService;
+import BOARD.KGH.dto.MemberDTO;
+import BOARD.KGH.entity.Member;
+import BOARD.KGH.service.MemberService;
 import jakarta.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 public class AuthController {
 
-
     @Autowired
     private MemberService memberService;
 
-    @GetMapping("/register")
-    public String registerForm(){
-        return "register";
+    @GetMapping("/signup")
+    public String signupForm(){
+        return "signup";
     }
 
-    @PostMapping("/register")
-    public String register(MemberDTO dto){
+    @PostMapping("/signup")
+    public String signup(@ModelAttribute MemberDTO dto){
         memberService.register(dto);
         return "redirect:/login";
     }
@@ -40,7 +39,7 @@ public class AuthController {
             session.setAttribute("loginUser", member);
             return "redirect:/boards";
         }else {
-            return "redirect:/logint?error=ture";
+            return "redirect:/login?error=true";
         }
     }
 

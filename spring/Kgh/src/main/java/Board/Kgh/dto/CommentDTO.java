@@ -1,5 +1,4 @@
-package Board.Kgh.dto;
-
+package BOARD.KGH.dto;
 import lombok.*;
 
 @Getter
@@ -10,5 +9,4 @@ import lombok.*;
 public class CommentDTO {
 
     private String content;
-
 }

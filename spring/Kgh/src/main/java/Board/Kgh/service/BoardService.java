@@ -1,10 +1,9 @@
-package Board.Kgh.service;
+package BOARD.KGH.service;
 
-
-import Board.Kgh.dto.BoardDTO;
-import Board.Kgh.entity.Board;
-import Board.Kgh.entity.Member;
-import Board.Kgh.repository.BoardRepository;
+import BOARD.KGH.dto.BoardDTO;
+import BOARD.KGH.entity.Board;
+import BOARD.KGH.entity.Member;
+import BOARD.KGH.repository.BoardRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +20,7 @@ public class BoardService {
         Board board = new Board();
         board.setTitle(dto.getTitle());
         board.setContent(dto.getContent());
+        board.setImagePath(dto.getImagePath());
         board.setWriter(writer);
         return boardRepository.save(board);
     }
