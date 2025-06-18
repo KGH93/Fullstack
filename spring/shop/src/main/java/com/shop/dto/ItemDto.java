@@ -13,7 +13,7 @@ public class ItemDto {
     private String itemNm;
     private Integer price;
     private String itemDetail;
-    private ItemSellStatus itemSellStatus;
+private ItemSellStatus itemSellStatus;
     private LocalDateTime regTime;
     private LocalDateTime updateTime;
 }
