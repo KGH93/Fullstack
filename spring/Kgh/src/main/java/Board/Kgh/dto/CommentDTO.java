@@ -1,4 +1,4 @@
-package BOARD.KGH.dto;
+package Board.Kgh.dto;
 import lombok.*;
 
 @Getter

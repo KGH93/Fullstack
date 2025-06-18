@@ -1,4 +1,4 @@
-package BOARD.KGH.entity;
+package Board.Kgh.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

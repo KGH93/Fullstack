@@ -1,0 +1,40 @@
+/////////최초 컴퓨터에 깃연결/////////
+
+1. 깃 vs설치
+
+2. vs코드에서 터미널 실행하고 
+git bash 
+git config --global user.name "KGH93"
+	
+
+3. 깃허브에 클론(복사)할 깃허브 코드 url 복사
+
+4. 집컴퓨터에 저장소 클론
+
+git clone <복사한 url>
+
+5. file - open folder 해서 클론할 폴더를 다시 열기 
+
+
+
+///////// 추후에 다시 저장/////////
+
+git add .
+
+git commit -m "version"
+
+git push 
+
+
+//////////////작업한거 다시 불러오기///////////////////
+
+git pull
+
+
+
+
+////////////////////////////////////////
+
+vscode 에서 .git 파일 및 숨김 처리된 파일 및 폴더를 vscode에서 보이기
+
+File - Preferences(기본설정) - settings(설정) - exclude 검색 - 표시하고 싶은 폴더 및 파일을 제거

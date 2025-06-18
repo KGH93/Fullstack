@@ -1,6 +1,6 @@
-package BOARD.KGH.repository;
+package  Board.Kgh.repository;
 
-import BOARD.KGH.entity.Member;
+import Board.Kgh.entity.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

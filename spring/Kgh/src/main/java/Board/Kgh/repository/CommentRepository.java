@@ -1,7 +1,7 @@
-package BOARD.KGH.repository;
+package  Board.Kgh.repository;
 
-import BOARD.KGH.entity.Board;
-import BOARD.KGH.entity.Comment;
+import Board.Kgh.entity.Board;
+import Board.Kgh.entity.Comment;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

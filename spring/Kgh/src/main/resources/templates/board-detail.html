@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"><title>게시글 상세</title></head>
+<body>
+<h2 th:text="${board.title}">제목</h2>
+<p>작성자: <span th:text="${board.writer.username}"></span></p>
+<p th:text="${board.content}">내용</p>
+
+    <!-- 이미지 표시 -->
+    <div th:if="${board.imagePath != null}">
+        <img th:src="@{'/uploads/' + ${board.imagePath}}" alt="첨부 이미지" width="300"/>
+    </div>
+
+
+<!-- 댓글 목록 -->
+<div>
+    <h3>댓글</h3>
+    <div th:each="comment : ${comments}">
+        <strong th:text="${comment.writer.username}">작성자</strong> :
+        <span th:text="${comment.content}">댓글 내용</span>
+        <em th:text="${#temporals.format(comment.createdAt, 'yyyy-MM-dd HH:mm')}"></em>
+
+        <!-- 삭제 버튼: 로그인 사용자와 작성자가 같을 때만 노출 -->
+        <span th:if="${loginUser != null and loginUser.id == comment.writer.id}">
+            <form th:action="@{/comments/delete/{id}(id=${comment.id})}" method="post" style="display:inline;">
+                <input type="hidden" name="from" value="detail" />
+                <button type="submit">삭제</button>
+            </form>
+        </span>
+        <br>
+    </div>
+
+    <!-- 댓글 작성 폼 -->
+    <form th:action="@{/comments/add}" method="post">
+        <input type="hidden" name="boardId" th:value="${board.id}">
+        <input type="text" name="content" placeholder="댓글을 입력하세요" required>
+        <button type="submit">댓글 작성</button>
+    </form>
+</div>
+
+
+<!-- 버튼 -->
+<div>
+    <a th:href="@{/boards}">목록으로</a>
+    <a th:href="@{/boards/edit/{id}(id=${board.id})}">수정</a>
+    <a th:href="@{/boards/delete/{id}(id=${board.id})}" onclick="return confirm('정말 삭제하시겠습니까?')">삭제</a>
+</div>
+</body>
+</html>

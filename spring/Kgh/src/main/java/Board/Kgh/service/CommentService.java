@@ -1,10 +1,10 @@
-package BOARD.KGH.service;
+package  Board.Kgh.service;
 
-import BOARD.KGH.entity.Board;
-import BOARD.KGH.entity.Comment;
-import BOARD.KGH.entity.Member;
-import BOARD.KGH.repository.BoardRepository;
-import BOARD.KGH.repository.CommentRepository;
+import Board.Kgh.entity.Board;
+import Board.Kgh.entity.Comment;
+import Board.Kgh.entity.Member;
+import Board.Kgh.repository.BoardRepository;
+import Board.Kgh.repository.CommentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,4 +29,14 @@ public class CommentService {
         comment.setBoard(board);
         commentRepository.save(comment);
     }
+
+
+    public Comment findById(Long id) {
+        return commentRepository.findById(id).orElse(null);
+    }
+
+    public void deleteComment(Long id) {
+        commentRepository.deleteById(id);
+    }
+
 }

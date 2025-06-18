@@ -1,12 +1,15 @@
-package BOARD.KGH.service;
+package  Board.Kgh.service;
 
-import BOARD.KGH.dto.BoardDTO;
-import BOARD.KGH.entity.Board;
-import BOARD.KGH.entity.Member;
-import BOARD.KGH.repository.BoardRepository;
+import Board.Kgh.dto.BoardDTO;
+import Board.Kgh.entity.Board;
+import Board.Kgh.entity.Member;
+import Board.Kgh.repository.BoardRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -37,6 +40,30 @@ public class BoardService {
         Board board = findById(id);
         board.setTitle(dto.getTitle());
         board.setContent(dto.getContent());
+
+        MultipartFile image = dto.getImageFile();
+        if (image != null && !image.isEmpty()) {
+            String uploadDir = System.getProperty("user.dir") + "/src/main/resources/static/uploads/";
+            String fileName = image.getOriginalFilename();
+
+            File file = new File(uploadDir + fileName);
+            int count = 1;
+            while (file.exists()) {
+                String name = fileName.substring(0, fileName.lastIndexOf('.'));
+                String ext = fileName.substring(fileName.lastIndexOf('.'));
+                file = new File(uploadDir + name + "_" + count + ext);
+                count++;
+            }
+
+            fileName = file.getName(); // 최종 파일명 갱신
+            try {
+                file.getParentFile().mkdirs();
+                image.transferTo(file);
+                board.setImagePath(fileName);
+            } catch (IOException e) {
+                throw new RuntimeException("이미지 저장 실패", e);
+            }
+        }
         boardRepository.save(board);
     }
 

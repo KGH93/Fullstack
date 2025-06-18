@@ -1,9 +1,9 @@
-package BOARD.KGH.controller;
+package Board.Kgh.controller;
 
-import BOARD.KGH.entity.Board;
-import BOARD.KGH.entity.Member;
-import BOARD.KGH.service.BoardService;
-import BOARD.KGH.service.MemberService;
+import Board.Kgh.entity.Board;
+import Board.Kgh.entity.Member;
+import Board.Kgh.service.BoardService;
+import Board.Kgh.service.MemberService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
