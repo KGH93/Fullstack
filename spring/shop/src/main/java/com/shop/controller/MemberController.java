@@ -15,15 +15,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @RequestMapping("/members")
 @Controller
-@RequiredArgsConstructor   // Autowired 대신 private final이랑 같이 사용
+@RequiredArgsConstructor
 public class MemberController {
-
     private final MemberService memberService;
-
     private final PasswordEncoder passwordEncoder;
-
-
-
     @GetMapping(value = "/new")
     public String memberForm(Model model){
         model.addAttribute("memberFormDto", new MemberFormDto());
@@ -46,5 +41,16 @@ public class MemberController {
         }
 
         return "redirect:/";
+    }
+
+    @GetMapping(value = "/login")
+    public String loginMember(){
+        return "member/memberLoginForm";
+    }
+
+    @GetMapping(value = "/login/error")
+    public String loginError(Model model){
+        model.addAttribute("loginErrorMsg","아이디 또는 비밀번호를 확인해주세요.");
+        return "/member/memberLoginForm";
     }
 }

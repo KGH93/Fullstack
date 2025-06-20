@@ -3,6 +3,8 @@ package Board.Kgh.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @Entity
 @Getter
 @Setter
@@ -22,6 +24,9 @@ public class Board {
     @JoinColumn(name = "member_id")
     private Member writer;
 
+
+    @OneToMany(mappedBy = "board", cascade = CascadeType.REMOVE)
+    private List<Comment> comments;
 
     @Override
     public String toString() {

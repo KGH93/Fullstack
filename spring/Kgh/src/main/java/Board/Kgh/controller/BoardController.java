@@ -147,18 +147,25 @@ public class BoardController {
 
 
 
-    @GetMapping("/boards/delete/{id}")
-    public String delete(@PathVariable Long id, HttpSession session){
-        Member loginUser = (Member)session.getAttribute("loginUser");
-        if(loginUser == null) return "redirect:/login";
+    @PostMapping("/boards/delete/{id}")
+    public String delete(@PathVariable Long id, HttpSession session) {
+        Member loginUser = (Member) session.getAttribute("loginUser");
+        if (loginUser == null) return "redirect:/login";
+
         Board board = boardService.findById(id);
-        if(!board.getWriter().getId().equals(loginUser.getId())){
+
+
+        if (board == null || board.getWriter() == null) {
+            return "redirect:/boards?error=notfound";
+        }
+
+        if (!board.getWriter().getId().equals(loginUser.getId())) {
             return "redirect:/boards?error=unauthorized";
         }
+
         boardService.delete(id);
         return "redirect:/boards";
     }
-
 
 
 

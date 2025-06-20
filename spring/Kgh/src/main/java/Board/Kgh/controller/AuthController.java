@@ -48,4 +48,10 @@ public class AuthController {
         session.invalidate(); //세션종료
         return "redirect:/login";
     }
+
+
+    @GetMapping("/main")
+    public String main() {
+        return "main"; // templates/main.html로 연결됨
+    }
 }
