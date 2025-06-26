@@ -1,0 +1,32 @@
+구글리디렉션 URI
+http://localhost/login/oauth2/code/google
+구글클라아디
+100265062126-rhsusfv1tv6q5vkvpgpgtg16b38rc8po.apps.googleusercontent.com
+구글클라비번
+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
+
+
+
+
+
+
+
+
+네이버클라아디 
+
+HqSVEysDAY1Ylge7UAuP
+
+네이버클라 시크릿
+
+zI5fERpFUz
+
+
+
+
+
+
+카카오 REST API 키  ( ID)
+2192a004fa5939b206c2454aa53c303e
+
+카카오클라 시크릿
+6CZtsWjpaH2i9CCR0VY4ksU4A6KAHFo6
