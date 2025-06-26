@@ -37,6 +37,10 @@
                         <a class="me-3" th:href="@{/login}" sec:authorize="!isAuthenticated()">LOGIN</a>
                         <a class="me-3" th:href="@{/join}" sec:authorize="!isAuthenticated()">JOIN US</a>
                         <a class="me-3" th:href="@{/logout}" sec:authorize="isAuthenticated()">LOG OUT</a>
+                        <span class="me-3" sec:authorize="isAuthenticated()">
+                            <strong th:text="${#authentication.name} + ' 님 환영합니다!'">사용자</strong>
+                        </span>
+
                         <a class="me-3" th:href="@{/cart}">CART</a>
                         <a class="me-3" th:href="@{/order}">ORDER</a>
                         <a class="" th:href="@{/myPage}">MY PAGE</a>
