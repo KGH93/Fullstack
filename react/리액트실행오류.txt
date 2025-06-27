@@ -1,0 +1,5 @@
+powershell 관리자 실행 
+
+Set-ExecutionPolicy RemoteSigned -Scope CurrentUser     입력
+
+Y

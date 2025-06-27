@@ -1,0 +1,26 @@
+vscode
+
+지정폴더 열기
+
+npx create-react-app test1
+
+cd test1
+
+npm start
+
+-웹으로 실행됌
+
+
+
+
+////////////////////////////////////////////////////////////
+
+npm start 실행
+
+npm install  node_modules 설치  // 삭제해도 다시 설치됌 // 노드 모듈스는 공용파일이라 파일크기가 크지만 삭제해도 install명령어로 설치언제든지 가능
+
+
+
+
+
+

@@ -1,0 +1,48 @@
+spring.datasource.username=${DB_USERNAME}
+spring.datasource.password=${DB_PASSWORD}
+
+spring.security.oauth2.client.registration.google.client-id=${GOOGLE_CLIENT_ID}
+spring.security.oauth2.client.registration.google.client-secret=${GOOGLE_CLIENT_SECRET}
+
+spring.security.oauth2.client.registration.naver.client-id=${NAVER_CLIENT_ID}
+spring.security.oauth2.client.registration.naver.client-secret=${NAVER_CLIENT_SECRET}
+
+spring.security.oauth2.client.registration.kakao.client-id=${KAKAO_CLIENT_ID}
+spring.security.oauth2.client.registration.kakao.client-secret=${KAKAO_CLIENT_SECRET}
+
+spring.mail.username=${MAIL_USERNAME}
+spring.mail.password=${MAIL_PASSWORD}
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+실제 민감 정보는 application-secret.properties
+# application-secret.properties
+DB_USERNAME=root
+DB_PASSWORD=1234
+
+GOOGLE_CLIENT_ID=...
+GOOGLE_CLIENT_SECRET=...
+
+NAVER_CLIENT_ID=...
+NAVER_CLIENT_SECRET=...
+
+KAKAO_CLIENT_ID=...
+KAKAO_CLIENT_SECRET=...
+
+MAIL_USERNAME=bhher30@gmail.com
+MAIL_PASSWORD=이메일실제비밀번호
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+application.properties 또는 application.yml에서 include 시키기
+
+spring.config.import=optional:application-secret.properties
+
+//////////////////////////////////////////////////////////////////////////////////////////
+
+
+.gitignore에 민감 파일 등록
+src/main/resources/application-secret.properties
