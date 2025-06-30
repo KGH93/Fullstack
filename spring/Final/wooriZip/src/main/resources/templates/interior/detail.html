@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title th:text="${dto.title}">제목</title>
+</head>
+<body>
+<h1 th:text="${dto.title}">게시글 제목</h1>
+
+<p><strong>작성자:</strong> <span th:text="${dto.nickname}"></span></p>
+<p><strong>작성일:</strong> <span th:text="${#temporals.format(dto.createdAt, 'yyyy-MM-dd HH:mm')}"></span></p>
+<p><strong>조회수:</strong> <span th:text="${dto.views}"></span></p>
+
+<div>
+  <strong>내용:</strong>
+  <p th:text="${dto.content}"></p>
+</div>
+
+
+<div th:if="${dto.filePathList != null}">
+  <strong>사진:</strong><br/>
+  <div th:each="path : ${dto.filePathList}">
+    <img th:src="@{${path}}" alt="첨부 이미지" width="400"/><br/><br/>
+  </div>
+</div>
+
+<br/>
+<a th:href="@{'/interior/edit/' + ${dto.postId}}">수정</a>
+
+<form th:action="@{'/interior/delete/' + ${dto.postId}}" method="post" style="display:inline;">
+  <button type="submit">삭제</button>
+</form>
+
+<!-- 댓글 목록 -->
+<h3>댓글</h3>
+<div th:if="${commentList != null}">
+  <div th:each="comment : ${commentList}">
+    <p>
+      <strong th:text="${comment.writer}">작성자</strong>:
+      <span th:text="${comment.content}">내용</span>
+    </p>
+    <p>
+      <small th:text="${#temporals.format(comment.createdAt, 'yyyy-MM-dd HH:mm')}">작성일</small></p>
+
+    <form th:action="@{'/interior/' + ${dto.postId} + '/comment/delete/' + ${comment.commentId}}" method="post">
+      <button type="submit">댓글 삭제</button>
+    </form>
+    <hr/>
+  </div>
+</div>
+
+<!-- 댓글 작성 -->
+<h3>댓글 작성</h3>
+<form th:action="@{'/interior/' + ${dto.postId} + '/comment'}" method="post">
+  <label>작성자:</label>
+  <input type="text" name="writer" required/><br/>
+
+  <label>내용:</label>
+  <textarea name="content" rows="3" cols="50" required></textarea><br/>
+
+  <button type="submit">댓글 등록</button>
+</form>
+
+
+<a th:href="@{/interior}">목록으로</a>
+</body>
+</html>
