@@ -2,10 +2,10 @@ package com.example.demo.service;
 
 import com.example.demo.dto.PostCommentDto;
 import com.example.demo.entity.InteriorPost;
-import com.example.demo.entity.Member;
 import com.example.demo.entity.PostComment;
+import com.example.demo.entity.Users;
 import com.example.demo.repository.InteriorPostRepository;
-import com.example.demo.repository.MemberRepository;
+import com.example.demo.repository.LoginRepository;
 import com.example.demo.repository.PostCommentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,11 +19,11 @@ public class PostCommentService {
 
     private final PostCommentRepository repo;
     private final InteriorPostRepository postRepository;
-    private final MemberRepository memberRepository;
+    private final LoginRepository loginRepository;
 
     /** 댓글 저장 */
     public void save(PostCommentDto dto) {
-        Member member = memberRepository.findByEmail(dto.getEmail())
+        Users user = loginRepository.findByEmail(dto.getEmail())
                 .orElseThrow(() -> new RuntimeException("회원 없음"));
 
         InteriorPost post = postRepository.findById(dto.getPostId())
@@ -32,7 +32,7 @@ public class PostCommentService {
         PostComment entity = PostComment.builder()
                 .content(dto.getContent())
                 .post(post)
-                .member(member)
+                .user(user)
                 .build();
 
         repo.save(entity);
@@ -72,8 +72,8 @@ public class PostCommentService {
         return PostCommentDto.builder()
                 .commentId(c.getCommentId())
                 .postId(c.getPost().getPostId())
-                .email(c.getMember().getEmail())
-                .nickname(c.getMember().getNickname())
+                .email(c.getUser().getEmail())
+                .nickname(c.getUser().getNickname())
                 .content(c.getContent())
                 .createdAt(c.getCreatedAt())
                 .build();

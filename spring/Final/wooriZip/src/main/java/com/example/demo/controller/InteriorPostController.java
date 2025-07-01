@@ -2,7 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.dto.InteriorPostDto;
 import com.example.demo.dto.PostCommentDto;
-import com.example.demo.repository.MemberRepository;
+import com.example.demo.repository.LoginRepository;
 import com.example.demo.service.InteriorPostService;
 import com.example.demo.service.PostCommentService;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +17,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 @Controller
 @RequiredArgsConstructor
@@ -26,7 +25,7 @@ public class InteriorPostController {
 
     private final InteriorPostService service;
     private final PostCommentService commentService;
-    private final MemberRepository memberRepository;
+    private final LoginRepository loginRepository;
 
     /** 글 목록 */
     @GetMapping
@@ -51,8 +50,8 @@ public class InteriorPostController {
         dto.setEmail(email);
 
         // 닉네임 조회 후 dto에 세팅
-        String nickname = memberRepository.findByEmail(email)
-                .map(member -> member.getNickname())
+        String nickname = loginRepository.findByEmail(email)
+                .map(user -> user.getNickname())
                 .orElse("익명");
 
         dto.setNickname(nickname);
@@ -77,8 +76,8 @@ public class InteriorPostController {
         // 로그인 사용자 닉네임 전달
         if (userDetails != null) {
             String email = userDetails.getUsername();
-            String nickname = memberRepository.findByEmail(email)
-                    .map(member -> member.getNickname())
+            String nickname = loginRepository.findByEmail(email)
+                    .map(user -> user.getNickname())
                     .orElse("익명");
 
             model.addAttribute("nickname", nickname);
@@ -150,8 +149,8 @@ public class InteriorPostController {
                              @AuthenticationPrincipal UserDetails userDetails) {
 
         String email = userDetails.getUsername();
-        String nickname = memberRepository.findByEmail(email)
-                .map(member -> member.getNickname())
+        String nickname = loginRepository.findByEmail(email)
+                .map(user -> user.getNickname())
                 .orElse("익명");
 
         PostCommentDto comment = PostCommentDto.builder()

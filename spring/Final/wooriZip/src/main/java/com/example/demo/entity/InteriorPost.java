@@ -31,8 +31,8 @@ public class InteriorPost {
 
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id")
-    private Member member;
+    @JoinColumn(name = "user_id")  // users 테이블의 PK 컬럼명에 맞게!
+    private Users user;
 
 
     private int liked;

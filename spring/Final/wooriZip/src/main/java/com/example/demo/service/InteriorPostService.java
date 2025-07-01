@@ -2,9 +2,9 @@ package com.example.demo.service;
 
 import com.example.demo.dto.InteriorPostDto;
 import com.example.demo.entity.InteriorPost;
-import com.example.demo.entity.Member;
+import com.example.demo.entity.Users;
 import com.example.demo.repository.InteriorPostRepository;
-import com.example.demo.repository.MemberRepository;
+import com.example.demo.repository.LoginRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 public class InteriorPostService {
 
     private final InteriorPostRepository repository;
-    private final MemberRepository memberRepository;
+    private final LoginRepository loginRepository;
 
     /** [1] 게시글 전체 목록 조회 */
     public List<InteriorPostDto> findAll() {
@@ -89,16 +89,16 @@ public class InteriorPostService {
                 .filePathList(filePathList)  // 뷰에서 반복문으로 출력
                 .createdAt(post.getCreatedAt())
                 .updatedAt(post.getUpdatedAt())
-                .email(post.getMember().getEmail())
-                .nickname(post.getMember().getNickname())
+                .email(post.getUser().getEmail())
+                .nickname(post.getUser().getNickname())
                 .liked(post.getLiked())
                 .views(post.getViews())
                 .build();
     }
 
     private InteriorPost toEntity(InteriorPostDto dto) {
-        Member member = memberRepository.findByEmail(dto.getEmail())
-                .orElseThrow(() -> new RuntimeException("작성자(Member) 정보 없음"));
+        Users user = loginRepository.findByEmail(dto.getEmail())
+                .orElseThrow(() -> new RuntimeException("작성자(User) 정보 없음"));
 
         InteriorPost post = new InteriorPost();
         post.setTitle(dto.getTitle());
@@ -107,7 +107,7 @@ public class InteriorPostService {
         post.setFilePath(dto.getFilePaths());
         post.setLiked(0);
         post.setViews(0);
-        post.setMember(member); // 작성자 설정
+        post.setUser(user); // 작성자 설정
 
         return post;
     }

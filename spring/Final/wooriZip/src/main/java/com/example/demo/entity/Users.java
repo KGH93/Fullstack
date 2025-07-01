@@ -1,11 +1,12 @@
 package com.example.demo.entity;
 
-import com.example.demo.dto.MemberDto;
+import com.example.demo.dto.UserDto;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.cglib.core.Local;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDate;
@@ -14,17 +15,21 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @NoArgsConstructor
-@Table(name = "member")
-public class Member {
+@Table(name = "users")
+public class Users {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String email;
 
     private String userPw;
+
     private String phone;
+
     private String nickname;
+
     private String gender;
 
     private LocalDate birth;
@@ -47,12 +52,12 @@ public class Member {
     private int residenceType;
 
     @Builder
-    public Member(String userPw, String phone, String email, String nickname,
-                  String gender, LocalDate birth, String p_code, String loadAddr, String lotAddr,
-                  String detailAddr, String extraAddr, int residenceType) {
+    public Users(String email, String userPw, String phone, String nickname, String gender, LocalDate birth,
+                 String p_code, String loadAddr, String lotAddr, String detailAddr, String extraAddr,
+                 int residenceType){
+        this.email = email;
         this.userPw = userPw;
         this.phone = phone;
-        this.email = email;
         this.nickname = nickname;
         this.gender = gender;
         this.birth = birth;
@@ -64,11 +69,12 @@ public class Member {
         this.residenceType = residenceType;
     }
 
-    public static Member createMember(MemberDto dto, PasswordEncoder passwordEncoder) {
-        return Member.builder()
-                .userPw(passwordEncoder.encode(dto.getUserPw()))
-                .phone(dto.getPhone())
+    public static Users createUser(UserDto dto, PasswordEncoder passwordEncoder) {
+        String encodedPassword = passwordEncoder.encode(dto.getUserPw());
+        return Users.builder()
                 .email(dto.getEmail())
+                .userPw(encodedPassword)
+                .phone(dto.getPhone())
                 .nickname(dto.getNickname())
                 .gender(dto.getGender())
                 .birth(dto.getBirth())

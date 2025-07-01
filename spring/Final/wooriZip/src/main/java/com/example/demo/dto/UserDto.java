@@ -13,7 +13,7 @@ import java.time.LocalDate;
 
 @Getter
 @Setter
-public class MemberDto {
+public class UserDto {
 
     @NotBlank(message = "로그인시 사용할 이메일을 입력해주세요.")
     @Email(message = "이메일 형식으로 입력해주세요.")
