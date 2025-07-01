@@ -1,12 +1,15 @@
 package com.example.demo.service;
 
 import com.example.demo.dto.PostCommentDto;
+import com.example.demo.entity.InteriorPost;
+import com.example.demo.entity.Member;
 import com.example.demo.entity.PostComment;
+import com.example.demo.repository.InteriorPostRepository;
+import com.example.demo.repository.MemberRepository;
 import com.example.demo.repository.PostCommentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -15,34 +18,64 @@ import java.util.stream.Collectors;
 public class PostCommentService {
 
     private final PostCommentRepository repo;
+    private final InteriorPostRepository postRepository;
+    private final MemberRepository memberRepository;
 
+    /** 댓글 저장 */
     public void save(PostCommentDto dto) {
+        Member member = memberRepository.findByEmail(dto.getEmail())
+                .orElseThrow(() -> new RuntimeException("회원 없음"));
+
+        InteriorPost post = postRepository.findById(dto.getPostId())
+                .orElseThrow(() -> new RuntimeException("게시글 없음"));
+
         PostComment entity = PostComment.builder()
-                .postId(dto.getPostId())
-                .writer(dto.getWriter())
                 .content(dto.getContent())
+                .post(post)
+                .member(member)
                 .build();
+
         repo.save(entity);
     }
 
+    /** 댓글 목록 조회 */
     public List<PostCommentDto> findByPostId(Long postId) {
-        return repo.findByPostIdOrderByCreatedAtAsc(postId).stream()
+        return repo.findByPost_PostIdOrderByCreatedAtAsc(postId)
+                .stream()
                 .map(this::toDto)
                 .collect(Collectors.toList());
     }
 
+    /** 댓글 삭제 */
     public void delete(Long id) {
         repo.deleteById(id);
     }
 
+
+    /** 댓글 조회 */
+    public PostCommentDto findById(Long id) {
+        return repo.findById(id)
+                .map(this::toDto)
+                .orElseThrow(() -> new RuntimeException("댓글 없음"));
+    }
+
+    /** 댓글 수정 */
+    public void update(PostCommentDto dto) {
+        PostComment comment = repo.findById(dto.getCommentId())
+                .orElseThrow(() -> new RuntimeException("댓글 없음"));
+        comment.setContent(dto.getContent());
+        repo.save(comment);
+    }
+
+    /** Entity → DTO 변환 */
     private PostCommentDto toDto(PostComment c) {
         return PostCommentDto.builder()
                 .commentId(c.getCommentId())
-                .postId(c.getPostId())
-                .writer(c.getWriter())
+                .postId(c.getPost().getPostId())
+                .email(c.getMember().getEmail())
+                .nickname(c.getMember().getNickname())
                 .content(c.getContent())
                 .createdAt(c.getCreatedAt())
                 .build();
     }
 }
-

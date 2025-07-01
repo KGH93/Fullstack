@@ -29,8 +29,11 @@ public class InteriorPost {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-    private Long userId;
-    private String nickname;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id")
+    private Member member;
+
 
     private int liked;
     private int views;

@@ -24,8 +24,8 @@ public class    InteriorPostDto {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
+    private String email;
     private String nickname;
-    private Long userId;
 
     private int liked;
     private int views;

@@ -13,21 +13,28 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 public class PostComment {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long commentId;
 
-    private Long postId;
-
-    private String writer;
-
-    @Column(columnDefinition = "TEXT")
+    @Column(columnDefinition = "TEXT", nullable = false)
     private String content;
 
     private LocalDateTime createdAt;
 
+    // 댓글 → 게시글 (N:1)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "post_id", nullable = false)
+    private InteriorPost post;
+
+    // 댓글 → 작성자 (N:1)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id", nullable = false)
+    private Member member;
+
     @PrePersist
-    public void createdAt() {
+    public void onCreate() {
         this.createdAt = LocalDateTime.now();
     }
 }
