@@ -1,5 +1,6 @@
 package com.example.demo.entity;
 
+import com.example.demo.constant.Role;
 import com.example.demo.dto.UserDto;
 import jakarta.persistence.*;
 import lombok.Builder;
@@ -77,6 +78,7 @@ public class Users {
         return Users.builder()
                 .email(dto.getEmail())
                 .userPw(encodedPassword)
+                //.userPw(dto.getUserPw())
                 .phone(dto.getPhone())
                 .nickname(dto.getNickname())
                 .gender(dto.getGender())
