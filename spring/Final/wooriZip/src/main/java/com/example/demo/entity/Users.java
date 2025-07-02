@@ -6,7 +6,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.cglib.core.Local;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDate;
@@ -51,10 +50,13 @@ public class Users {
 
     private int residenceType;
 
+    @Enumerated(EnumType.STRING)
+    private Role role;
+
     @Builder
     public Users(String email, String userPw, String phone, String nickname, String gender, LocalDate birth,
                  String p_code, String loadAddr, String lotAddr, String detailAddr, String extraAddr,
-                 int residenceType){
+                 int residenceType, Role role){
         this.email = email;
         this.userPw = userPw;
         this.phone = phone;
@@ -67,6 +69,7 @@ public class Users {
         this.detailAddr = detailAddr;
         this.extraAddr = extraAddr;
         this.residenceType = residenceType;
+        this.role = role;
     }
 
     public static Users createUser(UserDto dto, PasswordEncoder passwordEncoder) {
@@ -84,6 +87,25 @@ public class Users {
                 .detailAddr(dto.getDetailAddr())
                 .extraAddr(dto.getExtraAddr())
                 .residenceType(dto.getResidenceType())
+                .role(Role.ADMIN)
                 .build();
     }
+
+    public void updateUser(UserDto dto, PasswordEncoder passwordEncoder) {
+        if (dto.getUserPw() != null && !dto.getUserPw().isBlank()) {
+            this.userPw = passwordEncoder.encode(dto.getUserPw());
+        }
+
+        this.phone = dto.getPhone();
+        this.nickname = dto.getNickname();
+        this.gender = dto.getGender();
+        this.birth = dto.getBirth();
+        this.p_code = dto.getP_code();
+        this.loadAddr = dto.getLoadAddr();
+        this.lotAddr = dto.getLotAddr();
+        this.detailAddr = dto.getDetailAddr();
+        this.extraAddr = dto.getExtraAddr();
+        this.residenceType = dto.getResidenceType();
+    }
+
 }

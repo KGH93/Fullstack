@@ -27,6 +27,8 @@ public class    InteriorPostDto {
     private String email;
     private String nickname;
 
-    private int liked;
     private int views;
+    private int liked;
+    private boolean likedByCurrentUser;
+
 }
