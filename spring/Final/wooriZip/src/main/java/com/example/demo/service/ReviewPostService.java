@@ -6,6 +6,12 @@ import com.example.demo.entity.ReviewPost;
 import com.example.demo.entity.Users;
 import com.example.demo.repository.ProductRepository;
 import com.example.demo.repository.ReviewPostRepository;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -79,6 +85,12 @@ public class ReviewPostService {
     /** 상품 리스트 조회 */
     public List<Product> getAllProducts() {
         return productRepository.findAll();
+    }
+
+    /** 페이지네이션 */
+    public Page<ReviewPostDto> findPagedPosts(int page, int size) {
+        Pageable pageable = PageRequest.of(page - 1, size, Sort.by(Sort.Direction.DESC, "id"));
+        return reviewRepository.findAll(pageable).map(ReviewPostDto::fromEntity);
     }
 
 }

@@ -1,8 +1,11 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <title>후기 상세</title>
   <meta charset="UTF-8">
+  <title>후기 상세</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Stardos+Stencil:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" th:href="@{/css/style.css}">
   <style>
     .image-preview { max-width: 200px; margin: 10px; }
@@ -19,8 +22,7 @@
   <strong>상품명:</strong> <span th:text="${dto.productName}"></span><br/>
   <strong>평점:</strong>
   <span th:each="i : ${#numbers.sequence(1, dto.rating)}" class="star">★</span>
-  <span th:if="${dto.rating == 0}">평점 없음</span>
-  <br/>
+  <span th:if="${dto.rating == 0}">평점 없음</span><br/>
   <strong>작성일:</strong> <span th:text="${#temporals.format(dto.createdAt, 'yyyy-MM-dd HH:mm')}"></span>
 </div>
 
@@ -38,7 +40,7 @@
          alt="첨부 이미지"
          class="image-preview"/>
   </div>
-  <div th:if="${dto.filePathList == null || dto.filePathList.isEmpty()}">
+  <div th:if="${dto.filePathList == null or dto.filePathList.isEmpty()}">
     <p>이미지 없음</p>
   </div>
 </div>
@@ -47,13 +49,16 @@
 
 <!-- 로그인한 사용자의 글이라면 수정/삭제 -->
 <div th:if="${loginUser != null and dto.email == loginUser.email}">
-  <a th:href="@{'/review/edit/' + ${dto.id}}">수정</a>
-  <form th:action="@{'/review/delete/' + ${dto.id}}" method="post" style="display:inline;">
+  <button type="button" th:onclick="|location.href='/review/edit/${dto.id}'|">수정</button>
+
+  <form th:action="@{'/review/delete/' + ${dto.id}}" method="post"
+        onsubmit="return confirm('정말 삭제하시겠습니까?');" style="display:inline;">
     <button type="submit">삭제</button>
   </form>
 </div>
 
-<a th:href="@{/review}">목록으로</a>
+<!-- 목록으로 -->
+<button type="button" onclick="location.href='/review'">목록으로</button>
 
 </body>
 </html>

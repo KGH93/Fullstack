@@ -1,8 +1,11 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>리뷰 작성</title>
     <meta charset="UTF-8">
+    <title>리뷰 작성</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Stardos+Stencil:wght@400;700&display=swap" rel="stylesheet">
     <style>
         .form-group { margin-bottom: 15px; }
         .preview img, .image-preview {
@@ -69,6 +72,8 @@
     </div>
 
     <button type="submit">작성 완료</button>
+    <button type="button" onclick="location.href='/review'">취소</button>
+
 </form>
 
 <script>

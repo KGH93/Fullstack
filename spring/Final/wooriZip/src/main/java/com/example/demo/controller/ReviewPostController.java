@@ -6,6 +6,7 @@ import com.example.demo.service.ProductService;
 import com.example.demo.service.ReviewPostService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -23,13 +24,27 @@ public class ReviewPostController {
     private final ReviewPostService reviewService;
     private final ProductService productService;
 
-    /** 후기 목록 */
+    /** 후기 목록 + 페이지네이션 */
     @GetMapping
-    public String list(Model model) {
-        List<ReviewPostDto> posts = reviewService.findAll();
-        model.addAttribute("postList", posts);
+    public String list(@RequestParam(defaultValue = "1") int page,
+                       Model model,
+                       HttpSession session) {
+
+        int pageSize = 10; // 한 페이지당 글 수
+        Page<ReviewPostDto> postPage = reviewService.findPagedPosts(page, pageSize);
+
+        model.addAttribute("postPage", postPage);
+        model.addAttribute("postList", postPage.getContent());
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", postPage.getTotalPages());
+
+        Users loginUser = (Users) session.getAttribute("loginUser");
+        model.addAttribute("loginUser", loginUser);
+
         return "review/list";
     }
+
+
 
     /** 후기 작성 폼 */
     @GetMapping("/write")
