@@ -2,11 +2,11 @@ package com.example.demo.controller;
 
 import com.example.demo.dto.ReviewPostDto;
 import com.example.demo.entity.Users;
-import com.example.demo.service.ProductService;
+import com.example.demo.security.CustomUserDetails;
 import com.example.demo.service.ReviewPostService;
-import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -14,179 +14,173 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/review")
 public class ReviewPostController {
 
-    private final ReviewPostService reviewService;
-    private final ProductService productService;
+    private final ReviewPostService service;
 
-    /** 후기 목록 + 페이지네이션 */
+    /** 리뷰 글 목록 + 페이지네이션 */
     @GetMapping
     public String list(@RequestParam(defaultValue = "1") int page,
                        Model model,
-                       HttpSession session) {
+                       @AuthenticationPrincipal CustomUserDetails userDetails) {
 
-        int pageSize = 10; // 한 페이지당 글 수
-        Page<ReviewPostDto> postPage = reviewService.findPagedPosts(page, pageSize);
+        Users loginUser = (userDetails != null) ? userDetails.getUser() : null;
+
+        int pageSize = 10;
+        Page<ReviewPostDto> postPage = service.findPagedPosts(page, pageSize);
 
         model.addAttribute("postPage", postPage);
         model.addAttribute("postList", postPage.getContent());
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", postPage.getTotalPages());
-
-        Users loginUser = (Users) session.getAttribute("loginUser");
         model.addAttribute("loginUser", loginUser);
 
         return "review/list";
     }
 
-
-
-    /** 후기 작성 폼 */
+    /** 리뷰 작성 폼 */
     @GetMapping("/write")
-    public String writeForm(Model model, HttpSession session) {
-        Users loginUser = (Users) session.getAttribute("loginUser");
+    public String writeForm(Model model,
+                            @AuthenticationPrincipal CustomUserDetails userDetails) {
+
+        Users loginUser = (userDetails != null) ? userDetails.getUser() : null;
         if (loginUser == null) return "redirect:/user/login";
 
         model.addAttribute("dto", new ReviewPostDto());
+        model.addAttribute("productList", service.getAllProducts());
         model.addAttribute("loginUser", loginUser);
-
-        // 추가: 상품 리스트 넘기기
-        model.addAttribute("productList", reviewService.getAllProducts());
-
         return "review/write";
     }
 
-
-    /** 후기 작성 처리 */
+    /** 리뷰 작성 처리 */
     @PostMapping("/write")
     @ResponseBody
-    public String write(@ModelAttribute ReviewPostDto dto,
-                        @RequestParam(value = "files", required = false) MultipartFile[] files,
-                        HttpSession session) {
-        Users loginUser = (Users) session.getAttribute("loginUser");
-        if (loginUser == null) return "unauthorized";
+    public String writePost(@ModelAttribute ReviewPostDto dto,
+                            @RequestParam(value = "files", required = false) MultipartFile[] files,
+                            @AuthenticationPrincipal CustomUserDetails userDetails) {
 
-        dto.setEmail(loginUser.getEmail());
-        dto.setNickname(loginUser.getNickname());
+        Users loginUser = (userDetails != null) ? userDetails.getUser() : null;
+        if (loginUser == null) return "unauthorized";
 
         if (files != null && files.length > 0 && !files[0].isEmpty()) {
             handleMultipleFiles(dto, files);
         }
 
-        try {
-            reviewService.save(dto, loginUser);
-        } catch (IllegalStateException e) {
-            return "duplicate"; // 클라이언트에서 처리 가능
-        }
-
+        service.save(dto, loginUser);
         return "success";
     }
 
-
-    /** 후기 상세보기 */
+    /** 리뷰 상세 */
     @GetMapping("/{id}")
-    public String detail(@PathVariable Long id, Model model, HttpSession session) {
-        Users loginUser = (Users) session.getAttribute("loginUser");
-        ReviewPostDto dto = reviewService.findById(id);
+    public String detail(@PathVariable Long id,
+                         Model model,
+                         @AuthenticationPrincipal CustomUserDetails userDetails) {
+
+        Users loginUser = (userDetails != null) ? userDetails.getUser() : null;
+
+        ReviewPostDto dto = service.findById(id);
         model.addAttribute("dto", dto);
         model.addAttribute("loginUser", loginUser);
         return "review/detail";
     }
 
-    /** 후기 수정 폼 */
+    /** 리뷰 수정 폼 */
     @GetMapping("/edit/{id}")
-    public String editForm(@PathVariable Long id, Model model, HttpSession session) {
-        Users loginUser = (Users) session.getAttribute("loginUser");
+    public String editForm(@PathVariable Long id,
+                           Model model,
+                           @AuthenticationPrincipal CustomUserDetails userDetails) {
+
+        Users loginUser = (userDetails != null) ? userDetails.getUser() : null;
         if (loginUser == null) return "redirect:/user/login";
 
-        ReviewPostDto dto = reviewService.findById(id);
-        if (!dto.getEmail().equals(loginUser.getEmail())) {
-            return "redirect:/review/" + id;
-        }
-
-        //  상품 목록 추가
+        ReviewPostDto dto = service.findById(id);
         model.addAttribute("dto", dto);
-        model.addAttribute("productList", productService.findAll());  // 이 메서드 필요
+        model.addAttribute("productList", service.getAllProducts());
         model.addAttribute("loginUser", loginUser);
         return "review/edit";
     }
 
-
-    /** 후기 수정 처리 */
+    /** 리뷰 수정 처리 */
     @PostMapping("/edit")
     @ResponseBody
-    public String edit(@ModelAttribute ReviewPostDto dto,
-                       @RequestParam(value = "files", required = false) MultipartFile[] files,
-                       @RequestParam(value = "deleteIndexes", required = false) List<Integer> deleteIndexes,
-                       HttpSession session) {
+    public String editPost(@ModelAttribute ReviewPostDto dto,
+                           @RequestParam(value = "files", required = false) MultipartFile[] files,
+                           @RequestParam(value = "deleteIndexes", required = false) List<Integer> deleteIndexes,
+                           @AuthenticationPrincipal CustomUserDetails userDetails) {
 
-        Users loginUser = (Users) session.getAttribute("loginUser");
+        Users loginUser = (userDetails != null) ? userDetails.getUser() : null;
         if (loginUser == null) return "unauthorized";
 
-        dto.setEmail(loginUser.getEmail());
-        dto.setNickname(loginUser.getNickname());
-
-        // 기존 이미지 유지
-        List<String> existingPaths = new ArrayList<>();
-        List<String> existingNames = new ArrayList<>();
+        // 기존 이미지 리스트 유지하면서 삭제 인덱스 제거
+        List<String> filePathList = new ArrayList<>();
+        List<String> fileNameList = new ArrayList<>();
         if (dto.getFilePaths() != null && !dto.getFilePaths().isEmpty()) {
-            existingPaths = new ArrayList<>(List.of(dto.getFilePaths().split(",")));
+            filePathList = new ArrayList<>(List.of(dto.getFilePaths().split(",")));
         }
         if (dto.getFileNames() != null && !dto.getFileNames().isEmpty()) {
-            existingNames = new ArrayList<>(List.of(dto.getFileNames().split(",")));
+            fileNameList = new ArrayList<>(List.of(dto.getFileNames().split(",")));
         }
 
-        // 삭제 인덱스 처리
         if (deleteIndexes != null && !deleteIndexes.isEmpty()) {
             deleteIndexes.sort(Comparator.reverseOrder());
             for (int index : deleteIndexes) {
-                if (index >= 0 && index < existingPaths.size()) {
-                    String path = existingPaths.get(index);
-                    File file = new File(System.getProperty("user.dir") + path);
+                if (index >= 0 && index < filePathList.size()) {
+                    File file = new File(System.getProperty("user.dir") + filePathList.get(index));
                     if (file.exists()) file.delete();
-                    existingPaths.remove(index);
-                    existingNames.remove(index);
+                    filePathList.remove(index);
+                    if (index < fileNameList.size()) fileNameList.remove(index);
                 }
             }
         }
 
-        // 새 이미지 업로드가 있는 경우만 처리
+        // 새 이미지 업로드
+        List<String> addedPaths = new ArrayList<>();
+        List<String> addedNames = new ArrayList<>();
         if (files != null && files.length > 0 && !files[0].isEmpty()) {
             List<String>[] result = handleAndReturnFiles(files);
-            existingPaths.addAll(result[0]);
-            existingNames.addAll(result[1]);
+            addedPaths = result[0];
+            addedNames = result[1];
         }
 
-        dto.setFilePaths(String.join(",", existingPaths));
-        dto.setFileNames(String.join(",", existingNames));
+        filePathList.addAll(addedPaths);
+        fileNameList.addAll(addedNames);
 
-        reviewService.save(dto, loginUser); // save()는 수정도 처리
+        dto.setFilePaths(String.join(",", filePathList));
+        dto.setFileNames(String.join(",", fileNameList));
+
+        service.save(dto, loginUser);
         return "success";
     }
 
-
-    /** 후기 삭제 */
+    /** 리뷰 삭제 */
     @PostMapping("/delete/{id}")
-    public String delete(@PathVariable Long id, HttpSession session) {
-        Users loginUser = (Users) session.getAttribute("loginUser");
+    public String delete(@PathVariable Long id,
+                         @AuthenticationPrincipal CustomUserDetails userDetails) {
+
+        Users loginUser = (userDetails != null) ? userDetails.getUser() : null;
         if (loginUser == null) return "redirect:/user/login";
-        reviewService.delete(id);
+
+        service.delete(id);
         return "redirect:/review";
     }
 
-    /** 파일 업로드 핸들러 (InteriorPost 복붙 구조) */
+    /** 파일 업로드 처리 */
     private void handleMultipleFiles(ReviewPostDto dto, MultipartFile[] files) {
         if (files == null || files.length == 0) return;
+
         List<String>[] result = handleAndReturnFiles(files);
         dto.setFilePaths(String.join(",", result[0]));
         dto.setFileNames(String.join(",", result[1]));
     }
 
+    /** 파일 업로드 처리 및 경로 반환 */
     private List<String>[] handleAndReturnFiles(MultipartFile[] files) {
         List<String> filePaths = new ArrayList<>();
         List<String> fileNames = new ArrayList<>();
