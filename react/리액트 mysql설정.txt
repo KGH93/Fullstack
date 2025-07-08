@@ -1,0 +1,21 @@
+cd xx  경로 xx로 이동
+cd..  경로한칸뒤로
+
+///////////////////////mysql/////////////////////
+md server   폴더생성
+
+cd server    폴더경로
+
+npm init -y
+npm install express mysql2 cors
+node index.js  파일생성
+
+
+/////////////////////////axios////////////////////////////
+
+npm install axios  터미널 설치 명렁어
+
+import axios from 'axios';
+
+/////////////////////////////////////////////////////////////////
+
