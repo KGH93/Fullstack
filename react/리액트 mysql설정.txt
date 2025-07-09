@@ -6,9 +6,9 @@ md server   폴더생성
 
 cd server    폴더경로
 
-npm init -y
-npm install express mysql2 cors
-node index.js  파일생성
+npm init -y                                                 //초기화
+npm install express mysql2 cors                       //노드에 mysql사용할수있게 설치
+server 폴더안에 index.js  파일생성
 
 
 /////////////////////////axios////////////////////////////
@@ -18,4 +18,3 @@ npm install axios  터미널 설치 명렁어
 import axios from 'axios';
 
 /////////////////////////////////////////////////////////////////
-
