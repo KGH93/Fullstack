@@ -1,69 +1,86 @@
-import React, { useState, useRef } from 'react'
-import './App.css'
-import Header from './component/Header'
-import TodoEditor from './component/TodoEditor'
-import TodoList from './component/TodoList'
+import { useReducer, useEffect } from "react";
+import "./App.css";
+import Header from "./component/Header";
+import TodoEditor from "./component/TodoEditor";
+import TodoList from "./component/TodoList";
 
-const mockTodo = [
-  {
-    id: 0,
-    isDone: false,
-    content: "React 공부하기",
-    createdDate: new Date().getTime(),
-  },
-  {
-    id: 1,
-    isDone: false,
-    content: "빨래 널기",
-    createdDate: new Date().getTime(),
-  },
-  {
-    id: 2,
-    isDone: false,
-    content: "노래 연습하기",
-    createdDate: new Date().getTime(),
-  },
-];
+// 상태 변경 로직
+function reducer(state, action) {
+  switch (action.type) {
+    case "INIT":
+      return action.data;
+    case "CREATE":
+      return [action.newItem, ...state];
+    case "UPDATE":
+      return state.map((it) =>
+        it.id === action.targetId ? { ...it, isDone: !it.isDone } : it
+      );
+    case "DELETE":
+      return state.filter((it) => it.id !== action.targetId);
+    default:
+      return state;
+  }
+}
 
-export default function App() {
-  const [todo, setTodo] = useState(mockTodo);
+function App() {
+  const [todo, dispatch] = useReducer(reducer, []);
 
-  const idRef = useRef(3);
+  // ✅ DB에서 초기 데이터 불러오기
+  useEffect(() => {
+    fetch("http://localhost:5000/todos")
+      .then((res) => res.json())
+      .then((data) => {
+        dispatch({ type: "INIT", data });
+      })
+      .catch((err) => console.error("데이터 불러오기 실패:", err));
+  }, []);
 
-  const onCreate = (content) => {
-    const newItem = {
-      id: idRef.current,
-      content,
-      isDone: false,
-      createdDate: new Date().getTime()
-    };
-    setTodo([newItem, ...todo]);
-    idRef.current += 1;
+  // ✅ CREATE
+  const onCreate = async (content) => {
+    try {
+      const res = await fetch("http://localhost:5000/todos", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ content }),
+      });
+      const newItem = await res.json();
+      dispatch({ type: "CREATE", newItem });
+    } catch (err) {
+      console.error("추가 실패:", err);
+    }
   };
 
-  // onUpdate는 targetId 라는 토글할 할 일의 id를 매개변수 변수로 받음
-  const onUpdate = (targetId) =>{
-    setTodo(
-      todo.map((it) => // 현재 todo 배열을 순회하면서
-        it.id === targetId ? {...it, isDone: !it.isDone} 
-        //it.id === targetId -> 해당 isDone을 true/false로 토글
-        : it
-      )
-    );
+  // ✅ UPDATE (완료 토글)
+  const onUpdate = async (targetId) => {
+    try {
+      await fetch(`http://localhost:5000/todos/${targetId}`, {
+        method: "PUT",
+      });
+      dispatch({ type: "UPDATE", targetId });
+    } catch (err) {
+      console.error("업데이트 실패:", err);
+    }
   };
 
-  const onDelete = (targetId) => {
-    setTodo(todo.filter((it) => it.id !== targetId));
-    // targetId와 일치하지 않는 아이템만 남김
+  // ✅ DELETE
+  const onDelete = async (targetId) => {
+    try {
+      await fetch(`http://localhost:5000/todos/${targetId}`, {
+        method: "DELETE",
+      });
+      dispatch({ type: "DELETE", targetId });
+    } catch (err) {
+      console.error("삭제 실패:", err);
+    }
   };
-
-
 
   return (
-    <div className='App'>
-      <Header/>
-      <TodoEditor onCreate={onCreate}/>
-      <TodoList todo={todo} onUpdate={onUpdate} onDelete={onDelete}/>
+    <div className="App">
+      <Header />
+      <TodoEditor onCreate={onCreate} />
+      <TodoList todo={todo} onUpdate={onUpdate} onDelete={onDelete} />
     </div>
-  )
+  );
 }
+
+export default App;

@@ -14,18 +14,16 @@ public class QnaAnswerDto {
 
     private Long id;
     private String content;
-    private String adminNickname;
-
     private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
+    private Long qnaPostId;  // 어떤 질문에 대한 답변인지 명시
 
+    // Entity → DTO
     public static QnaAnswerDto fromEntity(QnaAnswer answer) {
         return QnaAnswerDto.builder()
                 .id(answer.getId())
                 .content(answer.getContent())
-                .adminNickname(answer.getAdmin() != null ? answer.getAdmin().getNickname() : "관리자")
                 .createdAt(answer.getCreatedAt())
-                .updatedAt(answer.getUpdatedAt())
+                .qnaPostId(answer.getQnaPost().getId())
                 .build();
     }
 }

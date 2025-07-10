@@ -17,31 +17,26 @@ import java.util.stream.Collectors;
 public class QnaPostDto {
 
     private Long id;
-
     private String title;
     private String content;
 
-    // 첨부 이미지
-    private List<MultipartFile> files;     // 업로드용
-    private String fileNames;              // 저장된 파일명들 (a.jpg,b.jpg)
-    private String filePaths;              // 저장된 경로들 (/uploads/qna/a.jpg,...)
-    private List<String> filePathList;     // 뷰단 출력용
+    // 파일 첨부 관련
+    private List<MultipartFile> files;
+    private String fileNames;
+    private String filePaths;
+    private List<String> filePathList;
 
-    // 작성자 정보
-    private String nickname;
     private String email;
-
-    // 제품 정보
+    private String nickname;
     private Long productId;
-    private String productName;
 
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-    // 답변
+    // 답변 포함 (DTO로)
     private QnaAnswerDto answer;
 
-    public static QnaPostDto fromEntity(QnaPost post, QnaAnswerDto answerDto) {
+    public static QnaPostDto fromEntity(QnaPost post) {
         List<String> filePathList = null;
         if (post.getFilePaths() != null && !post.getFilePaths().isEmpty()) {
             filePathList = Arrays.stream(post.getFilePaths().split(","))
@@ -56,13 +51,11 @@ public class QnaPostDto {
                 .fileNames(post.getFileNames())
                 .filePaths(post.getFilePaths())
                 .filePathList(filePathList)
-                .nickname(post.getUser() != null ? post.getUser().getNickname() : "알 수 없음")
-                .email(post.getUser() != null ? post.getUser().getEmail() : "")
-                .productId(post.getProduct() != null ? post.getProduct().getId() : null)
-                .productName(post.getProduct() != null ? post.getProduct().getName() : "알 수 없음")
+                .email(post.getEmail())
+                .nickname(post.getNickname())
+                .productId(post.getProduct().getId())
                 .createdAt(post.getCreatedAt())
                 .updatedAt(post.getUpdatedAt())
-                .answer(answerDto)
                 .build();
     }
 }

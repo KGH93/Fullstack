@@ -5,39 +5,26 @@ import lombok.*;
 
 import java.time.LocalDateTime;
 
-@Getter
-@Setter
 @Entity
+@Getter @Setter
+@NoArgsConstructor @AllArgsConstructor
 @Builder
-@NoArgsConstructor
-@AllArgsConstructor
 public class QnaAnswer {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "qna_post_id")
+    private QnaPost qnaPost;
 
     @Column(columnDefinition = "TEXT")
     private String content;
 
     private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
-
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "qna_post_id", unique = true)
-    private QnaPost qnaPost;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "admin_id")
-    private Users admin;
 
     @PrePersist
-    public void prePersist() {
-        this.createdAt = this.updatedAt = LocalDateTime.now();
-    }
-
-    @PreUpdate
-    public void preUpdate() {
-        this.updatedAt = LocalDateTime.now();
+    protected void onCreate() {
+        this.createdAt = LocalDateTime.now();
     }
 }
