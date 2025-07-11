@@ -1,8 +1,8 @@
 package com.example.demo.dto;
 
 
-import com.example.demo.entity.Product;
-import com.example.demo.entity.ProductImage;
+import com.example.demo.constant.ProductModelSelect;
+import com.example.demo.entity.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,24 +16,42 @@ public class ProductForm {
     private String name;
     private String description;
     private int price;
-    private String category;
+    private Category category;
     private int stockQuantity;
+
+    private Long categoryId;
 
     //  하위 모델들
     private List<ProductModelDto> productModelDtoList = new ArrayList<>();
     private List<String> imageUrls;
 
     // 엔티티 변환
-    public Product createProduct() {
+    public Product createProduct(Category category, Users user) {
         Product product = new Product();
-        product.setName(name);
-        product.setDescription(description);
-        product.setPrice(price);
-        product.setCategory(category);
-        product.setAverageRating(0.0); // 평점 기본값
-        product.setStockQuantity(0);   // 이후에 모델들 합산
+        product.setName(this.name);
+        product.setDescription(this.description);
+        product.setPrice(this.price);
+        product.setCategory(category); // 엔티티 기준
+        product.setUser(user);
+        product.setAverageRating(0.0);
+        product.setStockQuantity(0);  // 초기 재고 수량 설정
+
+        // 모델 정보 추가 (productModelDtoList)
+        if (this.productModelDtoList != null && !this.productModelDtoList.isEmpty()) {
+            for (ProductModelDto dto : this.productModelDtoList) {
+                ProductModel model = new ProductModel();
+                model.setProductModelSelect(dto.getProductModelSelect());    // 모델 선택
+                model.setPrStock(dto.getPrStock());  // 재고 설정
+                model.setPrice(dto.getPrice());  // 가격 설정
+                model.setProduct(product);  // 상품에 모델 연결
+                product.addProductModel(model);  // 상품에 모델 추가
+                product.setStockQuantity(product.getStockQuantity() + dto.getPrStock());  // 재고 업데이트
+            }
+        }
+
         return product;
     }
+
 
     public static ProductForm from(Product product) {
         ProductForm form = new ProductForm();
@@ -41,7 +59,6 @@ public class ProductForm {
         form.setName(product.getName());
         form.setDescription(product.getDescription());
         form.setPrice(product.getPrice());
-        form.setCategory(product.getCategory());
 
         // 모델 정보 매핑 (옵션)
         if (product.getProductModels() != null && !product.getProductModels().isEmpty()) {

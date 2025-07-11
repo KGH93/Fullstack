@@ -11,16 +11,19 @@ import lombok.Setter;
 @Setter
 public class ProductModel {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Enumerated(EnumType.STRING)
-    private ProductModelSelect productModelSelect;
-
-    private int prStock;
+    private ProductModelSelect productModelSelect; // 옵션
+    private Integer price;  // 옵션별 가격
+    private Integer prStock; // 재고 수량
 
     private String imageUrl;
 
     @ManyToOne
+    @JoinColumn(name = "product_id")
     private Product product;
+
+
 }

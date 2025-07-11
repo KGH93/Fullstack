@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 강의 사이트 - 미래를 선도하는 AI 교육</title>
+    
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore-compat.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        /* 헤더 스타일 */
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #ffd700;
+        }
+
+        /* 관리자 버튼 */
+        .admin-btn {
+            background: linear-gradient(45deg, #ff6b6b, #ff8e53);
+            color: white;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-left: 1rem;
+        }
+
+        .admin-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(255, 107, 107, 0.3);
+        }
+
+        /* 히어로 섹션 */
+        .hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 120px 0 80px;
+            text-align: center;
+        }
+
+        .hero-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            animation: fadeInUp 1s ease;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            animation: fadeInUp 1s ease 0.2s both;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(45deg, #ff6b6b, #ff8e53);
+            color: white;
+            padding: 15px 40px;
+            font-size: 1.2rem;
+            text-decoration: none;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+            animation: fadeInUp 1s ease 0.4s both;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
+        }
+
+        /* 강의 소개 섹션 */
+        .features {
+            padding: 80px 0;
+            background: #f8f9fa;
+        }
+
+        .features-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: #333;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+            text-align: center;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: #667eea;
+        }
+
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+
+        .feature-card p {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        /* 강의 커리큘럼 */
+        .curriculum {
+            padding: 80px 0;
+            background: white;
+        }
+
+        .curriculum-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .curriculum-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .curriculum-item {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .curriculum-item:hover {
+            transform: scale(1.05);
+        }
+
+        .curriculum-item h4 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+        }
+
+        /* 신청 섹션 */
+        .apply-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 80px 0;
+            text-align: center;
+        }
+
+        .apply-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .apply-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .apply-section p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .apply-button {
+            display: inline-block;
+            background: linear-gradient(45deg, #ff6b6b, #ff8e53);
+            color: white;
+            padding: 18px 50px;
+            font-size: 1.3rem;
+            text-decoration: none;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+            font-weight: bold;
+        }
+
+        .apply-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
+        }
+
+        /* 모달 팝업 스타일 */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 2rem;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            animation: slideIn 0.3s ease;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #667eea;
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .close {
+            color: #aaa;
+            font-size: 2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .close:hover {
+            color: #667eea;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e1e5e9;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+            box-sizing: border-box;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .submit-btn {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .success-message {
+            display: none;
+            background: linear-gradient(45deg, #4CAF50, #45a049);
+            color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+            margin-top: 1rem;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* 관리자 대시보드 스타일 */
+        .admin-dashboard {
+            display: none;
+            position: fixed;
+            z-index: 3000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #f8f9fa;
+            overflow-y: auto;
+        }
+
+        .dashboard-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .dashboard-actions {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .dashboard-btn {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .dashboard-btn:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        .test-btn {
+            background: linear-gradient(45deg, #4CAF50, #45a049);
+        }
+
+        .test-btn:hover {
+            background: linear-gradient(45deg, #45a049, #4CAF50);
+        }
+
+        .cleanup-btn {
+            background: linear-gradient(45deg, #ff6b6b, #ff8e53);
+        }
+
+        .cleanup-btn:hover {
+            background: linear-gradient(45deg, #ff5252, #ff7043);
+        }
+
+        .dashboard-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .dashboard-close {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .dashboard-close:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        .dashboard-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .applications-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .application-card {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .application-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .app-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .app-header h3 {
+            margin: 0;
+            color: #333;
+        }
+
+        .timestamp {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .app-details p {
+            margin: 0.5rem 0;
+            color: #555;
+        }
+
+        .motivation-text {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 0.5rem 0;
+            line-height: 1.5;
+            color: #333;
+        }
+
+        .status {
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+
+        .status.pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .status.completed {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .app-actions {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid #f0f0f0;
+        }
+
+        .btn-approve, .btn-delete {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .btn-approve {
+            background: linear-gradient(45deg, #28a745, #20c997);
+            color: white;
+        }
+
+        .btn-delete {
+            background: linear-gradient(45deg, #dc3545, #fd7e14);
+            color: white;
+        }
+
+        .btn-approve:hover, .btn-delete:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+
+        .no-data {
+            text-align: center;
+            color: #666;
+            font-size: 1.2rem;
+            grid-column: 1 / -1;
+            padding: 3rem;
+        }
+
+        /* 푸터 */
+        footer {
+            background: #333;
+            color: white;
+            padding: 40px 0;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* 애니메이션 */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* 반응형 디자인 */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero p {
+                font-size: 1.1rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .curriculum-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 헤더 -->
+    <header>
+        <nav>
+            <div class="logo">AI Academy</div>
+            <ul class="nav-links">
+                <li><a href="#home">홈</a></li>
+                <li><a href="#features">강의소개</a></li>
+                <li><a href="#curriculum">커리큘럼</a></li>
+                <li><a href="#apply">신청하기</a></li>
+            </ul>
+            <button class="admin-btn" onclick="toggleAdminMode()">관리자</button>
+            <button class="admin-btn" onclick="testModal()" style="background: #28a745;">테스트</button>
+        </nav>
+    </header>
+
+    <!-- 히어로 섹션 -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h1>미래를 선도하는 AI 교육</h1>
+            <p>최신 AI 기술을 배우고 실무에 바로 적용할 수 있는 실전 중심의 강의</p>
+            <a href="#" class="cta-button" onclick="openApplyModal()">지금 신청하기</a>
+        </div>
+    </section>
+
+    <!-- 강의 소개 섹션 -->
+    <section class="features" id="features">
+        <div class="features-container">
+            <h2 class="section-title">왜 AI Academy인가요?</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🚀</div>
+                    <h3>실전 중심 교육</h3>
+                    <p>이론만이 아닌 실제 프로젝트를 통해 AI 기술을 익힙니다. 실무에서 바로 활용할 수 있는 실용적인 지식을 제공합니다.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">👨‍🏫</div>
+                    <h3>전문가 강사진</h3>
+                    <p>AI 업계 최고의 전문가들이 직접 강의합니다. 최신 트렌드와 실무 경험을 바탕으로 한 깊이 있는 교육을 제공합니다.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">💻</div>
+                    <h3>최신 기술 커버</h3>
+                    <p>ChatGPT, DALL-E, Stable Diffusion 등 최신 AI 기술들을 포함한 포괄적인 커리큘럼으로 구성되어 있습니다.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🤝</div>
+                    <h3>커뮤니티 지원</h3>
+                    <p>수강생들 간의 네트워킹과 정보 공유를 위한 활발한 커뮤니티를 운영합니다. 지속적인 학습과 성장을 지원합니다.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📈</div>
+                    <h3>취업 연계</h3>
+                    <p>AI 관련 기업들과의 파트너십을 통해 우수한 수강생들에게 취업 기회를 제공합니다.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <h3>맞춤형 학습</h3>
+                    <p>개인의 수준과 목표에 맞는 맞춤형 학습 계획을 제공합니다. 초보자부터 고급자까지 모두 만족할 수 있습니다.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 커리큘럼 섹션 -->
+    <section class="curriculum" id="curriculum">
+        <div class="curriculum-container">
+            <h2 class="section-title">강의 커리큘럼</h2>
+            <div class="curriculum-grid">
+                <div class="curriculum-item">
+                    <h4>1단계: AI 기초</h4>
+                    <p>머신러닝과 딥러닝의 기본 개념, Python 프로그래밍 기초</p>
+                </div>
+                <div class="curriculum-item">
+                    <h4>2단계: 데이터 분석</h4>
+                    <p>Pandas, NumPy를 활용한 데이터 전처리 및 시각화</p>
+                </div>
+                <div class="curriculum-item">
+                    <h4>3단계: 머신러닝</h4>
+                    <p>Scikit-learn을 활용한 지도학습, 비지도학습 모델 구현</p>
+                </div>
+                <div class="curriculum-item">
+                    <h4>4단계: 딥러닝</h4>
+                    <p>TensorFlow, PyTorch를 활용한 신경망 구현</p>
+                </div>
+                <div class="curriculum-item">
+                    <h4>5단계: 자연어처리</h4>
+                    <p>Transformer 모델, BERT, GPT 모델 이해 및 활용</p>
+                </div>
+                <div class="curriculum-item">
+                    <h4>6단계: 컴퓨터 비전</h4>
+                    <p>CNN, YOLO, Stable Diffusion 등 이미지 처리 기술</p>
+                </div>
+                <div class="curriculum-item">
+                    <h4>7단계: 실전 프로젝트</h4>
+                    <p>실제 비즈니스 문제를 해결하는 종합 프로젝트</p>
+                </div>
+                <div class="curriculum-item">
+                    <h4>8단계: AI 윤리</h4>
+                    <p>AI 기술의 윤리적 고려사항과 책임있는 AI 개발</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 신청 섹션 -->
+    <section class="apply-section" id="apply">
+        <div class="apply-container">
+            <h2>지금 바로 시작하세요!</h2>
+            <p>AI의 미래를 함께 만들어갈 여러분을 기다립니다. 지금 신청하고 특별 할인 혜택을 받아보세요!</p>
+            <a href="#" class="apply-button" onclick="openApplyModal()">강의 신청하기</a>
+        </div>
+    </section>
+
+    <!-- 신청 모달 팝업 -->
+    <div id="applyModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">강의 신청하기</h2>
+                <span class="close" onclick="closeApplyModal()">&times;</span>
+            </div>
+            <form id="applyForm">
+                <div class="form-group">
+                    <label for="name">이름 *</label>
+                    <input type="text" id="name" name="name" required placeholder="이름을 입력해주세요">
+                </div>
+                <div class="form-group">
+                    <label for="age">나이 *</label>
+                    <input type="number" id="age" name="age" required placeholder="나이를 입력해주세요" min="1" max="100">
+                </div>
+                <div class="form-group">
+                    <label for="phone">전화번호 *</label>
+                    <input type="tel" id="phone" name="phone" required placeholder="전화번호를 입력해주세요 (예: 010-1234-5678)">
+                </div>
+                <div class="form-group">
+                    <label for="motivation">수강신청동기 *</label>
+                    <textarea id="motivation" name="motivation" required placeholder="수강신청동기를 자세히 작성해주세요"></textarea>
+                </div>
+                <button type="submit" class="submit-btn">신청 완료</button>
+            </form>
+            <div id="successMessage" class="success-message">
+                신청이 완료되었습니다! 곧 연락드리겠습니다.
+            </div>
+        </div>
+    </div>
+
+    <!-- 관리자 대시보드 -->
+    <div id="adminDashboard" class="admin-dashboard">
+        <div class="dashboard-header">
+            <h2 class="dashboard-title">관리자 대시보드 - 신청 현황</h2>
+            <div class="dashboard-actions">
+                <button class="dashboard-btn test-btn" onclick="testFirebaseConnection()">연결 테스트</button>
+                <button class="dashboard-btn cleanup-btn" onclick="cleanupDuplicateData()">중복 정리</button>
+                <button class="dashboard-close" onclick="closeAdminDashboard()">닫기</button>
+            </div>
+        </div>
+        <div class="dashboard-content">
+            <div id="applicationsContainer" class="applications-container">
+                <!-- 신청 데이터가 여기에 동적으로 로드됩니다 -->
+            </div>
+        </div>
+    </div>
+
+    <!-- 푸터 -->
+    <footer>
+        <div class="footer-content">
+            <p>&copy; 2024 AI Academy. All rights reserved.</p>
+            <p>문의: info@aiacademy.com | 전화: 02-1234-5678</p>
+        </div>
+    </footer>
+
+
+    
+    <!-- Firebase 설정 및 앱 스크립트 -->
+    <script src="firebase-config.js"></script>
+    <script src="app.js"></script>
+    <script>
+        // 페이지 로드 완료 후 초기화 확인
+        window.addEventListener('load', function() {
+            console.log('페이지 로드 완료');
+            console.log('Firebase 상태:', typeof firebase !== 'undefined' ? '로드됨' : '로드되지 않음');
+            console.log('Firestore 상태:', typeof firebase !== 'undefined' && firebase.firestore ? '사용 가능' : '사용 불가');
+        });
+    </script>
+</body>
+</html> 
