@@ -42,8 +42,6 @@ public class ProductController {
         return "product/products";  // 상품 등록 페이지로 리턴
     }
 
-
-    // 상품등록
     // 상품등록
     @PostMapping("/admin/products")
     public String createProduct(@ModelAttribute ProductForm form,
@@ -74,8 +72,10 @@ public class ProductController {
 
 
     @GetMapping("/products")
-    public String showProductList(@RequestParam(name = "category", required = false) Long categoryId, Model model) {
+    public String showProductList(@RequestParam(name = "category", required = false) Long categoryId,@AuthenticationPrincipal CustomUserDetails customUserDetails, Model model) {
+        Users user = customUserDetails != null ? customUserDetails.getUser() : null;
         List<Product> productList = productService.findProducts(categoryId);
+        model.addAttribute("loginUser", user);
         model.addAttribute("products", productList);
         return "product/list"; // 실제 Thymeleaf 템플릿 경로에 맞게 조정
     }
@@ -129,9 +129,6 @@ public class ProductController {
 
         return "product/detail";
     }
-
-
-
 
     @PostMapping("/wishlist/toggle")
     public String toggleWishlist(@RequestParam Long productId,

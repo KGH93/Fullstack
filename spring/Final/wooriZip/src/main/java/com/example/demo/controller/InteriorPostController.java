@@ -274,7 +274,7 @@ public class InteriorPostController {
                     File dest = new File(uploadDir + uniqueName);
                     file.transferTo(dest);
 
-                    filePaths.add(uniqueName);
+                    filePaths.add("/uploads/" + uniqueName);
                     fileNames.add(uniqueName);
                 } catch (IOException e) {
                     e.printStackTrace();

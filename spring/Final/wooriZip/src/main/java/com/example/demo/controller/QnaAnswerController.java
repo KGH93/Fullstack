@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.entity.Users;
+import com.example.demo.security.CustomUserDetails;
 import com.example.demo.service.QnaAnswerService;
 import com.example.demo.service.QnaPostService;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +21,11 @@ public class QnaAnswerController {
     @PostMapping("/create/{postId}")
     public String create(@PathVariable Long postId,
                          @RequestParam String content,
-                         @AuthenticationPrincipal Users user) {
+                         @AuthenticationPrincipal CustomUserDetails customUserDetails) {
+        if (customUserDetails == null) {
+            return "redirect:/user/login";
+        }
+        Users user = customUserDetails.getUser();
         answerService.saveAnswer(postId, content, user);
         Long productId = postService.getProductIdByQnaPostId(postId);
         return "redirect:/products/" + productId;
@@ -31,7 +36,11 @@ public class QnaAnswerController {
     public String update(@PathVariable Long answerId,
                          @RequestParam String content,
                          @RequestParam Long productId,
-                         @AuthenticationPrincipal Users user) {
+                         @AuthenticationPrincipal CustomUserDetails customUserDetails) {
+        if (customUserDetails == null) {
+            return "redirect:/user/login";
+        }
+        Users user = customUserDetails.getUser();
         answerService.updateAnswer(answerId, content, user);
         return "redirect:/products/" + productId;
     }
@@ -40,7 +49,11 @@ public class QnaAnswerController {
     @PostMapping("/delete/{answerId}")
     public String delete(@PathVariable Long answerId,
                          @RequestParam Long productId,
-                         @AuthenticationPrincipal Users user) {
+                         @AuthenticationPrincipal CustomUserDetails customUserDetails) {
+        if (customUserDetails == null) {
+            return "redirect:/user/login";
+        }
+        Users user = customUserDetails.getUser();
         answerService.deleteAnswer(answerId, user);
         return "redirect:/products/" + productId;
     }

@@ -27,7 +27,6 @@
     <label>상품명: <input type="text" th:field="*{name}" required /></label><br/>
     <label>가격: <input type="number" th:field="*{price}" required /></label><br/>
 
-
     <!-- 대분류 선택 -->
     <label>대분류:
         <select id="parentCategory" onchange="loadChildCategories()">
@@ -65,11 +64,7 @@
         <hr />
     </div>
 
-
-
-
     <label>설명: <textarea th:field="*{description}"></textarea></label><br/>
-
 
     <label>이미지 업로드 (최대 4장):</label><br/>
     <input type="file" id="imageInput" accept="image/*" multiple /><br/><br/>

@@ -5,44 +5,60 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Stardos+Stencil:wght@400;700&display=swap" rel="stylesheet">
-<!--    <link rel="stylesheet" th:href="@{/css/style.css}">-->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
 
 <div>
     <h2 th:text="${product.name}">상품 이름</h2>
-    <p th:text="'₩' + ${product.price}">가격</p>
     <p th:text="${product.description}">상품 설명</p>
 
     <div th:each="img : ${product.images}">
         <img th:src="${img.imageUrl}" alt="상품 이미지" width="300"/>
     </div>
 
+    <!-- 모델/옵션 선택 -->
     <h4>모델/옵션</h4>
     <ul>
-        <li th:each="model : ${product.productModels}">
-            모델: <span th:text="${model.productModelSelect}"></span>,
-            재고: <span th:text="${model.prStock}"></span>
+        <li th:each="model, iterStat : ${product.productModels}">
+            <label>
+                <input type="radio" name="modelId" th:value="${model.id}" th:checked="${iterStat.index == 0}" />
+                <span th:text="${model.productModelSelect}">옵션</span> - 재고: <span th:text="${model.prStock}">0</span>
+            </label>
         </li>
     </ul>
 
-    <!-- 찜하기 버튼 -->
+    <!-- 찜/장바구니/구매 Form -->
     <form th:action="@{/wishlist/toggle}" method="post" id="productForm">
         <input type="hidden" id="productId" name="productId" th:value="${product.id}" />
         <input type="hidden" id="actionType" name="actionType" value="cart" />
         <button type="submit" th:text="${product.liked} ? '찜 취소' : '찜하기'"></button>
+
+        <div>
+            <div>수량</div>
+            <input type="number" name="count" id="count" value="1" min="1"/>
+        </div>
+
         <div>
             <button type="button" onclick="submitForm('cart')">장바구니 추가</button>
             <button type="button" onclick="submitForm('buy')">구매하기</button>
         </div>
     </form>
 
-    <!-- 디버깅용 -->
-    <p>작성자 ID: <span th:text="${product.writerId}">작성자 ID</span></p>
-    <p>로그인 유저 ID: <span th:text="${loginUser?.id}">로그인 ID</span></p>
+    <div>
+        <div>
+            <input type="hidden" id="price" name="price" th:value="${product.price}" />
+            <span th:text="${product.price}"></span>원
+        </div>
+        <div>
+            <h5>결제 금액</h5>
+            <h3 name="totalPrice" id="totalPrice"></h3>
+        </div>
+    </div>
 
-    <!-- 수정/삭제 버튼: 작성자만 보이게 -->
+    <!-- 작성자에게만 보이는 수정/삭제 -->
     <div th:if="${loginUser != null and product.writerId == loginUser.id}">
         <form th:action="@{'/products/' + ${product.id} + '/edit'}" method="get" style="display:inline;">
             <button type="submit">수정</button>
@@ -52,7 +68,6 @@
         </form>
     </div>
 
-    <!-- 🔙 목록으로 돌아가기 (항상 표시) -->
     <div style="margin-top: 20px;">
         <a th:href="@{/products}">
             <button type="button">목록으로 돌아가기</button>
@@ -82,25 +97,80 @@
     </div>
 </div>
 
-<!--<script>-->
-<!--    // 탭 전환 스크립트-->
-<!--    document.querySelectorAll('.tab-button').forEach(btn => {-->
-<!--      btn.addEventListener('click', function () {-->
-<!--        document.querySelectorAll('.tab-button').forEach(b => b.classList.remove('active'));-->
-<!--        this.classList.add('active');-->
+<div th:replace="~{index/footer :: footer}"></div>
 
-<!--        const target = this.getAttribute('data-target');-->
-<!--        document.querySelectorAll('.tab-content-section').forEach(section => {-->
-<!--          section.style.display = section.id === target ? 'block' : 'none';-->
-<!--        });-->
-<!--      });-->
-<!--    });-->
-<!--</script>-->
+<!-- 가격 계산 스크립트 -->
+<script>
+    $(function() {
+        calculateTotalPrice();
+        $('#count').change(function(){
+            calculateTotalPrice();
+        });
+    });
 
-<!-- detail.html 하단 스크립트 -->
+    function calculateTotalPrice(){
+        var count = parseInt($('#count').val());
+        var price = parseInt($('#price').val());
+        if (!isNaN(count) && !isNaN(price)) {
+            var totalPrice = count * price;
+            $('#totalPrice').html(totalPrice + '원');
+        } else {
+            $('#totalPrice').html('가격 계산 오류');
+        }
+    }
+</script>
+
+<!-- 장바구니/구매 전송 스크립트 -->
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        window.submitForm = function(action) {
+            const form = document.getElementById('productForm');
+
+            // 기존 items 필드 제거
+            ['items[0].modelId', 'items[0].count'].forEach(name => {
+                const old = form.querySelector(`input[name="${name}"]`);
+                if (old) old.remove();
+            });
+
+            const selectedModelId = document.querySelector('input[name="modelId"]:checked')?.value;
+            const count = document.getElementById('count').value;
+
+            if (!selectedModelId || !count) {
+                alert("옵션과 수량을 선택해주세요.");
+                return;
+            }
+
+            // 동적 필드 추가
+            const modelInput = document.createElement("input");
+            modelInput.type = "hidden";
+            modelInput.name = "items[0].modelId";
+            modelInput.value = selectedModelId;
+            form.appendChild(modelInput);
+
+            const countInput = document.createElement("input");
+            countInput.type = "hidden";
+            countInput.name = "items[0].count";
+            countInput.value = count;
+            form.appendChild(countInput);
+
+            // 액션 설정
+            if(action === 'cart') {
+                form.action = "/cart/add";
+                document.getElementById('actionType').value = 'cart';
+            } else if(action === 'buy') {
+                form.action = "/order/now";
+                document.getElementById('actionType').value = 'buy';
+            }
+
+            form.submit();
+        };
+    });
+</script>
+
+<!-- 게시판 스크립트 -->
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // 탭 전환 스크립트 (기존)
+        // 탭 전환 스크립트
         document.querySelectorAll('.tab-button').forEach(btn => {
             btn.addEventListener('click', function () {
                 document.querySelectorAll('.tab-button').forEach(b => b.classList.remove('active'));
@@ -113,15 +183,7 @@
             });
         });
 
-        // QnA 토글 함수
-        window.toggleQnaForm = function () {
-            const form = document.getElementById('qnaFormWrapper');
-            if (form) {
-                form.style.display = form.style.display === 'none' ? 'block' : 'none';
-            }
-        };
-
-        // 리뷰 토글 함수
+        // 리뷰 관련 함수들
         window.toggleReviewForm = function () {
             const form = document.getElementById("reviewForm");
             if (form) {
@@ -129,207 +191,28 @@
             }
         };
 
-        // 통합 이미지 미리보기 함수 (QnA용)
-        window.previewImages = function (input, previewId) {
-            handleImagePreview(input, previewId, 'img-thumbnail me-2', '100px');
-        };
-
-        // 리뷰 이미지 미리보기 함수
-        window.handleReviewImagePreview = function(input) {
-            const preview = document.getElementById('reviewPreviewContainer');
-            preview.innerHTML = '';
-
-            if (input.files.length > 4) {
-                alert("이미지는 최대 4장까지 첨부할 수 있습니다.");
-                input.value = '';
-                return;
+        window.hideReviewEditForm = function(reviewId) {
+            const form = document.getElementById(`reviewEditForm_${reviewId}`);
+            if (form) {
+                form.style.display = 'none';
             }
-
-            Array.from(input.files).forEach((file, index) => {
-                const reader = new FileReader();
-                reader.onload = e => {
-                    const box = document.createElement('div');
-                    box.className = 'img-box';
-                    box.style.display = 'inline-block';
-                    box.style.margin = '10px';
-                    box.style.position = 'relative';
-
-                    const img = document.createElement('img');
-                    img.src = e.target.result;
-                    img.style.width = '150px';
-                    img.style.height = 'auto';
-                    img.style.border = '1px solid #ccc';
-                    img.style.borderRadius = '12px';
-
-                    const deleteBtn = document.createElement('button');
-                    deleteBtn.innerText = 'X';
-                    deleteBtn.style.position = 'absolute';
-                    deleteBtn.style.top = '5px';
-                    deleteBtn.style.right = '5px';
-                    deleteBtn.style.background = 'red';
-                    deleteBtn.style.color = 'white';
-                    deleteBtn.style.border = 'none';
-                    deleteBtn.style.borderRadius = '50%';
-                    deleteBtn.style.width = '20px';
-                    deleteBtn.style.height = '20px';
-                    deleteBtn.style.cursor = 'pointer';
-                    deleteBtn.onclick = function() {
-                        // 파일 삭제를 위해 input의 files를 조작
-                        const dt = new DataTransfer();
-                        const files = Array.from(input.files);
-                        files.splice(index, 1);
-                        files.forEach(file => dt.items.add(file));
-                        input.files = dt.files;
-
-                        // 미리보기에서도 제거
-                        box.remove();
-                    };
-
-                    box.appendChild(img);
-                    box.appendChild(deleteBtn);
-                    preview.appendChild(box);
-                };
-                reader.readAsDataURL(file);
-            });
         };
 
-        // QnA 이미지 첨부 기능 (인테리어 게시판과 동일한 방식)
-        let qnaSelectedFiles = [];
-
-        const qnaImageInput = document.getElementById('qnaImageInput');
-        const qnaPreviewContainer = document.getElementById('qnaPreviewContainer');
-
-        if (qnaImageInput && qnaPreviewContainer) {
-            qnaImageInput.addEventListener('change', function () {
-                const newFiles = Array.from(this.files);
-
-                if (qnaSelectedFiles.length + newFiles.length > 4) {
-                    alert("이미지는 최대 4장까지 첨부할 수 있습니다.");
-                    return;
-                }
-
-                newFiles.forEach(file => {
-                    qnaSelectedFiles.push(file);
-
-                    const reader = new FileReader();
-                    reader.onload = e => {
-                        const box = document.createElement('div');
-                        box.className = 'img-box';
-                        box.style.display = 'inline-block';
-                        box.style.margin = '10px';
-                        box.style.position = 'relative';
-
-                        const img = document.createElement('img');
-                        img.src = e.target.result;
-                        img.style.width = '150px';
-                        img.style.height = 'auto';
-                        img.style.border = '1px solid #ccc';
-                        img.style.borderRadius = '12px';
-
-                        const deleteBtn = document.createElement('button');
-                        deleteBtn.innerText = 'X';
-                        deleteBtn.style.position = 'absolute';
-                        deleteBtn.style.top = '5px';
-                        deleteBtn.style.right = '5px';
-                        deleteBtn.style.background = 'red';
-                        deleteBtn.style.color = 'white';
-                        deleteBtn.style.border = 'none';
-                        deleteBtn.style.borderRadius = '50%';
-                        deleteBtn.style.width = '20px';
-                        deleteBtn.style.height = '20px';
-                        deleteBtn.style.cursor = 'pointer';
-                        deleteBtn.onclick = function() {
-                            const index = qnaSelectedFiles.indexOf(file);
-                            if (index > -1) {
-                                qnaSelectedFiles.splice(index, 1);
-                            }
-                            box.remove();
-                        };
-
-                        box.appendChild(img);
-                        box.appendChild(deleteBtn);
-                        qnaPreviewContainer.appendChild(box);
-                    };
-                    reader.readAsDataURL(file);
-                });
-
-                this.value = '';
-            });
-        }
-
-        // QnA 폼 제출 시 파일 추가
-        const qnaForm = document.querySelector('form[th\\:action*="/qna/create"]');
-        if (qnaForm) {
-            qnaForm.addEventListener('submit', function(e) {
-                // 선택된 파일들을 formData에 추가
-                qnaSelectedFiles.forEach(file => {
-                    const input = document.createElement('input');
-                    input.type = 'file';
-                    input.name = 'files';
-                    input.style.display = 'none';
-
-                    // FileList 객체 생성
-                    const dataTransfer = new DataTransfer();
-                    dataTransfer.items.add(file);
-                    input.files = dataTransfer.files;
-
-                    this.appendChild(input);
-                });
-
-                // 폼이 정상적으로 제출되도록 이벤트 리스너 제거
-                this.removeEventListener('submit', arguments.callee);
-            });
-        }
-
-        // 통합 이미지 미리보기 함수 (기존 QnA용 - 호환성 유지)
-        window.previewImages = function (input, previewId) {
-            handleImagePreview(input, previewId, 'img-thumbnail me-2', '100px');
-        };
-
-        // 공통 이미지 미리보기 처리 함수
-        function handleImagePreview(input, previewId, className, maxSize) {
-            const preview = document.getElementById(previewId);
-            preview.innerHTML = '';
-
-            if (input.files.length > 4) {
-                alert("이미지는 최대 4장까지 첨부할 수 있습니다.");
-                input.value = '';
-                return;
-            }
-
-            Array.from(input.files).forEach(file => {
-                const reader = new FileReader();
-                reader.onload = e => {
-                    const img = document.createElement('img');
-                    img.src = e.target.result;
-                    img.className = className;
-                    img.style.maxHeight = maxSize;
-                    if (maxSize === '150px') {
-                        img.style.width = '150px';
-                    }
-                    preview.appendChild(img);
-                };
-                reader.readAsDataURL(file);
-            });
-        }
-
-        // QnA 답변 작성 폼 토글 함수
-        window.toggleAnswerForm = function(qnaId) {
-            const form = document.getElementById('answerForm_' + qnaId);
+        window.toggleReviewEditForm = function(reviewId) {
+            const form = document.getElementById(`reviewEditForm_${reviewId}`);
             if (form) {
                 form.style.display = form.style.display === 'none' ? 'block' : 'none';
             }
         };
 
-        // QnA 답변 수정 폼 토글 함수
-        window.toggleAnswerEditForm = function(qnaId) {
-            const form = document.getElementById('answerEditForm_' + qnaId);
+        // QnA 관련 함수들
+        window.toggleQnaForm = function () {
+            const form = document.getElementById('qnaFormWrapper');
             if (form) {
                 form.style.display = form.style.display === 'none' ? 'block' : 'none';
             }
         };
 
-        // QnA 질문 수정 폼 토글 함수
         window.toggleQnaEditForm = function(qnaId) {
             const form = document.getElementById('qnaEditForm_' + qnaId);
             if (form) {
@@ -337,78 +220,457 @@
             }
         };
 
-        // 리뷰 수정 폼 토글 함수
-        window.toggleReviewEditForm = function(reviewId) {
-            const form = document.getElementById('reviewEditForm_' + reviewId);
+        window.toggleAnswerForm = function(qnaId) {
+            const form = document.getElementById('answerForm_' + qnaId);
             if (form) {
                 form.style.display = form.style.display === 'none' ? 'block' : 'none';
             }
         };
 
+        window.toggleAnswerEditForm = function(qnaId) {
+            const form = document.getElementById('answerEditForm_' + qnaId);
+            if (form) {
+                form.style.display = form.style.display === 'none' ? 'block' : 'none';
+            }
+        };
 
+        // 리뷰 등록 폼 초기화
+        function initializeReviewForm() {
+            const form = document.getElementById('reviewForm');
+            if (!form) return;
 
-        // 리뷰 이미지 미리보기 기능
-        const reviewImageInput = document.getElementById('reviewImageInput');
-        const reviewPreviewContainer = document.getElementById('reviewPreviewContainer');
+            const imageInput = form.querySelector('input[type="file"]');
+            const previewContainer = document.getElementById('reviewPreviewContainer');
+            let selectedFiles = [];
 
-        if (reviewImageInput && reviewPreviewContainer) {
-            reviewImageInput.addEventListener('change', function() {
-                reviewPreviewContainer.innerHTML = '';
+            if (imageInput && previewContainer) {
+                imageInput.addEventListener('change', function(e) {
+                    const newFiles = Array.from(this.files);
+                    
+                    if (selectedFiles.length + newFiles.length > 4) {
+                        alert('이미지는 최대 4장까지 첨부할 수 있습니다.');
+                        return;
+                    }
 
-                if (this.files.length > 4) {
-                    alert("이미지는 최대 4장까지 첨부할 수 있습니다.");
-                    this.value = '';
-                    return;
-                }
-
-                Array.from(this.files).forEach((file, index) => {
-                    const reader = new FileReader();
-                    reader.onload = e => {
-                        const box = document.createElement('div');
-                        box.className = 'img-box';
-                        box.style.display = 'inline-block';
-                        box.style.margin = '10px';
-                        box.style.position = 'relative';
-
-                        const img = document.createElement('img');
-                        img.src = e.target.result;
-                        img.style.width = '150px';
-                        img.style.height = 'auto';
-                        img.style.border = '1px solid #ccc';
-                        img.style.borderRadius = '12px';
-
-                        const deleteBtn = document.createElement('button');
-                        deleteBtn.innerText = 'X';
-                        deleteBtn.style.position = 'absolute';
-                        deleteBtn.style.top = '5px';
-                        deleteBtn.style.right = '5px';
-                        deleteBtn.style.background = 'red';
-                        deleteBtn.style.color = 'white';
-                        deleteBtn.style.border = 'none';
-                        deleteBtn.style.borderRadius = '50%';
-                        deleteBtn.style.width = '20px';
-                        deleteBtn.style.height = '20px';
-                        deleteBtn.style.cursor = 'pointer';
-                        deleteBtn.onclick = function() {
-                            // 파일 삭제를 위해 input의 files를 조작
-                            const dt = new DataTransfer();
-                            const files = Array.from(reviewImageInput.files);
-                            files.splice(index, 1);
-                            files.forEach(file => dt.items.add(file));
-                            reviewImageInput.files = dt.files;
-
-                            // 미리보기에서도 제거
-                            box.remove();
+                    newFiles.forEach(file => {
+                        selectedFiles.push(file);
+                        
+                        const reader = new FileReader();
+                        reader.onload = function(e) {
+                            const imgContainer = document.createElement('div');
+                            imgContainer.className = 'position-relative d-inline-block me-2 mb-2';
+                            
+                            const img = document.createElement('img');
+                            img.src = e.target.result;
+                            img.className = 'img-thumbnail';
+                            img.style.width = '150px';
+                            img.style.height = '150px';
+                            img.style.objectFit = 'cover';
+                            
+                            const deleteBtn = document.createElement('button');
+                            deleteBtn.type = 'button';
+                            deleteBtn.className = 'btn btn-danger btn-sm position-absolute top-0 end-0 rounded-circle';
+                            deleteBtn.innerHTML = '×';
+                            deleteBtn.style.width = '25px';
+                            deleteBtn.style.height = '25px';
+                            deleteBtn.style.padding = '0';
+                            deleteBtn.style.margin = '5px';
+                            
+                            const fileIndex = selectedFiles.length - 1;
+                            deleteBtn.onclick = function() {
+                                selectedFiles.splice(fileIndex, 1);
+                                imgContainer.remove();
+                            };
+                            
+                            imgContainer.appendChild(img);
+                            imgContainer.appendChild(deleteBtn);
+                            previewContainer.appendChild(imgContainer);
                         };
+                        reader.readAsDataURL(file);
+                    });
+                    
+                    this.value = '';
+                });
 
-                        box.appendChild(img);
-                        box.appendChild(deleteBtn);
-                        reviewPreviewContainer.appendChild(box);
+                form.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    const formData = new FormData(this);
+                    
+                    formData.delete('files');
+                    selectedFiles.forEach(file => {
+                        formData.append('files', file);
+                    });
+
+                    fetch(this.action, {
+                        method: 'POST',
+                        body: formData
+                    })
+                    .then(res => {
+                        if (res.redirected) {
+                            window.location.href = res.url;
+                        } else if (!res.ok) {
+                            throw new Error('서버 오류');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('오류가 발생했습니다. 다시 시도해주세요.');
+                    });
+                });
+            }
+        }
+
+        // 리뷰 수정 폼 초기화
+        function initializeReviewEditForm(form) {
+            if (!form) return;
+
+            const imageInput = form.querySelector('input[type="file"]');
+            const previewContainer = form.querySelector('.review-preview-container');
+            const existingImagesContainer = form.querySelector('.existing-images-container');
+            let selectedFiles = [];
+
+            // 기존 이미지 삭제 처리
+            if (existingImagesContainer) {
+                const deletedImages = new Set();
+
+                existingImagesContainer.querySelectorAll('.delete-existing-image').forEach(btn => {
+                    btn.onclick = function() {
+                        const path = this.getAttribute('data-path');
+                        const imageContainer = this.closest('.position-relative');
+                        const hiddenInput = imageContainer.querySelector('input[name="deleteImages"]');
+                        
+                        if (deletedImages.has(path)) {
+                            // 삭제 취소
+                            deletedImages.delete(path);
+                            imageContainer.style.opacity = '1';
+                            hiddenInput.disabled = true;
+                            this.textContent = '×';
+                            this.classList.remove('btn-success');
+                            this.classList.add('btn-danger');
+                        } else {
+                            // 삭제 표시
+                            deletedImages.add(path);
+                            imageContainer.style.opacity = '0.5';
+                            hiddenInput.disabled = false;
+                            this.textContent = '↺';
+                            this.classList.remove('btn-danger');
+                            this.classList.add('btn-success');
+                        }
                     };
-                    reader.readAsDataURL(file);
+                });
+            }
+
+            // 새 이미지 업로드 처리
+            if (imageInput && previewContainer) {
+                imageInput.addEventListener('change', function(e) {
+                    const newFiles = Array.from(this.files);
+                    const existingCount = existingImagesContainer ? 
+                        existingImagesContainer.querySelectorAll('.position-relative').length - 
+                        existingImagesContainer.querySelectorAll('input[name="deleteImages"]:not([disabled])').length : 0;
+                    
+                    if (existingCount + selectedFiles.length + newFiles.length > 4) {
+                        alert('이미지는 최대 4장까지 첨부할 수 있습니다.');
+                        return;
+                    }
+
+                    newFiles.forEach(file => {
+                        selectedFiles.push(file);
+                        
+                        const reader = new FileReader();
+                        reader.onload = function(e) {
+                            const imgContainer = document.createElement('div');
+                            imgContainer.className = 'position-relative d-inline-block me-2 mb-2';
+                            
+                            const img = document.createElement('img');
+                            img.src = e.target.result;
+                            img.className = 'img-thumbnail';
+                            img.style.width = '150px';
+                            img.style.height = '150px';
+                            img.style.objectFit = 'cover';
+                            
+                            const deleteBtn = document.createElement('button');
+                            deleteBtn.type = 'button';
+                            deleteBtn.className = 'btn btn-danger btn-sm position-absolute top-0 end-0 rounded-circle';
+                            deleteBtn.innerHTML = '×';
+                            deleteBtn.style.width = '25px';
+                            deleteBtn.style.height = '25px';
+                            deleteBtn.style.padding = '0';
+                            deleteBtn.style.margin = '5px';
+                            
+                            const fileIndex = selectedFiles.length - 1;
+                            deleteBtn.onclick = function() {
+                                selectedFiles.splice(fileIndex, 1);
+                                imgContainer.remove();
+                            };
+                            
+                            imgContainer.appendChild(img);
+                            imgContainer.appendChild(deleteBtn);
+                            previewContainer.appendChild(imgContainer);
+                        };
+                        reader.readAsDataURL(file);
+                    });
+                    
+                    this.value = '';
+                });
+            }
+
+            // 폼 제출 처리
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const formData = new FormData(this);
+                
+                // 기존 files 필드 제거 후 선택된 파일들 추가
+                formData.delete('files');
+                selectedFiles.forEach(file => {
+                    formData.append('files', file);
+                });
+
+                fetch(this.action, {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(res => {
+                    if (res.redirected) {
+                        window.location.href = res.url;
+                    } else if (!res.ok) {
+                        throw new Error('서버 오류');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('오류가 발생했습니다. 다시 시도해주세요.');
                 });
             });
         }
+
+        // 모든 리뷰 등록/수정 폼 초기화
+        initializeReviewForm();
+        document.querySelectorAll('.review-form').forEach(form => {
+            initializeReviewEditForm(form);
+        });
+
+        // QnA 이미지 처리 초기화
+        const qnaImageInput = document.getElementById('qnaImageInput');
+        const qnaPreviewContainer = document.getElementById('qnaPreviewContainer');
+        if (qnaImageInput && qnaPreviewContainer) {
+            qnaImageInput.addEventListener('change', function() {
+                handleImagePreview(this, qnaPreviewContainer);
+            });
+        }
+
+        // QnA 등록 폼 초기화
+        function initializeQnaForm() {
+            const form = document.getElementById('qnaFormWrapper');
+            if (!form) return;
+
+            const imageInput = form.querySelector('input[type="file"]');
+            const previewContainer = document.getElementById('qnaPreviewContainer');
+            let selectedFiles = [];
+
+            if (imageInput && previewContainer) {
+                imageInput.addEventListener('change', function(e) {
+                    const newFiles = Array.from(this.files);
+                    
+                    if (selectedFiles.length + newFiles.length > 4) {
+                        alert('이미지는 최대 4장까지 첨부할 수 있습니다.');
+                        return;
+                    }
+
+                    newFiles.forEach(file => {
+                        selectedFiles.push(file);
+                        
+                        const reader = new FileReader();
+                        reader.onload = function(e) {
+                            const imgContainer = document.createElement('div');
+                            imgContainer.className = 'position-relative d-inline-block me-2 mb-2';
+                            
+                            const img = document.createElement('img');
+                            img.src = e.target.result;
+                            img.className = 'img-thumbnail';
+                            img.style.width = '150px';
+                            img.style.height = '150px';
+                            img.style.objectFit = 'cover';
+                            
+                            const deleteBtn = document.createElement('button');
+                            deleteBtn.type = 'button';
+                            deleteBtn.className = 'btn btn-danger btn-sm position-absolute top-0 end-0 rounded-circle';
+                            deleteBtn.innerHTML = '×';
+                            deleteBtn.style.width = '25px';
+                            deleteBtn.style.height = '25px';
+                            deleteBtn.style.padding = '0';
+                            deleteBtn.style.margin = '5px';
+                            
+                            const fileIndex = selectedFiles.length - 1;
+                            deleteBtn.onclick = function() {
+                                selectedFiles.splice(fileIndex, 1);
+                                imgContainer.remove();
+                            };
+                            
+                            imgContainer.appendChild(img);
+                            imgContainer.appendChild(deleteBtn);
+                            previewContainer.appendChild(imgContainer);
+                        };
+                        reader.readAsDataURL(file);
+                    });
+                    
+                    this.value = '';
+                });
+
+                form.querySelector('form').addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    const formData = new FormData(this);
+                    
+                    formData.delete('files');
+                    selectedFiles.forEach(file => {
+                        formData.append('files', file);
+                    });
+
+                    fetch(this.action, {
+                        method: 'POST',
+                        body: formData
+                    })
+                    .then(res => {
+                        if (res.redirected) {
+                            window.location.href = res.url;
+                        } else if (!res.ok) {
+                            throw new Error('서버 오류');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('오류가 발생했습니다. 다시 시도해주세요.');
+                    });
+                });
+            }
+        }
+
+        // QnA 수정 폼 초기화
+        function initializeQnaEditForm(form) {
+            if (!form) return;
+
+            const imageInput = form.querySelector('input[type="file"]');
+            const previewContainer = form.querySelector('.qna-preview-container');
+            const existingImagesContainer = form.querySelector('.existing-images-container');
+            let selectedFiles = [];
+
+            // 기존 이미지 삭제 처리
+            if (existingImagesContainer) {
+                const deletedImages = new Set();
+
+                existingImagesContainer.querySelectorAll('.delete-existing-image').forEach(btn => {
+                    btn.onclick = function() {
+                        const path = this.getAttribute('data-path');
+                        const imageContainer = this.closest('.position-relative');
+                        const hiddenInput = imageContainer.querySelector('input[name="deleteImages"]');
+                        
+                        if (deletedImages.has(path)) {
+                            // 삭제 취소
+                            deletedImages.delete(path);
+                            imageContainer.style.opacity = '1';
+                            hiddenInput.disabled = true;
+                            this.textContent = '×';
+                            this.classList.remove('btn-success');
+                            this.classList.add('btn-danger');
+                        } else {
+                            // 삭제 표시
+                            deletedImages.add(path);
+                            imageContainer.style.opacity = '0.5';
+                            hiddenInput.disabled = false;
+                            this.textContent = '↺';
+                            this.classList.remove('btn-danger');
+                            this.classList.add('btn-success');
+                        }
+                    };
+                });
+            }
+
+            // 새 이미지 업로드 처리
+            if (imageInput && previewContainer) {
+                imageInput.addEventListener('change', function(e) {
+                    const newFiles = Array.from(this.files);
+                    const existingCount = existingImagesContainer ? 
+                        existingImagesContainer.querySelectorAll('.position-relative').length - 
+                        existingImagesContainer.querySelectorAll('input[name="deleteImages"]:not([disabled])').length : 0;
+                    
+                    if (existingCount + selectedFiles.length + newFiles.length > 4) {
+                        alert('이미지는 최대 4장까지 첨부할 수 있습니다.');
+                        return;
+                    }
+
+                    newFiles.forEach(file => {
+                        selectedFiles.push(file);
+                        
+                        const reader = new FileReader();
+                        reader.onload = function(e) {
+                            const imgContainer = document.createElement('div');
+                            imgContainer.className = 'position-relative d-inline-block me-2 mb-2';
+                            
+                            const img = document.createElement('img');
+                            img.src = e.target.result;
+                            img.className = 'img-thumbnail';
+                            img.style.width = '150px';
+                            img.style.height = '150px';
+                            img.style.objectFit = 'cover';
+                            
+                            const deleteBtn = document.createElement('button');
+                            deleteBtn.type = 'button';
+                            deleteBtn.className = 'btn btn-danger btn-sm position-absolute top-0 end-0 rounded-circle';
+                            deleteBtn.innerHTML = '×';
+                            deleteBtn.style.width = '25px';
+                            deleteBtn.style.height = '25px';
+                            deleteBtn.style.padding = '0';
+                            deleteBtn.style.margin = '5px';
+                            
+                            const fileIndex = selectedFiles.length - 1;
+                            deleteBtn.onclick = function() {
+                                selectedFiles.splice(fileIndex, 1);
+                                imgContainer.remove();
+                            };
+                            
+                            imgContainer.appendChild(img);
+                            imgContainer.appendChild(deleteBtn);
+                            previewContainer.appendChild(imgContainer);
+                        };
+                        reader.readAsDataURL(file);
+                    });
+                    
+                    this.value = '';
+                });
+            }
+
+            // 폼 제출 처리
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const formData = new FormData(this);
+                
+                formData.delete('files');
+                selectedFiles.forEach(file => {
+                    formData.append('files', file);
+                });
+
+                fetch(this.action, {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(res => {
+                    if (res.redirected) {
+                        window.location.href = res.url;
+                    } else if (!res.ok) {
+                        throw new Error('서버 오류');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('오류가 발생했습니다. 다시 시도해주세요.');
+                });
+            });
+        }
+
+        // 모든 QnA 등록/수정 폼 초기화
+        initializeQnaForm();
+        document.querySelectorAll('.qna-form').forEach(form => {
+            initializeQnaEditForm(form);
+        });
     });
 </script>
 

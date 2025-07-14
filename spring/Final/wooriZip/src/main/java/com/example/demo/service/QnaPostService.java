@@ -111,7 +111,7 @@ public class QnaPostService {
                     String fileName = UUID.randomUUID() + "_" + file.getOriginalFilename();
                     File dest = new File(uploadDir + fileName);
                     file.transferTo(dest);
-                    filePathList.add(fileName);
+                    filePathList.add("/uploads/" + fileName);
                 }
             }
         }
