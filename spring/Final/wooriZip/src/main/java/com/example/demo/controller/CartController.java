@@ -41,7 +41,6 @@ public class CartController {
     @PostMapping("/add")
     public String addToCart(@RequestParam Long productId, CartDto dto, Principal principal, Model model) {
         String email = principal.getName();
-        log.info("email = " + email);
         try {
             cartService.addItemToCart(dto, email, productId);
             return "redirect:/cart"; // 장바구니 페이지로 리다이렉션

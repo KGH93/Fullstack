@@ -1,7 +1,9 @@
 package com.example.demo.controller;
 
 import com.example.demo.dto.*;
-import com.example.demo.entity.*;
+import com.example.demo.entity.Product;
+import com.example.demo.entity.ReviewPost;
+import com.example.demo.entity.Users;
 import com.example.demo.repository.CategoryRepository;
 import com.example.demo.security.CustomUserDetails;
 import com.example.demo.service.ProductService;
@@ -69,10 +71,8 @@ public class ProductController {
         return "redirect:/products";  // 상품 목록 페이지로 리다이렉트
     }
 
-
-
     @GetMapping("/products")
-    public String showProductList(@RequestParam(name = "category", required = false) Long categoryId,@AuthenticationPrincipal CustomUserDetails customUserDetails, Model model) {
+    public String showProductList(@RequestParam(name = "category", required = false) Long categoryId, @AuthenticationPrincipal CustomUserDetails customUserDetails, Model model) {
         Users user = customUserDetails != null ? customUserDetails.getUser() : null;
         List<Product> productList = productService.findProducts(categoryId);
         model.addAttribute("loginUser", user);

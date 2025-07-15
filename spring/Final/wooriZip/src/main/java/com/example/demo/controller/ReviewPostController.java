@@ -65,7 +65,7 @@ public class ReviewPostController {
         dto.setEmail(user.getEmail());
         dto.setNickname(user.getNickname());
         if (files != null && files.length > 0 && !files[0].isEmpty()) {
-        dto.setFiles(List.of(files));
+            dto.setFiles(List.of(files));
         }
         reviewPostService.saveReview(dto);
         return "redirect:/products/" + dto.getProductId();
@@ -94,7 +94,7 @@ public class ReviewPostController {
         Users user = customUserDetails.getUser();
         dto.setEmail(user.getEmail());
         dto.setNickname(user.getNickname());
-        
+
         if (files != null && files.length > 0 && !files[0].isEmpty()) {
             dto.setFiles(List.of(files));
         }

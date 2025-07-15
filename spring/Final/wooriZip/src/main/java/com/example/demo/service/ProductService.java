@@ -10,14 +10,17 @@ import com.example.demo.repository.ProductRepository;
 import com.example.demo.repository.WishlistRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.security.access.AccessDeniedException;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -42,16 +45,17 @@ public class ProductService {
 
         // 2. Product 생성
         Product product = form.createProduct(category, loginUser);
-        product = productRepository.save(product);  // 상품 저장
 
         // 3. 모델 생성 및 재고 계산
         int totalStock = 0;
-        for (ProductModelDto dto : form.getProductModelDtoList()) {
+        List<ProductModelDto> validModels = form.getProductModelDtoList().stream()
+                .filter(dto -> dto.getProductModelSelect() != null && dto.getPrice() != null && dto.getPrStock() != null)
+                .collect(Collectors.toList());
+        for (ProductModelDto dto : validModels) {
             ProductModel model = new ProductModel();
             model.setProductModelSelect(dto.getProductModelSelect());  // 모델 선택 (예: SUPER_SINGLE, QUEEN, KING)
             model.setPrice(dto.getPrice());  // 가격 설정
             model.setPrStock(dto.getPrStock());  // 재고 설정
-            //model.setProduct(product);  // 상품에 모델 연결
             product.addProductModel(model);  // 상품에 모델 추가
             totalStock += model.getPrStock();
         }
@@ -66,9 +70,12 @@ public class ProductService {
                 ProductImage image = new ProductImage();
                 image.setImageUrl(path);
                 image.setProduct(product);
-                imageRepository.save(image);
+                product.getImages().add(image); // product에 이미지 추가
+                // imageRepository.save(image); // 별도 저장 불필요 (cascade)
             }
         }
+
+        product = productRepository.save(product);  // 연관 엔티티까지 한 번만 저장
 
         return product.getId();  // 상품 ID만 반환
     }
@@ -152,7 +159,6 @@ public class ProductService {
         // 5. 반환
         return detailDto;
     }
-
 
     // ✅ 상품 수정
     @Transactional

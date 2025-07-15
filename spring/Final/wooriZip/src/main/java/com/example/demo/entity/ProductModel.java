@@ -52,5 +52,4 @@ public class ProductModel {
         return Objects.hash(productModelSelect, price, prStock);
     }
 
-
 }

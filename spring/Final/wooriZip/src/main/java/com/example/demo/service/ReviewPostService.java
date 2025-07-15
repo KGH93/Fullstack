@@ -73,7 +73,7 @@ public class ReviewPostService {
         // 기존 이미지 경로와 파일명 처리
         List<String> currentPaths = new ArrayList<>();
         List<String> currentNames = new ArrayList<>();
-        
+
         if (post.getFilePaths() != null && !post.getFilePaths().isEmpty()) {
             currentPaths.addAll(Arrays.asList(post.getFilePaths().split(",")));
             currentNames.addAll(Arrays.asList(post.getFileNames().split(",")));
@@ -97,7 +97,7 @@ public class ReviewPostService {
         if (dto.getFiles() != null && !dto.getFiles().isEmpty() && !dto.getFiles().get(0).isEmpty()) {
             List<String> newPaths = handleMultipleFiles(dto.getFiles());
             currentPaths.addAll(newPaths);
-            
+
             List<String> newNames = dto.getFiles().stream()
                     .map(MultipartFile::getOriginalFilename)
                     .collect(Collectors.toList());
