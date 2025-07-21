@@ -60,7 +60,7 @@ public class ReviewPostController {
                                @RequestParam(value = "files", required = false) MultipartFile[] files,
                                Authentication authentication) throws IOException {
         String email = UserUtils.getEmail(authentication);
-        if (email == null) return "redirect:/login";
+        if (email == null) return "redirect:/user/login";
         Users user = (Users) UserUtils.getUser(authentication);
         dto.setEmail(user.getEmail());
         dto.setNickname(user.getNickname());
@@ -75,7 +75,7 @@ public class ReviewPostController {
     @GetMapping("/edit/{id}")
     public String getEditForm(@PathVariable Long id, Model model, Authentication authentication) {
         String email = UserUtils.getEmail(authentication);
-        if (email == null) return "redirect:/login";
+        if (email == null) return "redirect:/user/login";
         
         ReviewPost review = reviewPostService.getReviewById(id);
         // 작성자 본인 확인
@@ -95,9 +95,10 @@ public class ReviewPostController {
                                @ModelAttribute ReviewPostDto dto,
                                @RequestParam(value = "files", required = false) MultipartFile[] files,
                                @RequestParam(value = "deleteImages", required = false) List<String> deleteImages,
+                               @RequestParam(required = false) Boolean fromMyPage,
                                Authentication authentication) throws IOException {
         String email = UserUtils.getEmail(authentication);
-        if (email == null) return "redirect:/login";
+        if (email == null) return "redirect:/user/login";
         Users user = (Users) UserUtils.getUser(authentication);
         dto.setEmail(user.getEmail());
         dto.setNickname(user.getNickname());
@@ -106,6 +107,10 @@ public class ReviewPostController {
             dto.setFiles(List.of(files));
         }
         reviewPostService.updateReview(id, dto, deleteImages);
+
+        if (Boolean.TRUE.equals(fromMyPage)) {
+            return "redirect:/user/myPage";
+        }
         return "redirect:/products/" + dto.getProductId();
     }
 
@@ -113,9 +118,10 @@ public class ReviewPostController {
     @PostMapping("/delete/{id}")
     public String deleteReview(@PathVariable Long id, 
                              @RequestParam Long productId,
+                             @RequestParam(required = false) Boolean fromMyPage,
                              Authentication authentication) {
         String email = UserUtils.getEmail(authentication);
-        if (email == null) return "redirect:/login";
+        if (email == null) return "redirect:/user/login";
         
         ReviewPost review = reviewPostService.getReviewById(id);
         // 작성자 본인 확인
@@ -124,6 +130,10 @@ public class ReviewPostController {
         }
         
         reviewPostService.deleteReview(id);
+
+        if (Boolean.TRUE.equals(fromMyPage)) {
+            return "redirect:/user/mypage";
+        }
         return "redirect:/products/" + productId;
     }
 }

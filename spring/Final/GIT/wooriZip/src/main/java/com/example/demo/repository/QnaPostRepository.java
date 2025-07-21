@@ -22,6 +22,8 @@ public interface QnaPostRepository extends JpaRepository<QnaPost, Long> {
 
     List<QnaPost> findByProductIdOrderByCreatedAtDesc(Long productId);
 
+    List<QnaPost> findByEmailOrderByCreatedAtDesc(String email);
+
     // 특정 QnA 게시글의 페이지 번호를 계산하는 쿼리
     @Query(value = """
            WITH post_position AS (

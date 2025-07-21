@@ -37,9 +37,6 @@ public class ProductDetailDto {
         return product.getPrice();
     }
 
-    public String getDescription() {
-        return product.getDescription();
-    }
 
     public List<?> getImages() {
         return product.getImages();

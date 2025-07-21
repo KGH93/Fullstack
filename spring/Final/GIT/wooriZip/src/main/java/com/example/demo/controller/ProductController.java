@@ -33,10 +33,11 @@ public class ProductController {
     private final AttributeRepository attributeRepository;
     private final AttributeValueRepository attributeValueRepository;
 
+
     @GetMapping("/admin/products")
     public String showProductForm(Model model, Authentication authentication) {
         String email = UserUtils.getEmail(authentication);
-        if (email == null) return "redirect:/login";
+        if (email == null) return "redirect:/user/login";
         model.addAttribute("loginUser", UserUtils.getUser(authentication));
 
         ProductForm productForm = new ProductForm();
@@ -59,18 +60,29 @@ public class ProductController {
 
     // 상품등록
     @PostMapping("/admin/products")
-    public String createProduct(@ModelAttribute ProductForm form,
-                                @RequestParam("images") MultipartFile[] images,
-                                Authentication authentication,
-                                Model model) {
+    public String createProduct(
+            @ModelAttribute ProductForm form,
+            @RequestParam("images") MultipartFile[] images,
+            @RequestParam(value = "productModelDtoListJson", required = false) String modelsJson,
+            Authentication authentication,
+            Model model) {
         String email = UserUtils.getEmail(authentication);
         try {
-            if (email == null) return "redirect:/login";
+            if (email == null) return "redirect:/user/login";
 
             Users loginUser = (Users) UserUtils.getUser(authentication);
 
+            // 옵션 리스트 JSON 파싱 (프론트에서 넘어온 경우)
+            if (modelsJson != null && !modelsJson.isEmpty()) {
+                com.fasterxml.jackson.databind.ObjectMapper objectMapper = new com.fasterxml.jackson.databind.ObjectMapper();
+                java.util.List<com.example.demo.dto.ProductModelDto> modelDtoList = objectMapper.readValue(
+                        modelsJson, new com.fasterxml.jackson.core.type.TypeReference<java.util.List<com.example.demo.dto.ProductModelDto>>() {}
+                );
+                form.setProductModelDtoList(modelDtoList);
+            }
+
             // 상품 등록 처리
-            Long productId = productService.createProduct(form, Arrays.asList(images), loginUser);
+            Long productId = productService.createProduct(form, java.util.Arrays.asList(images), loginUser);
 
             // 모델에 등록된 상품 정보를 전달
             model.addAttribute("productForm", form);  // 상품 등록 폼을 뷰로 전달
@@ -83,7 +95,12 @@ public class ProductController {
     }
 
     @GetMapping("/products")
-    public String showProductList(@RequestParam(name = "category", required = false) Long categoryId, Model model) {
+    public String showProductList(@RequestParam(name = "category", required = false) Long categoryId,
+                                  Model model, Authentication authentication) {
+        String email = UserUtils.getEmail(authentication);
+        if (email == null) return "redirect:/user/login";
+        model.addAttribute("loginUser", UserUtils.getUser(authentication));
+
         List<Product> productList = productService.findProducts(categoryId);
         model.addAttribute("products", productList);
         return "product/list"; // 실제 Thymeleaf 템플릿 경로에 맞게 조정
@@ -156,7 +173,7 @@ public class ProductController {
     public String toggleWishlist(@RequestParam Long productId,
                                  Authentication authentication) {
         String email = UserUtils.getEmail(authentication);
-        if (email == null) return "redirect:/login";
+        if (email == null) return "redirect:/user/login";
         Users user = (Users) UserUtils.getUser(authentication);
         wishlistService.toggleWishlist(user, productId);
         return "redirect:/products/" + productId;
@@ -166,7 +183,7 @@ public class ProductController {
     public String editProductForm(@PathVariable Long id,
                                   Model model, Authentication authentication) {
         String email = UserUtils.getEmail(authentication);
-        if (email == null) return "redirect:/login";
+        if (email == null) return "redirect:/user/login";
         Users loginUser = (Users) UserUtils.getUser(authentication);
         Product product = productService.findById(id);
         if (product.getUser() == null || !product.getUser().getId().equals(loginUser.getId())) {

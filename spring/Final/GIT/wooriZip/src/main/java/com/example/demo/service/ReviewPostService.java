@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
+import com.example.demo.entity.Users;
 
 @Service
 @RequiredArgsConstructor
@@ -183,5 +184,13 @@ public class ReviewPostService {
     // 1인 1리뷰 제한 확인
     public boolean hasWrittenReview(Long productId, String email) {
         return reviewPostRepository.existsByProductIdAndEmail(productId, email);
+    }
+
+    // 사용자가 작성한 리뷰 목록 조회
+    public List<ReviewPostDto> findByUser(Users user) {
+        return reviewPostRepository.findByEmailOrderByCreatedAtDesc(user.getEmail())
+                .stream()
+                .map(ReviewPostDto::fromEntity)
+                .collect(Collectors.toList());
     }
 }

@@ -16,4 +16,5 @@ public interface ReviewPostRepository extends JpaRepository<ReviewPost, Long> {
     Page<ReviewPost> findByProductId(Long productId, Pageable pageable);
 
     boolean existsByProductIdAndEmail(Long productId, String email); // 1인 1리뷰 제한용
+    List<ReviewPost> findByEmailOrderByCreatedAtDesc(String email);
 }

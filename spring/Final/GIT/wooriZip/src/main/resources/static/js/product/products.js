@@ -48,9 +48,9 @@ document.addEventListener("DOMContentLoaded", function () {
     // 2. 이미지 미리보기
     input.addEventListener('change', function () {
         selectedFiles = Array.from(this.files);
-        if (selectedFiles.length > 8) {
-            alert("이미지는 최대 8장까지 업로드할 수 있습니다.");
-            selectedFiles = selectedFiles.slice(0, 8);
+        if (selectedFiles.length > 4) {
+            alert("이미지는 최대 4장까지 업로드할 수 있습니다.");
+            selectedFiles = selectedFiles.slice(0, 4);
             this.value = '';
             preview.innerHTML = '';
             return;
@@ -62,82 +62,132 @@ document.addEventListener("DOMContentLoaded", function () {
             reader.onload = e => {
                 const box = document.createElement('div');
                 box.className = 'img-box';
-
                 const img = document.createElement('img');
                 img.src = e.target.result;
-
-                const btn = document.createElement('button');
-                btn.type = 'button';
-                btn.className = 'remove-btn';
-                btn.innerText = 'X';
-                btn.onclick = () => {
-                    const idx = selectedFiles.indexOf(file);
-                    if (idx > -1) selectedFiles.splice(idx, 1);
-                    box.remove();
-                };
-
                 box.appendChild(img);
-                box.appendChild(btn);
                 preview.appendChild(box);
             };
             reader.readAsDataURL(file);
         });
     });
 
-    // 3. 모델/옵션 추가
-    addModelBtn.addEventListener('click', function () {
-        fetch('/products/attributes')
-            .then(res => res.json())
-            .then(attributes => {
-                const item = createModelItem(attributes);
-                modelList.appendChild(item);
-                updateRemoveButtons();
+    // === 모든 조합 자동생성 및 옵션 테이블 ===
+    function getCheckedValuesWithLabel(name) {
+        return Array.from(document.querySelectorAll(`input[name="${name}"]:checked`))
+            .map(cb => ({ id: cb.value, label: cb.dataset.label }));
+    }
+
+    function cartesianProduct(arrays) {
+        return arrays.reduce((a, b) => a.flatMap(d => b.map(e => [...d, e])), [[]]);
+    }
+
+    function generateOptionTable() {
+        const colors = getCheckedValuesWithLabel('color');
+        const sizes = getCheckedValuesWithLabel('size');
+        const materials = getCheckedValuesWithLabel('material');
+
+        if (!colors.length || !sizes.length || !materials.length) {
+            alert('모든 속성에서 최소 1개 이상 선택하세요.');
+            return;
+        }
+
+        const allCombos = cartesianProduct([colors, sizes, materials]);
+        const tbody = document.querySelector('#optionTable tbody');
+        tbody.innerHTML = '';
+
+        allCombos.forEach((combo, idx) => {
+            const optionName = combo.map(c => c.label).join('/');
+            const attrIds = combo.map(c => c.id);
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td>
+                    <input type="hidden" class="attr-ids" value="${attrIds.join(',')}">
+                    <span>${optionName}</span>
+                </td>
+                <td><input type="number" class="option-price" min="0" required></td>
+                <td><input type="number" class="option-stock" min="0" required></td>
+            `;
+            tbody.appendChild(tr);
+        });
+
+        document.getElementById('optionTable').style.display = '';
+    }
+
+    document.getElementById('generateOptionsBtn').addEventListener('click', generateOptionTable);
+
+    // 폼 제출 시 모든 옵션을 JSON으로 변환
+    function collectOptionsToJson() {
+        const rows = document.querySelectorAll('#optionTable tbody tr');
+        const models = [];
+        rows.forEach(row => {
+            const attrIds = row.querySelector('.attr-ids').value.split(',');
+            const optionName = row.querySelector('span').innerText;
+            const price = row.querySelector('.option-price').value;
+            const prStock = row.querySelector('.option-stock').value;
+            models.push({
+                productModelSelect: optionName,
+                price: price,
+                prStock: prStock,
+                attributeValueIds: attrIds
             });
-    });
+        });
+        return models;
+    }
 
-    function createModelItem(attributes) {
-        const item = document.createElement('div');
-        item.className = 'model-item';
+    // 4. 옵션 추가 함수
+    window.addOption = function () {
+        const optionCount = optionContainer.children.length;
+        if (optionCount >= 10) {
+            alert("옵션은 최대 10개까지 추가할 수 있습니다.");
+            return;
+        }
 
-        let html = `
-            <h4>모델/옵션 ${modelList.children.length + 1}</h4>
-            <input type="text" placeholder="모델명/옵션명" name="productModelDtoList[${modelList.children.length}].productModelSelect" required>
-            <input type="number" placeholder="재고" name="productModelDtoList[${modelList.children.length}].prStock" required>
-            <input type="number" placeholder="가격" name="productModelDtoList[${modelList.children.length}].price" required>
-            <button type="button" class="remove-model-btn">모델 삭제</button>
-            <div class="attributes">
+        const div = document.createElement('div');
+        div.className = 'option-item';
+
+        let colorChecks = '', sizeChecks = '', materialChecks = '';
+        window.attributeValues.forEach(val => {
+            const checkbox = `<input type="checkbox" name="productModelDtoList[${optionCount}].attributeValueIds" value="${val.id}">${val.value} `;
+            if (val.attributeName === '색상') colorChecks += checkbox;
+            if (val.attributeName === '사이즈') sizeChecks += checkbox;
+            if (val.attributeName === '소재') materialChecks += checkbox;
+        });
+
+        div.innerHTML = `
+            <label>모델명:</label>
+            <input type="text" name="productModelDtoList[${optionCount}].productModelSelect" placeholder="모델명" required><br/>
+            <label>재고:</label>
+            <input type="number" name="productModelDtoList[${optionCount}].prStock" placeholder="재고 입력"><br/>
+            <label>가격:</label>
+            <input type="number" name="productModelDtoList[${optionCount}].price" placeholder="가격 입력"><br/>
+            <div class="option-attributes">
+                <label>색상:</label> ${colorChecks}<br/>
+                <label>사이즈:</label> ${sizeChecks}<br/>
+                <label>소재:</label> ${materialChecks}
+            </div>
+            <button type="button" class="removeOptionBtn">옵션 삭제</button>
+            <hr/>
         `;
 
-        Object.entries(attributes).forEach(([attrName, values]) => {
-            html += `<div class="attr-group">
-                <strong>${attrName}:</strong>`;
-            values.forEach(val => {
-                html += `<label><input type="checkbox" name="productModelDtoList[${modelList.children.length}].attributeValueIds" value="${val.id}"> ${val.value}</label>`;
-            });
-            html += `</div>`;
-        });
-
-        html += `</div>`;
-        item.innerHTML = html;
-
-        item.querySelector('.remove-model-btn').addEventListener('click', function () {
-            item.remove();
-            updateIndexes();
-            updateRemoveButtons();
-        });
-
-        return item;
-    }
+        optionContainer.appendChild(div);
+        updateRemoveButtons();
+    };
 
     function updateRemoveButtons() {
-        const removeButtons = document.querySelectorAll('.remove-model-btn');
-        removeButtons.forEach(btn => {
-            btn.style.display = modelList.children.length > 1 ? 'inline-block' : 'none';
+        const items = optionContainer.querySelectorAll('.option-item');
+        items.forEach((item, idx) => {
+            const btn = item.querySelector('.removeOptionBtn');
+            btn.style.display = (items.length > 1) ? '' : 'none';
+            btn.onclick = function () {
+                item.remove();
+                reorderOptionNames();
+                updateRemoveButtons();
+            };
         });
     }
 
-    function updateIndexes() {
-        const items = Array.from(modelList.children);
+    function reorderOptionNames() {
+        const items = optionContainer.querySelectorAll('.option-item');
         items.forEach((item, idx) => {
             item.querySelector('input[name$=".productModelSelect"]').name = `productModelDtoList[${idx}].productModelSelect`;
             item.querySelector('input[name$=".prStock"]').name = `productModelDtoList[${idx}].prStock`;
@@ -151,4 +201,46 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     updateRemoveButtons(); // 초기화
+
+    // 기존 폼 제출 이벤트 오버라이드
+    form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        let models = [];
+        // optionTable이 보이면 테이블 기반, 아니면 기존 방식
+        if (document.getElementById('optionTable').style.display !== 'none') {
+            models = collectOptionsToJson();
+        } else {
+            // 기존 옵션 입력 UI (숨겨져 있지만 혹시 모를 fallback)
+            const optionItems = optionContainer.querySelectorAll('.option-item');
+            optionItems.forEach(item => {
+                const model = {
+                    productModelSelect: item.querySelector('input[name$=".productModelSelect"]').value,
+                    prStock: item.querySelector('input[name$=".prStock"]').value,
+                    price: item.querySelector('input[name$=".price"]').value,
+                    attributeValueIds: Array.from(item.querySelectorAll('input[type="checkbox"]:checked')).map(cb => cb.value)
+                };
+                models.push(model);
+            });
+        }
+
+        const formData = new FormData(form);
+        // 기존 옵션 관련 필드 제거
+        for (let pair of formData.keys()) {
+            if (pair.startsWith('productModelDtoList[')) {
+                formData.delete(pair);
+            }
+        }
+        formData.append('productModelDtoListJson', JSON.stringify(models));
+
+        fetch(form.action, {
+            method: 'POST',
+            body: formData
+        }).then(res => {
+            if (res.redirected) {
+                location.href = res.url;
+            } else {
+                alert('등록 실패');
+            }
+        }).catch(() => alert('에러 발생'));
+    });
 });

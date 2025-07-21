@@ -11,6 +11,9 @@ import com.example.demo.repository.WishlistRepository;
 import com.example.demo.repository.AttributeValueRepository;
 import com.example.demo.repository.ProductAttributeRepository;
 import com.example.demo.repository.ProductModelAttributeRepository;
+import com.example.demo.repository.ProductModelRepository;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -35,6 +38,7 @@ public class ProductService {
     private final AttributeValueRepository attributeValueRepository;
     private final ProductAttributeRepository productAttributeRepository;
     private final ProductModelAttributeRepository productModelAttributeRepository;
+    private final ProductModelRepository productModelRepository;
 
     // ✅ 상품 등록
     public Long createProduct(ProductForm form,
@@ -193,26 +197,45 @@ public class ProductService {
         // 2. 사용자가 찜한 상품 여부 체크
         boolean liked = user != null && wishlistRepository.existsByUserAndProduct(user, product);
 
-        // 3. 모델 정보와 가격, 재고 등을 포함한 상세 정보를 DTO로 반환
-        List<ProductModelDto> modelDtos = product.getProductModels().stream()
+        // 3. productId로 모든 ProductModel 조회 (productCode 대신 productId 사용)
+        List<ProductModel> allModels = productModelRepository.findAllByProduct_ProductId(productId);
+
+        List<ProductModelDto> modelDtos = allModels.stream()
                 .map(model -> {
                     ProductModelDto dto = new ProductModelDto();
-                    dto.setProductModelSelect(model.getProductModelSelect()); // 모델명(자유입력)
+                    dto.setId(model.getId()); // ID 매핑 확인
+                    dto.setProductModelSelect(model.getProductModelSelect());// 모델명(자유입력)
                     dto.setPrice(model.getPrice()); // 가격
                     dto.setPrStock(model.getPrStock()); // 재고
                     if (model.getModelAttributes() != null && !model.getModelAttributes().isEmpty()) {
                         java.util.List<Long> attrValueIds = model.getModelAttributes().stream()
                                 .map(pma -> pma.getAttributeValue().getId())
-                                .toList();
+                                .collect(Collectors.toList());
                         dto.setAttributeValueIds(attrValueIds);
-                        // 추가: 문자열로 변환
-                        dto.setAttributeValueIdsStr(attrValueIds.stream().map(String::valueOf).collect(java.util.stream.Collectors.joining(",")));
+                        try {
+                            ObjectMapper objectMapper = new ObjectMapper();
+                            dto.setAttributeValueIdsStr(objectMapper.writeValueAsString(attrValueIds));
+                        } catch (JsonProcessingException e) {
+                            log.error("Error converting attrValueIds to JSON string", e);
+                            dto.setAttributeValueIdsStr(""); // 변환 실패 시 빈 문자열
+                        }
                     } else {
                         dto.setAttributeValueIds(new java.util.ArrayList<>());
-                        dto.setAttributeValueIdsStr("");
+                        dto.setAttributeValueIdsStr("[]"); // 빈 배열이면 "[]"로 설정
                     }
                     return dto;
-                }).collect(java.util.stream.Collectors.toList());
+                }).collect(Collectors.toList());
+
+        // ======= 로그 출력 =======
+        log.info("--- ProductModelDto List for Product ID: {} ---", productId);
+        for (ProductModelDto model : modelDtos) {
+            log.info("ProductModel ID: {}, ProductModelSelect: '{}', Price: {}, Stock: {}, AttrIdsStr: '{}'",
+                    model.getId(), model.getProductModelSelect(), model.getPrice(), model.getPrStock(), model.getAttributeValueIdsStr());
+        }
+        log.info("modelDtos is null? {}", modelDtos == null);
+        log.info("modelDtos is empty? {}", modelDtos != null && modelDtos.isEmpty());
+        log.info("---------------------------------------------");
+        // =======================
 
         // 4. ProductDetailDto 생성 후 모델 정보 설정
         ProductDetailDto detailDto = new ProductDetailDto(product, liked);
@@ -262,7 +285,6 @@ public class ProductService {
         // 상품 정보 업데이트
         product.setName(form.getName());
         product.setPrice(form.getPrice());
-        product.setDescription(form.getDescription());
 
         // 기존 속성값(ProductAttribute) 모두 삭제 후 재등록
         if (product.getProductAttributes() != null) {

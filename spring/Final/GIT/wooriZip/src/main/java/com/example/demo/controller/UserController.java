@@ -16,6 +16,13 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 import java.util.Optional;
+import com.example.demo.service.InteriorPostService;
+import com.example.demo.service.QnaPostService;
+import com.example.demo.service.ReviewPostService;
+import com.example.demo.dto.InteriorPostDto;
+import com.example.demo.dto.QnaPostDto;
+import com.example.demo.dto.ReviewPostDto;
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -25,6 +32,9 @@ public class UserController {
     private final UserService userService;
     private final PasswordResetService passwordResetService;
     private final EmailService emailService;
+    private final InteriorPostService interiorPostService;
+    private final QnaPostService qnaPostService;
+    private final ReviewPostService reviewPostService;
 
     @GetMapping("/signup")
     public String singupForm() {
@@ -50,9 +60,18 @@ public class UserController {
         if (loginUser != null) {
             model.addAttribute("loginUser", loginUser);
             model.addAttribute("userCoupons", userService.getUserCoupons(loginUser));
+            
+            // 내가 작성한 게시글 목록
+            List<InteriorPostDto> interiorPosts = interiorPostService.findByUser(loginUser);
+            List<QnaPostDto> qnaPosts = qnaPostService.findByUser(loginUser);
+            List<ReviewPostDto> reviewPosts = reviewPostService.findByUser(loginUser);
+
+            model.addAttribute("myInteriorPosts", interiorPosts);
+            model.addAttribute("myQnaPosts", qnaPosts);
+            model.addAttribute("myReviews", reviewPosts);
         }
 
-        return "/user/mypage";
+        return "user/mypage";
     }
 
 

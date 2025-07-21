@@ -29,7 +29,7 @@ public class QnaPostController {
                          Authentication authentication) throws IOException {
 
         String email = UserUtils.getEmail(authentication);
-        if (email == null) return "redirect:/login";
+        if (email == null) return "redirect:/user/login";
         Users user = (Users) UserUtils.getUser(authentication);
         dto.setProductId(productId);
         dto.setEmail(user.getEmail());
@@ -40,20 +40,21 @@ public class QnaPostController {
         }
 
         qnaPostService.saveQna(dto);
-        return "redirect:/products/" + productId + "#qna-tab";
+        return String.format("redirect:/products/%d?activeTab=qna", productId);
     }
 
-    // QnA 수정 (파일 재업로드 포함)
+    // QnA 수정
     @PostMapping("/update/{id}")
     public String update(@PathVariable Long id,
                          @ModelAttribute QnaPostDto dto,
                          @RequestParam(value = "files", required = false) MultipartFile[] files,
                          @RequestParam(required = false) Integer qnaPage,
                          @RequestParam(required = false) String qnaFilter,
+                         @RequestParam(required = false) Boolean fromMyPage,
                          Authentication authentication) throws IOException {
 
         String email = UserUtils.getEmail(authentication);
-        if (email == null) return "redirect:/login";
+        if (email == null) return "redirect:/user/login";
         Users user = (Users) UserUtils.getUser(authentication);
         dto.setEmail(user.getEmail());
         dto.setNickname(user.getNickname());
@@ -64,27 +65,27 @@ public class QnaPostController {
 
         qnaPostService.updateQna(id, dto);
 
-        // 페이지와 필터 정보 유지
-        String pageParam = qnaPage != null ? "?qnaPage=" + qnaPage : "";
-        String filterParam = qnaFilter != null ? (pageParam.isEmpty() ? "?" : "&") + "qnaFilter=" + qnaFilter : "";
-        return "redirect:/products/" + dto.getProductId() + pageParam + filterParam + "#qna-tab";
+        if (Boolean.TRUE.equals(fromMyPage)) {
+            return "redirect:/user/mypage";
+        }
+
+        return String.format("redirect:/products/%d?activeTab=qna", dto.getProductId());
     }
 
     // QnA 삭제
     @PostMapping("/delete/{id}")
     public String delete(@PathVariable Long id,
                          @RequestParam Long productId,
-                         @RequestParam(required = false) Integer qnaPage,
-                         @RequestParam(required = false) String qnaFilter,
+                         @RequestParam(required = false) Boolean fromMyPage,
                          Authentication authentication) {
         String email = UserUtils.getEmail(authentication);
-        if (email == null) return "redirect:/login";
+        if (email == null) return "redirect:/user/login";
         Users user = (Users) UserUtils.getUser(authentication);
         qnaPostService.deleteQna(id, user.getEmail());
 
-        // 페이지와 필터 정보 유지
-        String pageParam = qnaPage != null ? "?qnaPage=" + qnaPage : "";
-        String filterParam = qnaFilter != null ? (pageParam.isEmpty() ? "?" : "&") + "qnaFilter=" + qnaFilter : "";
-        return "redirect:/products/" + productId + pageParam + filterParam + "#qna-tab";
+        if (Boolean.TRUE.equals(fromMyPage)) {
+            return "redirect:/user/mypage";
+        }
+        return String.format("redirect:/products/%d?activeTab=qna", productId);
     }
 }

@@ -13,7 +13,7 @@ import java.util.List;
 public class ProductForm {
     private Long id;
     private String name;
-    private String description; // 사물
+//    private String description; // 설명
     private int price;
     private Category category;
     private int stockQuantity;
@@ -31,7 +31,6 @@ public class ProductForm {
     public Product createProduct(Category category, Users user) {
         Product product = new Product();
         product.setName(this.name);
-        product.setDescription(this.description);
         product.setPrice(this.price);
         product.setCategory(category); // 엔티티 기준
         product.setUser(user);
@@ -60,7 +59,6 @@ public class ProductForm {
         ProductForm form = new ProductForm();
         form.setId(product.getId());
         form.setName(product.getName());
-        form.setDescription(product.getDescription());
         form.setPrice(product.getPrice());
 
         // 모델 정보 매핑 (옵션)
