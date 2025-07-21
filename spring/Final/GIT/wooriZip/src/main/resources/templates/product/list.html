@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>상품 목록</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Stardos+Stencil:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div th:replace="~{index/header :: header}"></div>
+<h2>전체 상품</h2>
+
+<h2>상품 검색</h2>
+
+<!-- 카테고리 선택 -->
+<label for="parentCategory">대분류:</label>
+<select id="parentCategory"></select>
+
+<label for="childCategory">소분류:</label>
+<select id="childCategory"></select>
+
+<button onclick="filterByCategory()">검색</button>
+
+<div th:each="product : ${products}">
+    <div>
+        <img th:if="${product.thumbnailUrl != null}"
+             th:src="@{${product.thumbnailUrl}}"
+             alt="썸네일"
+             width="150" height="150"/>
+    </div>
+    <div>
+        <a th:href="@{'/products/' + ${product.id}}">
+            <strong th:text="${product.name}"></strong>
+        </a>
+    </div>
+    <div>
+        <span th:text="'₩' + ${product.price}"></span>
+    </div>
+</div>
+<script src="/js/product/list.js"></script>
+</body>
+</html>

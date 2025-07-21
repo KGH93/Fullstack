@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>글쓰기</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Stardos+Stencil:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/interior/write.css">
+</head>
+<body>
+<div th:replace="~{index/header :: header}"></div>
+
+<div class="container">
+    <h1>인테리어 글쓰기</h1>
+
+    <form id="writeForm" enctype="multipart/form-data">
+        <label>제목:</label>
+        <input type="text" name="title" required>
+
+        <div th:if="${loginUser != null}">
+            <label>작성자:</label>
+            <input type="text" th:value="${loginUser.nickname}" readonly>
+            <input type="hidden" name="email" th:value="${loginUser.email}">
+        </div>
+
+        <label>내용:</label>
+        <textarea name="content" rows="10" required></textarea>
+
+        <label>사진 첨부 (최대 8장):</label>
+        <input type="file" id="imageInput" accept="image/*">
+
+        <div id="previewContainer"></div>
+
+        <div class="btn-box">
+            <button type="button" id="submitBtn">등록</button>
+            <button type="button" onclick="location.href='/interior'">취소</button>
+        </div>
+    </form>
+</div>
+
+<div th:replace="~{index/footer :: footer}"></div>
+<script src="/js/interior/write.js"></script>
+</body>
+</html>

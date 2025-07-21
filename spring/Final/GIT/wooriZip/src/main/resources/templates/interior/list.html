@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>인테리어 자랑 게시판</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Stardos+Stencil:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/interior/list.css">
+</head>
+<body>
+<div th:replace="~{index/header :: header}"></div>
+
+<div class="container">
+    <h1>인테리어 자랑 게시판</h1>
+
+    <!-- 글쓰기 버튼 -->
+    <button type="button"
+            class="write-btn"
+            th:if="${loginUser != null}"
+            th:onclick="'location.href=\'/interior/write\''">
+        자랑글 작성하기
+    </button>
+
+    <table>
+        <thead>
+        <tr>
+            <th>번호</th>
+            <th>제목</th>
+            <th>작성자</th>
+            <th>조회수</th>
+            <th>작성일</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:if="${postPage.content.empty}">
+            <td colspan="5">게시글이 없습니다.</td>
+        </tr>
+        <tr th:each="post : ${postPage.content}">
+            <td th:text="${post.postId}">1</td>
+            <td><a th:href="@{|/interior/${post.postId}|}" th:text="${post.title}">제목</a></td>
+            <td th:text="${post.nickname}">작성자</td>
+            <td th:text="${post.views}">0</td>
+            <td th:text="${#temporals.format(post.createdAt, 'yyyy-MM-dd HH:mm')}">날짜</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <!-- 페이지네이션 -->
+    <div class="pagination" th:with="total=${totalPages > 0 ? totalPages : 1}">
+    <span th:if="${currentPage > 1}">
+      <a th:href="@{/interior(page=${currentPage - 1})}">이전</a>
+    </span>
+        <span th:if="${currentPage == 1}">
+      <span>이전</span>
+    </span>
+
+        <span th:each="i : ${#numbers.sequence(1, total)}">
+      <a th:href="@{/interior(page=${i})}"
+         th:text="${i}"
+         th:classappend="${i == currentPage} ? 'active' : ''">
+      </a>
+    </span>
+
+        <span th:if="${currentPage < total}">
+      <a th:href="@{/interior(page=${currentPage + 1})}">다음</a>
+    </span>
+        <span th:if="${currentPage == total}">
+      <span>다음</span>
+    </span>
+    </div>
+</div>
+
+<div th:replace="~{index/footer :: footer}"></div>
+</body>
+</html>
