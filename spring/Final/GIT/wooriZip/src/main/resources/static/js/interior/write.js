@@ -35,12 +35,6 @@ document.getElementById('submitBtn').addEventListener('click', function () {
     const form = document.getElementById('writeForm');
     const formData = new FormData(form);
 
-    // 공지사항 체크박스 값 추가
-    const noticeCheckbox = form.querySelector('input[name="isNotice"]');
-    if (noticeCheckbox) {
-        formData.append("isNotice", noticeCheckbox.checked);
-    }
-
     selectedFiles.forEach(file => {
         formData.append("files", file);
     });
@@ -56,8 +50,6 @@ document.getElementById('submitBtn').addEventListener('click', function () {
         } else if (result === 'unauthorized') {
             alert("로그인 후 작성 가능합니다.");
             location.href = '/user/login';
-        } else if (result === 'forbidden') {
-            alert("관리자만 공지사항을 작성할 수 있습니다.");
         } else {
             alert("등록 실패");
         }

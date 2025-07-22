@@ -1,6 +1,7 @@
 package com.example.demo.repository;
 
 import com.example.demo.entity.QnaPost;
+import com.example.demo.entity.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -35,4 +36,6 @@ public interface QnaPostRepository extends JpaRepository<QnaPost, Long> {
            FROM post_position
            """, nativeQuery = true)
     int getQnaPageNumber(@Param("productId") Long productId, @Param("postId") Long postId);
+
+    void deleteByProduct(Product product);// 0721 해당 상품 관련 product_id가 있는 행 삭제 상품관리
 }

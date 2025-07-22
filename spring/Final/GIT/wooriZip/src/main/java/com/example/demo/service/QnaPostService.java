@@ -163,14 +163,14 @@ public class QnaPostService {
             qnaAnswerRepository.findByQnaPost(post).ifPresent(answer ->
                     dto.setAnswer(QnaAnswerDto.fromEntity(answer))
             );
-            
+
             // 필터 적용
             boolean shouldAdd = switch (filter) {
                 case "answered" -> dto.getAnswer() != null;
                 case "unanswered" -> dto.getAnswer() == null;
                 default -> true; // "all" 또는 기타 값
             };
-            
+
             if (shouldAdd) {
                 result.add(dto);
             }
@@ -182,7 +182,7 @@ public class QnaPostService {
     // 총 질문 수 (필터 적용)
     public long countByProduct(Long productId, String filter) {
         List<QnaPost> allPosts = qnaPostRepository.findByProductIdOrderByCreatedAtDesc(productId);
-        
+
         return switch (filter) {
             case "answered" -> allPosts.stream().filter(post -> post.getAnswer() != null).count();
             case "unanswered" -> allPosts.stream().filter(post -> post.getAnswer() == null).count();
@@ -199,41 +199,41 @@ public class QnaPostService {
 
     public Map<String, Long> getQnaStatistics() {
         List<QnaPost> allQna = qnaPostRepository.findAll();
-        
+
         Map<String, Long> stats = new HashMap<>();
         stats.put("total", (long) allQna.size());
         stats.put("answered", allQna.stream().filter(qna -> qna.getAnswer() != null).count());
         stats.put("unanswered", allQna.stream().filter(qna -> qna.getAnswer() == null).count());
-        
+
         return stats;
     }
 
     public Map<String, Map<String, Object>> getQnaByCategoryWithStatus() {
         List<QnaPost> allQna = qnaPostRepository.findAll();
         Map<String, Map<String, Object>> categoryStats = new HashMap<>();
-        
+
         // 각 상품별로 QnA 게시글을 그룹화하고 생성일 기준 내림차순 정렬
         Map<Long, List<QnaPost>> productQnas = allQna.stream()
                 .collect(Collectors.groupingBy(
-                    qna -> qna.getProduct().getId(),
-                    Collectors.collectingAndThen(
-                        Collectors.toList(),
-                        list -> {
-                            list.sort((a, b) -> b.getCreatedAt().compareTo(a.getCreatedAt()));
-                            return list;
-                        }
-                    )
+                        qna -> qna.getProduct().getId(),
+                        Collectors.collectingAndThen(
+                                Collectors.toList(),
+                                list -> {
+                                    list.sort((a, b) -> b.getCreatedAt().compareTo(a.getCreatedAt()));
+                                    return list;
+                                }
+                        )
                 ));
-        
+
         allQna.forEach(qna -> {
             String category = qna.getProduct().getCategory().getName();
             categoryStats.putIfAbsent(category, new HashMap<>());
-            
+
             Map<String, Object> stats = categoryStats.get(category);
-            
+
             List<Map<String, Object>> answeredList = (List<Map<String, Object>>) stats.getOrDefault("answeredList", new ArrayList<Map<String, Object>>());
             List<Map<String, Object>> unansweredList = (List<Map<String, Object>>) stats.getOrDefault("unansweredList", new ArrayList<Map<String, Object>>());
-            
+
             // 해당 상품의 QnA 목록에서 현재 게시글의 위치를 찾아 페이지 번호 계산
             List<QnaPost> productQnaList = productQnas.get(qna.getProduct().getId());
             int position = 0;
@@ -243,36 +243,36 @@ public class QnaPostService {
                     break;
                 }
             }
-            
+
             // 페이지 번호 계산 (5개씩 페이징, 최신글이 1페이지)
             int pageNum = (position / 5) + 1;
-            
+
             Map<String, Object> postInfo = new HashMap<>();
             postInfo.put("post", qna);
             postInfo.put("page", pageNum);
-            
+
             if (qna.getAnswer() != null) {
                 answeredList.add(postInfo);
             } else {
                 unansweredList.add(postInfo);
             }
-            
+
             // 답변 완료/미답변 목록도 생성일 기준 내림차순 정렬
             Comparator<Map<String, Object>> byCreatedAt = (m1, m2) -> {
                 QnaPost p1 = (QnaPost) m1.get("post");
                 QnaPost p2 = (QnaPost) m2.get("post");
                 return p2.getCreatedAt().compareTo(p1.getCreatedAt());
             };
-            
+
             answeredList.sort(byCreatedAt);
             unansweredList.sort(byCreatedAt);
-            
+
             stats.put("answeredList", answeredList);
             stats.put("unansweredList", unansweredList);
             stats.put("answered", answeredList.size());
             stats.put("unanswered", unansweredList.size());
         });
-        
+
         return categoryStats;
     }
 

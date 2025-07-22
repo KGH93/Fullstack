@@ -9,9 +9,12 @@ import com.example.demo.repository.ProductImageRepository;
 import com.example.demo.repository.ProductRepository;
 import com.example.demo.repository.WishlistRepository;
 import com.example.demo.repository.AttributeValueRepository;
-import com.example.demo.repository.ProductAttributeRepository;
 import com.example.demo.repository.ProductModelAttributeRepository;
 import com.example.demo.repository.ProductModelRepository;
+import com.example.demo.repository.OrderItemRepository;
+import com.example.demo.repository.CartItemRepository;
+import com.example.demo.repository.QnaPostRepository;
+import com.example.demo.repository.ProductDetailRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +23,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.io.File;
 import java.io.IOException;
@@ -36,9 +41,12 @@ public class ProductService {
     private final WishlistRepository wishlistRepository;
     private final CategoryRepository categoryRepository;
     private final AttributeValueRepository attributeValueRepository;
-    private final ProductAttributeRepository productAttributeRepository;
     private final ProductModelAttributeRepository productModelAttributeRepository;
     private final ProductModelRepository productModelRepository;
+    private final OrderItemRepository orderItemRepository;
+    private final CartItemRepository cartItemRepository;
+    private final QnaPostRepository qnaPostRepository;
+    private final ProductDetailRepository productDetailRepository;
 
     // ✅ 상품 등록
     public Long createProduct(ProductForm form,
@@ -115,25 +123,8 @@ public class ProductService {
 
         product = productRepository.save(product);  // 연관 엔티티까지 한 번만 저장
 
-        // 5. 속성값(ProductAttribute) 저장
-        if (form.getAttributeValueIds() != null && !form.getAttributeValueIds().isEmpty()) {
-            for (Long attrValueId : form.getAttributeValueIds()) {
-                AttributeValue attrValue = attributeValueRepository.findById(attrValueId)
-                        .orElseThrow(() -> new IllegalArgumentException("속성값이 존재하지 않습니다."));
-                ProductAttribute pa = new ProductAttribute();
-                pa.setProduct(product);
-                pa.setAttributeValue(attrValue);
-                product.getProductAttributes().add(pa);
-                productAttributeRepository.save(pa);
-            }
-        }
-
         return product.getId();  // 상품 ID만 반환
     }
-
-
-
-
 
     // 이미지 저장 유틸 (변경 없음)
     private List<String> handleAndReturnFiles(MultipartFile[] files) {
@@ -197,7 +188,7 @@ public class ProductService {
         // 2. 사용자가 찜한 상품 여부 체크
         boolean liked = user != null && wishlistRepository.existsByUserAndProduct(user, product);
 
-        // 3. productId로 모든 ProductModel 조회 (productCode 대신 productId 사용)
+        // 3. productId로 모든 ProductModel 조회
         List<ProductModel> allModels = productModelRepository.findAllByProduct_ProductId(productId);
 
         List<ProductModelDto> modelDtos = allModels.stream()
@@ -226,17 +217,6 @@ public class ProductService {
                     return dto;
                 }).collect(Collectors.toList());
 
-        // ======= 로그 출력 =======
-        log.info("--- ProductModelDto List for Product ID: {} ---", productId);
-        for (ProductModelDto model : modelDtos) {
-            log.info("ProductModel ID: {}, ProductModelSelect: '{}', Price: {}, Stock: {}, AttrIdsStr: '{}'",
-                    model.getId(), model.getProductModelSelect(), model.getPrice(), model.getPrStock(), model.getAttributeValueIdsStr());
-        }
-        log.info("modelDtos is null? {}", modelDtos == null);
-        log.info("modelDtos is empty? {}", modelDtos != null && modelDtos.isEmpty());
-        log.info("---------------------------------------------");
-        // =======================
-
         // 4. ProductDetailDto 생성 후 모델 정보 설정
         ProductDetailDto detailDto = new ProductDetailDto(product, liked);
         detailDto.setProductModels(modelDtos);  // 모델 정보 추가
@@ -244,7 +224,6 @@ public class ProductService {
         // 5. 반환
         return detailDto;
     }
-
 
     // ✅ 상품 수정
     @Transactional
@@ -286,23 +265,6 @@ public class ProductService {
         product.setName(form.getName());
         product.setPrice(form.getPrice());
 
-        // 기존 속성값(ProductAttribute) 모두 삭제 후 재등록
-        if (product.getProductAttributes() != null) {
-            productAttributeRepository.deleteAll(product.getProductAttributes());
-            product.getProductAttributes().clear();
-        }
-        if (form.getAttributeValueIds() != null && !form.getAttributeValueIds().isEmpty()) {
-            for (Long attrValueId : form.getAttributeValueIds()) {
-                AttributeValue attrValue = attributeValueRepository.findById(attrValueId)
-                        .orElseThrow(() -> new IllegalArgumentException("속성값이 존재하지 않습니다."));
-                ProductAttribute pa = new ProductAttribute();
-                pa.setProduct(product);
-                pa.setAttributeValue(attrValue);
-                product.getProductAttributes().add(pa);
-                productAttributeRepository.save(pa);
-            }
-        }
-
         productRepository.save(product);
     }
 
@@ -319,6 +281,11 @@ public class ProductService {
                 .orElseThrow(() -> new IllegalArgumentException("상품이 존재하지 않습니다."));
     }
 
+    // 상품 + 카테고리 계층 fetch join
+    public Product findWithCategoryTreeById(Long id) {
+        return productRepository.findWithCategoryTreeById(id);
+    }
+
     @Transactional
     public void deleteProduct(Long id, Users user) {
         Product product = productRepository.findById(id)
@@ -328,9 +295,38 @@ public class ProductService {
             throw new AccessDeniedException("상품 삭제 권한이 없습니다.");
         }
 
+        // 1. 옵션(모델) 목록
+        List<ProductModel> productModels = product.getProductModels();
+
+        // 2. order_item에서 해당 옵션을 참조하는 row 삭제
+        orderItemRepository.deleteByProductModelIn(productModels);
+
+        // 3. wishlist에서 해당 상품을 참조하는 row 삭제
+        wishlistRepository.deleteByProduct(product);
+
+        // 4. cart_item에서 해당 상품을 참조하는 row 삭제
+        cartItemRepository.deleteByProduct(product);
+
+        // 5. qna_post에서 해당 상품을 참조하는 row 삭제
+        qnaPostRepository.deleteByProduct(product);
+
+        // 6. product_detail에서 해당 상품을 참조하는 row 삭제
+        productDetailRepository.deleteByProduct(product);
+
+        // 7. 이미지, 옵션 등 연관 엔티티 삭제 (기존 코드)
         imageRepository.deleteAll(product.getImages());
         product.getProductModels().clear();
 
+        // 8. 상품 삭제
         productRepository.delete(product);
+
+    }
+
+    public List<Product> findByUser(Long userId) {
+        List<Long> myWishList = wishlistRepository.findProductByUser(userId);
+        if(myWishList.isEmpty()) {
+            return Collections.emptyList();
+        }
+        return productRepository.findByIdIn(myWishList);
     }
 }

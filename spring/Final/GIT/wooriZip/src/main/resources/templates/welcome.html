@@ -1,32 +1,360 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>우리집</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Stardos+Stencil:wght@400;700&display=swap" rel="stylesheet">
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" defer></script>
+    <script>
+        window.addEventListener('scroll', function () {
+            const header = document.querySelector('.header');
+            if (window.scrollY > 10) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+    </script>
+    <style>
+        .container-1440 {
+               width: 1440px;
+               max-width: 100%;
+               margin: 0 auto;
+           }
+    </style>
 </head>
-
-<script>
-    window.addEventListener('scroll', function () {
-        const header = document.querySelector('.header');
-        if (window.scrollY > 10) {
-            header.classList.add('scrolled');
-        } else {
-            header.classList.remove('scrolled');
-        }
-    });
-</script>
-
 <body>
 <div th:replace="~{index/header :: header}"></div>
+
+<div class="container-1440 mt-4">
+
+    <!-- ✅ 1. 슬라이드 (Carousel) -->
+    <div id="mainCarousel" class="carousel slide mb-5" data-bs-ride="carousel">
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="/images/slide1.jpg" class="d-block w-100" alt="슬라이드1">
+            </div>
+            <div class="carousel-item">
+                <img src="/images/slide2.jpg" class="d-block w-100" alt="슬라이드2">
+            </div>
+            <div class="carousel-item">
+                <img src="/images/slide3.jpg" class="d-block w-100" alt="슬라이드3">
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#mainCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon"></span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#mainCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon"></span>
+        </button>
+    </div>
+
+    <!-- ✅ 2. 제목 -->
+    <h2 class="text-center mb-4">Recomman Product</h2>
+
+    <div class="text-center mb-5">
+        <a href="/products" class="btn btn-primary px-4">전체 상품 보기</a>
+    </div>
+    <!-- ✅ 3. 카드 갤러리 (3장 * 2줄 = 총 6장) -->
+    <div class="row row-cols-1 row-cols-md-3 g-4 mb-4">
+        <!-- 카드 6장 반복 -->
+        <!--        <div class="col" th:each="product : ${products}">-->
+        <!--            <div class="card h-100">-->
+        <!--                <img th:src="@{${product.imageUrl}}" class="card-img-top" alt="상품 이미지">-->
+        <!--                <div class="card-body">-->
+        <!--                    <h5 class="card-title" th:text="${product.name}">상품명</h5>-->
+        <!--                    <p class="card-text" th:text="${product.description}">상품 설명</p>-->
+        <!--                </div>-->
+        <!--                <div class="card-footer text-end">-->
+        <!--                    <a th:href="@{'/products/' + ${product.id}}" class="btn btn-outline-primary">상세보기</a>-->
+        <!--                </div>-->
+        <!--            </div>-->
+        <!--        </div>-->
+        <!--    </div>-->
+
+        <!-- ✅ 4. 버튼 (예: 전체 상품 보기) -->
+
+        <!-- 카드 1 -->
+        <div class="col">
+            <div class="card h-100">
+                <img src="https://picsum.photos/id/1015/400/300" class="card-img-top" alt="상품1">
+                <div class="card-body">
+                    <h5 class="card-title">Wireless Headphones</h5>
+                    <p class="card-text">고음질 블루투스 무선 헤드폰입니다.</p>
+                </div>
+                <div class="card-footer text-end">
+                    <a href="#" class="btn btn-outline-primary">상세보기</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- 카드 2 -->
+        <div class="col">
+            <div class="card h-100">
+                <img src="https://picsum.photos/id/1020/400/300" class="card-img-top" alt="상품2">
+                <div class="card-body">
+                    <h5 class="card-title">Smart Watch</h5>
+                    <p class="card-text">헬스 기능이 탑재된 스마트 워치입니다.</p>
+                </div>
+                <div class="card-footer text-end">
+                    <a href="#" class="btn btn-outline-primary">상세보기</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- 카드 3 -->
+        <div class="col">
+            <div class="card h-100">
+                <img src="https://picsum.photos/id/1039/400/300" class="card-img-top" alt="상품3">
+                <div class="card-body">
+                    <h5 class="card-title">Camera</h5>
+                    <p class="card-text">여행용 고화질 미러리스 카메라입니다.</p>
+                </div>
+                <div class="card-footer text-end">
+                    <a href="#" class="btn btn-outline-primary">상세보기</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- 카드 4 -->
+        <div class="col">
+            <div class="card h-100">
+                <img src="https://picsum.photos/id/1050/400/300" class="card-img-top" alt="상품4">
+                <div class="card-body">
+                    <h5 class="card-title">Laptop</h5>
+                    <p class="card-text">휴대성과 성능을 모두 갖춘 노트북입니다.</p>
+                </div>
+                <div class="card-footer text-end">
+                    <a href="#" class="btn btn-outline-primary">상세보기</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- 카드 5 -->
+        <div class="col">
+            <div class="card h-100">
+                <img src="https://picsum.photos/id/1062/400/300" class="card-img-top" alt="상품5">
+                <div class="card-body">
+                    <h5 class="card-title">Sneakers</h5>
+                    <p class="card-text">편안한 착용감의 인기 운동화입니다.</p>
+                </div>
+                <div class="card-footer text-end">
+                    <a href="#" class="btn btn-outline-primary">상세보기</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- 카드 6 -->
+        <div class="col">
+            <div class="card h-100">
+                <img src="https://picsum.photos/id/1069/400/300" class="card-img-top" alt="상품6">
+                <div class="card-body">
+                    <h5 class="card-title">Backpack</h5>
+                    <p class="card-text">넉넉한 수납공간의 데일리 백팩입니다.</p>
+                </div>
+                <div class="card-footer text-end">
+                    <a href="#" class="btn btn-outline-primary">상세보기</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 버튼 -->
+<!--    <div class="text-center">-->
+<!--        <a href="#" class="btn btn-primary">전체 상품 보기</a>-->
+<!--    </div>-->
+
+<!--<section class="mb-5">-->
+<!--    <h2 class="mb-4">Review</h2>-->
+<!--    <div class="row row-cols-1 row-cols-md-3 g-4">-->
+<!--        <div class="col" th:each="review : ${reviews}">-->
+<!--            <div class="card h-100">-->
+<!--                <img th:src="@{${review.imageUrl}}" class="card-img-top" alt="Review image">-->
+<!--                <div class="card-body">-->
+<!--                    <h5 class="card-title" th:text="${review.title}">리뷰 제목</h5>-->
+<!--                    <p class="card-text" th:text="${review.content}">리뷰 내용</p>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</section>-->
+
+<div class="container py-5" style="max-width: 1440px;">
+    <section class="mb-5">
+        <h2 class="mb-4">Review</h2>
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
+            <div class="col">
+                <div class="card h-100">
+                    <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80"
+                         class="card-img-top" alt="Review Image 1">
+                    <div class="card-body">
+                        <h5 class="card-title">정말 만족한 상품이에요</h5>
+                        <p class="card-text">배송도 빠르고 품질도 훌륭합니다. 다음에도 재구매 의사 있어요!</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card h-100">
+                    <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=600&q=80"
+                         class="card-img-top" alt="Review Image 2">
+                    <div class="card-body">
+                        <h5 class="card-title">아이도 좋아해요</h5>
+                        <p class="card-text">부드럽고 디자인도 예뻐서 아이가 정말 좋아합니다.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card h-100">
+                    <img src="https://images.unsplash.com/photo-1502767089025-6572583495b0?auto=format&fit=crop&w=600&q=80"
+                         class="card-img-top" alt="Review Image 3">
+                    <div class="card-body">
+                        <h5 class="card-title">가성비 최고!</h5>
+                        <p class="card-text">가격 대비 성능이 정말 뛰어나요. 친구에게 추천했습니다.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card h-100">
+                    <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=600&q=80"
+                         class="card-img-top" alt="Review Image 4">
+                    <div class="card-body">
+                        <h5 class="card-title">포장이 꼼꼼했어요</h5>
+                        <p class="card-text">안전하게 잘 도착했어요. 선물용으로도 좋을 것 같아요.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+
+<!-- 🔹 User Post Section -->
+<!--<section class="mb-5">-->
+<!--    <h2 class="mb-4">User Post</h2>-->
+<!--    <div class="row row-cols-1 row-cols-md-3 g-4">-->
+<!--        <div class="col" th:each="post : ${userPosts}">-->
+<!--            <div class="card h-100">-->
+<!--                <img th:src="@{${post.imageUrl}}" class="card-img-top" alt="User image">-->
+<!--                <div class="card-body">-->
+<!--                    <h5 class="card-title" th:text="${post.title}">사용자 게시물</h5>-->
+<!--                    <p class="card-text" th:text="${post.summary}">요약 설명</p>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</section>-->
+
+<div class="container py-5" style="max-width: 1440px;">
+    <section class="mb-5">
+        <h2 class="mb-4">User Posts</h2>
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+
+            <!-- 게시글 1 -->
+            <div class="col">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">우리집 인테리어 후기</h5>
+                        <p class="card-text">이번에 새로 산 가구들로 집 분위기가 정말 좋아졌어요. 추천합니다!</p>
+                        <p class="text-muted"><small>작성자: 김철수 | 2025-07-20</small></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 게시글 2 -->
+            <div class="col">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">주말 여행 다녀왔어요</h5>
+                        <p class="card-text">가족과 함께 강릉 바다를 다녀왔습니다. 힐링 그 자체였어요.</p>
+                        <p class="text-muted"><small>작성자: 이영희 | 2025-07-18</small></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 게시글 3 -->
+            <div class="col">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">새로운 요리 레시피 공유</h5>
+                        <p class="card-text">간단하고 맛있는 파스타 레시피를 공유합니다. 꼭 한번 만들어보세요!</p>
+                        <p class="text-muted"><small>작성자: 박민수 | 2025-07-15</small></p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- 🔹 Event Section -->
+    <!--        <section class="mb-5">-->
+    <!--            <h2 class="mb-4">Event</h2>-->
+    <!--            <div class="row row-cols-1 row-cols-md-3 g-4">-->
+    <!--                <div class="col" th:each="event : ${events}">-->
+    <!--                    <div class="card h-100 border-primary">-->
+    <!--                        <img th:src="@{${event.imageUrl}}" class="card-img-top" alt="Event image">-->
+    <!--                        <div class="card-body">-->
+    <!--                            <h5 class="card-title text-primary" th:text="${event.name}">이벤트명</h5>-->
+    <!--                            <p class="card-text" th:text="${event.description}">이벤트 설명</p>-->
+    <!--                            <a th:href="@{'/events/' + ${event.id}}" class="btn btn-outline-primary">참여하기</a>-->
+    <!--                        </div>-->
+    <!--                    </div>-->
+    <!--                </div>-->
+    <!--            </div>-->
+    <!--        </section>-->
+
+    <div class="container py-5" style="max-width: 1440px;">
+        <section class="mb-5">
+            <h2 class="mb-4">Event</h2>
+            <div class="row row-cols-1 row-cols-md-3 g-4">
+
+                <!-- 이벤트 1 -->
+                <div class="col">
+                    <div class="card h-100 border-primary">
+                        <div class="card-body">
+                            <h5 class="card-title">여름 세일 이벤트</h5>
+                            <p class="card-text">7월 한 달간 전 상품 20% 할인 혜택을 드립니다.</p>
+                            <p class="text-muted"><small>기간: 2025-07-01 ~ 2025-07-31</small></p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 이벤트 2 -->
+                <div class="col">
+                    <div class="card h-100 border-success">
+                        <div class="card-body">
+                            <h5 class="card-title">신규 회원 가입 이벤트</h5>
+                            <p class="card-text">신규 가입자에게 첫 구매 시 10,000원 쿠폰 증정!</p>
+                            <p class="text-muted"><small>기간: 상시 진행</small></p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 이벤트 3 -->
+                <div class="col">
+                    <div class="card h-100 border-warning">
+                        <div class="card-body">
+                            <h5 class="card-title">포토 리뷰 이벤트</h5>
+                            <p class="card-text">포토 리뷰 작성 시 추첨을 통해 상품권을 드립니다.</p>
+                            <p class="text-muted"><small>기간: 2025-07-15 ~ 2025-08-15</small></p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+    </div>
+</div>
 
 <main>
     <div th:replace="~{interior/board :: board}"></div>
 </main>
-
 <div th:replace="~{index/footer :: footer}"></div>
 </body>
 </html>

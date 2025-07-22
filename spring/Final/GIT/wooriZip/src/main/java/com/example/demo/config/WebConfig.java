@@ -25,10 +25,10 @@ public class WebConfig implements WebMvcConfigurer {
     public MultipartConfigElement multipartConfigElement() {
         MultipartConfigFactory factory = new MultipartConfigFactory();
         
-        // 개별 파일 크기 제한
-        factory.setMaxFileSize(DataSize.ofMegabytes(50));
+        // 개별 파일 크기 제한 (30MB)
+        factory.setMaxFileSize(DataSize.ofMegabytes(30));
         
-        // 전체 요청 크기 제한  
+        // 전체 요청 크기 제한 (500MB)
         factory.setMaxRequestSize(DataSize.ofMegabytes(500));
         
         // 파일이 메모리에 저장되는 임계값

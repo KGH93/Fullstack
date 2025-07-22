@@ -107,9 +107,9 @@ public class InteriorPostService {
     /** 페이지네이션 */
     public Page<InteriorPostDto> findPagedPosts(int page, int size) {
         // 공지사항을 먼저 가져오고, 그 다음 일반 게시글을 가져오도록 정렬 조건 수정
-        Pageable pageable = PageRequest.of(page - 1, size, 
-            Sort.by(Sort.Direction.DESC, "isNotice")  // 공지사항 우선
-                .and(Sort.by(Sort.Direction.DESC, "postId"))); // 그 다음 최신순
+        Pageable pageable = PageRequest.of(page - 1, size,
+                Sort.by(Sort.Direction.DESC, "isNotice")  // 공지사항 우선
+                        .and(Sort.by(Sort.Direction.DESC, "postId"))); // 그 다음 최신순
         return repository.findAll(pageable).map(InteriorPostDto::fromEntity);
     }
 

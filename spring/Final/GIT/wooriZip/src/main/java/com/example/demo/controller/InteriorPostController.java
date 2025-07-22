@@ -74,7 +74,7 @@ public class InteriorPostController {
 
         String email = UserUtils.getEmail(authentication);
         if (email == null) return "unauthorized";
-        
+
         Users loginUser = (Users) UserUtils.getUser(authentication);
         dto.setEmail(loginUser.getEmail());
         dto.setNickname(loginUser.getNickname());
@@ -199,7 +199,7 @@ public class InteriorPostController {
         if (email == null) return "redirect:/user/login";
 
         service.delete(id);
-        
+
         if (Boolean.TRUE.equals(fromMyPage)) {
             return "redirect:/user/mypage";
         }
