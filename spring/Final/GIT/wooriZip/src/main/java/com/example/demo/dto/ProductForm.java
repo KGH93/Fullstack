@@ -7,6 +7,7 @@ import lombok.Setter;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Getter
 @Setter
@@ -17,11 +18,15 @@ public class ProductForm {
     private Category category;
     private int stockQuantity;
 
-    @JsonProperty("category_id")
+    @JsonProperty("categoryId")
     private Long categoryId;
 
     //  하위 모델들 (각 ProductModelDto는 여러 속성값 id를 가질 수 있음)
     private List<ProductModelDto> productModelDtoList = new ArrayList<>();
+
+    // ✅ 삭제할 모델 인덱스 리스트
+    private List<Integer> deleteIndexes = new ArrayList<>();
+
     private List<String> imageUrls;
 
     // 상품 속성값 id 리스트 (예: 색상-화이트, 사이즈-퀸 등)
@@ -104,4 +109,13 @@ public class ProductForm {
         return form;
     }
 
+    public boolean hasAttributeValue(Long valueId) {
+        if (productModelDtoList == null || productModelDtoList.isEmpty()) {
+            return false;
+        }
+        return productModelDtoList.stream()
+                .map(model -> model.getAttributeValueIds())
+                .filter(Objects::nonNull)
+                .anyMatch(ids -> ids.contains(String.valueOf(valueId)));
+    }
 }

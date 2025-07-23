@@ -12,4 +12,7 @@ public interface InteriorPostRepository extends JpaRepository<InteriorPost, Long
     List<InteriorPost> findAllByOrderByCreatedAtDesc();
     Page<InteriorPost> findAll(Pageable pageable);
     List<InteriorPost> findByUserOrderByCreatedAtDesc(Users user);
+
+    /** 최신 게시글 조회 */
+    Page<InteriorPost> findAllByOrderByCreatedAtDesc(Pageable pageable);
 }

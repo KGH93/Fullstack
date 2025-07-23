@@ -129,9 +129,18 @@ if (editForm) {
             categoryId: editForm.querySelector('[name="categoryId"]').value,
             productModelDtoList: models
         };
-        if (editForm.querySelector('[name="deleteIndexes"]')) {
-            productData.deleteIndexes = editForm.querySelector('[name="deleteIndexes"]').value;
+
+        // 🔧 deleteIndexes를 문자열이 아닌 배열로 전송
+        const deleteIndexesRaw = editForm.querySelector('[name="deleteIndexes"]').value;
+        if (deleteIndexesRaw) {
+            productData.deleteIndexes = deleteIndexesRaw
+                .split(',')
+                .map(s => parseInt(s.trim()))
+                .filter(n => !isNaN(n));
         }
+//        if (editForm.querySelector('[name="deleteIndexes"]')) {
+//            productData.deleteIndexes = editForm.querySelector('[name="deleteIndexes"]').value;
+//        } 0722 추후 삭제고려
 
         const formData = new FormData();
         formData.append('productJson', JSON.stringify(productData));
@@ -139,7 +148,7 @@ if (editForm) {
             formData.append("images", file);
         });
 
-        fetch(`/products/${productData.id}/edit`, {
+        fetch(`/admin/products/${productData.id}/edit`, {
             method: "POST",
             body: formData
         })
@@ -149,7 +158,7 @@ if (editForm) {
         })
         .then(result => {
             alert("상품 수정 완료");
-            window.location.href = `/products/${productData.id}`;
+            window.location.href = `/admin/products`;
         })
         .catch(err => {
             alert("수정 실패: " + err.message);

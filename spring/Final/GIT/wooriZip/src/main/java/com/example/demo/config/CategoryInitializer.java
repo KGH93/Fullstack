@@ -62,7 +62,7 @@ public class CategoryInitializer implements CommandLineRunner {
             }
 
             // 3. 기타 소분류 (세분류 없음)
-            List<String> etcMids = List.of("선반·진열장·책장", "거울");
+            List<String> etcMids = List.of("선반·진열장·책장");
             for (String name : etcMids) {
                 Category mid = Category.builder()
                         .name(name)

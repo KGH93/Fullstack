@@ -49,12 +49,10 @@
 }
 
 /* === 선택 버튼 그룹 (성별 등) === */
-.select-buttons {
-  display: flex;
-  gap: var(--space-2);
-}
-.select-buttons input[type="radio"] {
-  display: none;
+.select-buttons > div {
+    display: flex;
+    align-items: center;
+    gap: 6px;
 }
 .select-buttons label {
   padding: var(--space-2) var(--space-4);

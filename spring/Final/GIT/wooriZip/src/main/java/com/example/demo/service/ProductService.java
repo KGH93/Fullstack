@@ -15,6 +15,7 @@ import com.example.demo.repository.OrderItemRepository;
 import com.example.demo.repository.CartItemRepository;
 import com.example.demo.repository.QnaPostRepository;
 import com.example.demo.repository.ProductDetailRepository;
+import com.example.demo.repository.ReviewPostRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -47,6 +48,7 @@ public class ProductService {
     private final CartItemRepository cartItemRepository;
     private final QnaPostRepository qnaPostRepository;
     private final ProductDetailRepository productDetailRepository;
+    private final ReviewPostRepository reviewPostRepository;
 
     // ✅ 상품 등록
     public Long createProduct(ProductForm form,
@@ -227,30 +229,46 @@ public class ProductService {
 
     // ✅ 상품 수정
     @Transactional
-    public void updateProduct(Long productId, ProductForm form, MultipartFile[] images, String deleteIndexes, Users loginUser) {
+//    public void updateProduct(Long productId, ProductForm form, MultipartFile[] images, String deleteIndexes, Users loginUser) {
+    public void updateProduct(Long productId, ProductForm form, MultipartFile[] images, List<Integer> deleteIndexes, Users loginUser) {
         Product product = productRepository.findById(productId).orElseThrow();
 
+        // 권한 확인
         if (!product.getUser().getId().equals(loginUser.getId())) {
             throw new AccessDeniedException("권한 없음");
         }
 
-        // 기존 이미지 삭제
+        // 기존 이미지 삭제 0722
+//        if (deleteIndexes != null && !deleteIndexes.isEmpty()) {
+//            List<ProductImage> currentImages = product.getImages();
+//            List<Integer> indexesToDelete = Arrays.stream(deleteIndexes.split(","))
+//                    .map(Integer::parseInt)
+//                    .sorted(Comparator.reverseOrder())
+//                    .collect(Collectors.toList());
+//            for (Integer idx : indexesToDelete) {
+//                if (idx >= 0 && idx < currentImages.size()) {
+//                    ProductImage removed = currentImages.remove((int) idx);
+//                    deleteFile(removed.getImageUrl());
+//                    imageRepository.delete(removed);
+//                }
+//            }
+//        }
+
+        // ✅ 기존 이미지 삭제
         if (deleteIndexes != null && !deleteIndexes.isEmpty()) {
             List<ProductImage> currentImages = product.getImages();
-            List<Integer> indexesToDelete = Arrays.stream(deleteIndexes.split(","))
-                    .map(Integer::parseInt)
+            deleteIndexes.stream()
                     .sorted(Comparator.reverseOrder())
-                    .collect(Collectors.toList());
-            for (Integer idx : indexesToDelete) {
-                if (idx >= 0 && idx < currentImages.size()) {
-                    ProductImage removed = currentImages.remove((int) idx);
-                    deleteFile(removed.getImageUrl());
-                    imageRepository.delete(removed);
-                }
-            }
+                    .forEach(idx -> {
+                        if (idx >= 0 && idx < currentImages.size()) {
+                            ProductImage removed = currentImages.remove((int) idx);
+                            deleteFile(removed.getImageUrl());
+                            imageRepository.delete(removed);
+                        }
+                    });
         }
 
-        // 새 이미지 업로드
+        // ✅ 새 이미지 업로드
         if (images != null) {
             List<String> imagePaths = handleAndReturnFiles(images);
             for (String path : imagePaths) {
@@ -261,9 +279,38 @@ public class ProductService {
             }
         }
 
-        // 상품 정보 업데이트
+        // ✅ 상품 정보 업데이트
         product.setName(form.getName());
         product.setPrice(form.getPrice());
+
+        // ✅ 카테고리 변경
+        if (form.getCategoryId() != null) {
+            Category category = categoryRepository.findById(form.getCategoryId())
+                    .orElseThrow(() -> new IllegalArgumentException("유효하지 않은 카테고리 ID"));
+            product.setCategory(category);
+        }
+
+        // ✅ 기존 모델 삭제
+        if (product.getProductModels() != null && !product.getProductModels().isEmpty()) {
+            productModelRepository.deleteAll(product.getProductModels());
+            product.getProductModels().clear();
+        }
+        product.setStockQuantity(0); // 재고 초기화
+
+        // ✅ 새 모델 추가
+        if (form.getProductModelDtoList() != null) {
+            for (ProductModelDto dto : form.getProductModelDtoList()) {
+                ProductModel model = new ProductModel();
+                model.setProductModelSelect(dto.getProductModelSelect());
+                model.setPrice(dto.getPrice());
+                model.setPrStock(dto.getPrStock());
+                model.setProduct(product);
+                // TODO: dto.getAttributeValueIds() → ProductModelAttribute 설정 추가 가능
+
+                product.addProductModel(model);
+                product.setStockQuantity(product.getStockQuantity() + dto.getPrStock());
+            }
+        }
 
         productRepository.save(product);
     }
@@ -313,11 +360,14 @@ public class ProductService {
         // 6. product_detail에서 해당 상품을 참조하는 row 삭제
         productDetailRepository.deleteByProduct(product);
 
-        // 7. 이미지, 옵션 등 연관 엔티티 삭제 (기존 코드)
+        // 7. review_post에서 해당 상품을 참조하는 row 삭제
+        reviewPostRepository.deleteByProduct(product);
+
+        // 8. 이미지, 옵션 등 연관 엔티티 삭제 (기존 코드)
         imageRepository.deleteAll(product.getImages());
         product.getProductModels().clear();
 
-        // 8. 상품 삭제
+        // 9. 상품 삭제
         productRepository.delete(product);
 
     }
@@ -328,5 +378,9 @@ public class ProductService {
             return Collections.emptyList();
         }
         return productRepository.findByIdIn(myWishList);
+    }
+
+    public List<Product> findAll() {
+        return productRepository.findAll();
     }
 }

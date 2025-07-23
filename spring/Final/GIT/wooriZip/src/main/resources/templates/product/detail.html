@@ -38,7 +38,6 @@
             <p>이미지가 없습니다.</p>
         </div>
 
-
         <!-- 옵션/모델 셀렉트 박스 -->
         <!-- 옵션별 속성값 id 리스트를 data-attr에 저장 (문자열로 변환) -->
         <h4>모델/옵션 선택</h4>
@@ -57,20 +56,26 @@
         <!-- 옵션별 속성값 드롭다운: JS로 동적 채움 -->
         <div id="optionAttributes">
             <label>색상:
-                <select id="colorSelect"><option value="">색상 선택</option></select>
+                <select id="colorSelect">
+                    <option value="">색상 선택</option>
+                </select>
             </label>
             <label>사이즈:
-                <select id="sizeSelect"><option value="">사이즈 선택</option></select>
+                <select id="sizeSelect">
+                    <option value="">사이즈 선택</option>
+                </select>
             </label>
             <label>소재:
-                <select id="materialSelect"><option value="">소재 선택</option></select>
+                <select id="materialSelect">
+                    <option value="">소재 선택</option>
+                </select>
             </label>
         </div>
 
         <!-- 찜/장바구니/구매 Form -->
         <form th:action="@{/wishlist/toggle}" method="post" id="productForm">
-            <input type="hidden" id="productId" name="productId" th:value="${product.id}" />
-            <input type="hidden" id="actionType" name="actionType" value="cart" />
+            <input type="hidden" id="productId" name="productId" th:value="${product.id}"/>
+            <input type="hidden" id="actionType" name="actionType" value="cart"/>
             <button type="submit" th:text="${product.liked} ? '찜 취소' : '찜하기'"></button>
 
             <div>
@@ -86,23 +91,17 @@
 
         <div>
             <div>
-                <input type="hidden" id="price" name="price" th:value="${product.price}" />
-                <span id="selectedPrice" th:text="${#numbers.formatInteger(product.price, 3, 'COMMA')}" th:data-initial-price="${product.price}"></span>원
+                <input type="hidden" id="price" name="price" th:value="${product.price}"/>
+                <span id="selectedPrice" th:text="${#numbers.formatInteger(product.price, 3, 'COMMA')}"
+                      th:data-initial-price="${product.price}"></span>
             </div>
             <div>
                 <h5>결제 금액</h5>
-                <h3 name="totalPrice" id="totalPrice" th:text="${#numbers.formatInteger(product.price, 3, 'COMMA') + '원'}"></h3>
+                <h3 name="totalPrice" id="totalPrice"
+                    th:text="${#numbers.formatInteger(product.price, 3, 'COMMA') + '원'}"></h3>
             </div>
         </div>
-        <!-- 수정/삭제 버튼: 작성자만 보이게 -->
-        <div th:if="${loginUser != null and product.writerId == loginUser.id}">
-            <form th:action="@{'/products/' + ${product.id} + '/edit'}" method="get" style="display:inline;">
-                <button type="submit">수정</button>
-            </form>
-            <form th:action="@{'/products/' + ${product.id} + '/delete'}" method="post" style="display:inline;">
-                <button type="submit">삭제</button>
-            </form>
-        </div>
+        <!-- 수정/삭제 버튼 제거 -->
 
         <!-- 🔙 목록으로 돌아가기 (항상 표시) -->
         <div style="margin-top: 20px;">
@@ -111,8 +110,6 @@
             </a>
         </div>
     </div>
-
-
 
     <!-- 상품 상세정보 섹션 -->
     <div id="product-detail-section">
@@ -136,7 +133,7 @@
 
         <!-- Qna 영역 -->
         <div id="qna-section" class="tab-content-section" style="display: none;">
-            <div  id="qna-content" th:replace="~{qna/qna :: qnaboard}"></div>
+            <div id="qna-content" th:replace="~{qna/qna :: qnaboard}"></div>
         </div>
     </div>
 

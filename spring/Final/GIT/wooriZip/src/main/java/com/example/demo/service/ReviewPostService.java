@@ -193,4 +193,17 @@ public class ReviewPostService {
                 .map(ReviewPostDto::fromEntity)
                 .collect(Collectors.toList());
     }
+
+    // 전체 리뷰 최신순 조회
+    public List<ReviewPostDto> findAllReviews() {
+        return reviewPostRepository.findAll(Sort.by(Sort.Direction.DESC, "createdAt"))
+                .stream()
+                .map(ReviewPostDto::fromEntity)
+                .collect(Collectors.toList());
+    }
+
+    // 최신 리뷰 목록 조회
+    public Page<ReviewPost> findLatestReviews(Pageable pageable) {
+        return reviewPostRepository.findAll(pageable);
+    }
 }

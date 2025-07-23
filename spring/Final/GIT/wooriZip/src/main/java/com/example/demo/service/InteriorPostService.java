@@ -165,5 +165,4 @@ public class InteriorPostService {
 
         return post;
     }
-
 }
