@@ -32,6 +32,9 @@ public class AttributeInitializer implements CommandLineRunner {
         addAttributeValueIfNotExists(color, "기본색상");
         addAttributeValueIfNotExists(color, "블랙");
         addAttributeValueIfNotExists(color, "화이트");
+        addAttributeValueIfNotExists(color, "베이지");
+        addAttributeValueIfNotExists(color, "골드");
+        addAttributeValueIfNotExists(color, "실버");
         addAttributeValueIfNotExists(color, "우드");
 
         // 소재
