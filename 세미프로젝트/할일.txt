@@ -1,0 +1,147 @@
+프로젝트 주목적, 개요
+이용자는 어디까지할수있는지
+이용자의 이용예시를 보여주면좋겠다,
+흐름도 안보임, 잘보이게 가시성,세분화필요
+각자 맞은 파트 나눠서 발표 요망
+시연 또는 시연영상을 필요
+
+
+
+
+
+
+
+
+
+
+flowchart TD
+    %% Color Legend
+    subgraph Legend
+        A1["MAIN"]:::main
+        A2["DB"]:::db
+        A3["VIEW.JSP"]:::view
+        A4["ADMIN CRUD"]:::admin
+        A5["LOGIN"]:::login
+        A6["INTERACTION"]:::interaction
+    end
+
+    %% MAIN Page
+    subgraph mainPage
+        M1[MAIN Page]:::main
+    end
+
+    %% BEAUTY Flow
+    subgraph beautyFlow
+        B1["BEAUTY"]:::view
+        B2["Category"]:::view
+        B3["Category"]:::view
+        B4["Detail"]:::view
+    end
+
+    %% User Login
+    subgraph userLogin
+        U1[User Login]:::login
+    end
+
+    %% Cosmetics Liked
+    subgraph cosmeticsLiked
+        C1["Cosmetics Liked (AJAX)"]:::interaction
+        C2["Cosmetics Liked DB (MVC)"]:::db
+    end
+
+    %% Admin CRUD
+    subgraph adminCRUD
+        AD1["ADD Cosmetics"]:::admin
+        AD2["UPDATE Cosmetics"]:::admin
+        AD3["DELETE Cosmetics"]:::admin
+    end
+
+    %% Cosmetics DB
+    C3["Cosmetics DB (MVC)"]:::db
+    
+    %% Arrows
+    M1 --> B1
+    B1 --> B2
+    B2 --> B3
+    B3 --> U1
+    U1 --> C1
+    C1 --> C2
+    C2 --> C3
+    AD1 --> C3
+    AD2 --> C3
+    AD3 --> C3
+
+    classDef main fill:#4da6ff;
+    classDef db fill:#ffd966;
+    classDef view fill:#f9f2c7;
+    classDef admin fill:#d9b3ff;
+    classDef login fill:#a2f5c8;
+    classDef interaction fill:#ff9999;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+1. 이번 프로젝트에서 본인이 한 일 자세히
+K-BEAUTY 섹션의 전체 CRUD 기능을 MVC 패턴으로 구현
+→ Java Servlet, DAO/DTO 구조, MySQL 연동, JSP로 뷰 구성
+
+Location 섹션은 JSTL + SQL 태그 방식으로 CRUD 구현
+→ 테이블 선택 필터, 이미지 미리보기, 단일 JSP에서 등록/수정/삭제 가능하게 설계
+
+전체 사이트의 디자인 및 CSS 스타일 통일 작업
+→ 뷰에서 사용된 슬라이드/카드형 레이아웃/탭 구조 등을 공통화
+
+좋아요 기능 구현:
+→ 화장품 상세 페이지에서 아이콘 하트 클릭 시 DB에 저장, AJAX로 반응형 UI 제공
+→ cosmetic_likes 테이블로 사용자별 찜 상태 저장 및 중복 방지 처리
+
+관리용 뷰 페이지 ManageLocation.jsp, AddLocation.jsp 폼 통합
+→ 레이아웃 고정 + 실시간 이미지 변경 및 관리 기능 구현
+
+ 2. 본인이 맡은 일 (간단히 요약)
+K-BEAUTY CRUD (MVC 패턴 기반) 및 좋아요 기능 구현
+
+Location CRUD (JSTL + SQL 기반)
+
+전체 사이트 CSS 통일 및 공통 폼 구조 구성
+
+ 4. 어려웠던 점과 해결 방법
+K-BEAUTY와 Location의 기능 방식이 달라 유지보수성이 떨어짐
+→ 폼 구조 통일 및 공통 스타일 적용으로 사용성과 일관성 향상
+
+Location 등록 시 이미지 첨부와 미리보기 레이아웃 깨짐 이슈
+→ 이미지 첨부기능만 따로 컨트롤러 설정해 이미지 첨부기능 활성화 및 CSS 고정, 박스 크기 및 위치 조정으로 해결
+
+좋아요 기능 구현 중 DB 중복 저장 방지와 UI 동기화 문제
+→ 별도 테이블 구성 및 UNIQUE 키 설정, AJAX로 상태 반영 처리
+
+ 5. 개선 방향
+현재 관리자용 기능은 JSP 기반으로 되어 있어 향후에는 서블릿 + MVC 패턴으로 통합 필요
+
+Location 기능도 DAO/DTO 기반으로 확장하여 코드 일관성 높이기
+
+사이트 전반에 반응형 UI 추가 및 사용자 맞춤형 추천 기능 도입 고려
